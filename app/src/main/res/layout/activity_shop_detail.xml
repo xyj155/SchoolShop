@@ -1,0 +1,147 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/sl_shop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.example.schoolshop.view.CustomRefreshHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+
+            <!-- 第二部分:缩放控件-->
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/id_appbarlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp"
+                app:layout_collapseParallaxMultiplier="0.3">
+
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapsing_tool_bar_test_ctl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    app:layout_scrollFlags="scroll">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp_10">
+
+                            <com.example.schoolshop.view.CircleImageView
+                                android:id="@+id/iv_head"
+                                android:layout_width="@dimen/dp_50"
+                                android:layout_height="@dimen/dp_50" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="11dp"
+                                android:layout_marginStart="11dp"
+                                android:layout_toEndOf="@+id/iv_head"
+                                android:layout_toRightOf="@+id/iv_head"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_username"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/dp_4"
+                                    android:textColor="#000"
+                                    android:textSize="17sp" />
+
+                                <com.example.schoolshop.view.RatingBar
+                                    android:id="@+id/rk_seek"
+                                    android:layout_width="@dimen/dp_100"
+                                    android:layout_height="@dimen/dp_15"
+                                    android:layout_alignBottom="@+id/tv_name"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    app:selectedNumber="0"
+                                    app:starDistance="1dp"
+                                    app:starEmptyRes="@mipmap/empty_rank"
+                                    app:starHalfRes="@mipmap/demon"
+                                    app:starIsFull="false"
+                                    app:starSelectedRes="@mipmap/demon" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/tv_go"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@mipmap/go_circle" />
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_cover"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_150"
+                            android:scaleType="fitXY" />
+
+
+                    </LinearLayout>
+
+                </android.support.design.widget.CollapsingToolbarLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_5"
+                    android:background="#fafafa" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:padding="@dimen/dp_15"
+                    android:text="商品列表"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+            </android.support.design.widget.AppBarLayout>
+
+
+            <!-- 第三部分:Your Scroll View-->
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/myMainScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fafafa"
+                android:overScrollMode="always"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <!--- app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ry_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.design.widget.CoordinatorLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>

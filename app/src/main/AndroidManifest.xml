@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.schoolshop">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/monkey"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.SplashActivity" />
+        <activity android:name=".ui.CaptureActivity" />
+        <!-- ========================================Service=========================================== -->
+        <service android:name="com.amap.api.location.APSService" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="16d858452377e4ec87751f27227d4a3a" />
+        <!-- ========================================Service=========================================== -->
+        <activity android:name=".ui.GoodsDetailActivity" />
+        <activity android:name=".ui.UserPaymentProcessActivity" />
+        <activity android:name=".ui.ShopListActivity" />
+        <activity android:name=".ui.ShopDetailActivity" />
+        <activity android:name=".ui.PostDeliverActivity" />
+
+        <!-- ====================================融云=================================== -->
+        <!-- 会话列表 -->
+        <activity
+            android:name=".ui.ConversationListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.example.schoolshop"
+                    android:pathPrefix="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.schoolshop.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
+        </provider>
+
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="y745wfm8yj4iv" />
+
+        <!-- ====================================融云=================================== -->
+        <activity android:name=".ui.UserAddressListActivity" />
+        <activity android:name=".ui.UserAddressEditorActivity" />
+        <activity android:name=".ui.MapPointsActivity" />
+        <activity android:name=".ui.CurrierDetailActivity" />
+        <activity android:name=".ui.UserOrderListActivity" />
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.BuyGoodsOrderActivity" />
+        <activity android:name=".ui.UserStoreCollectionActivity" />
+        <activity android:name=".ui.UserGoodsCollectionActivity" />
+        <activity android:name=".ui.RechargeActivity" />
+        <activity android:name=".ui.ExpressTraceActivity" />
+        <activity android:name=".ui.UserInformationActivity" />
+        <activity android:name=".ui.RunHelperOrderActivity" />
+        <!-- 会话界面 -->
+        <activity
+            android:name=".ui.ConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.example.schoolshop"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.CouponActivity"></activity>
+        <activity android:name=".ui.SecondSellerActivity" />
+
+    </application>
+
+</manifest>

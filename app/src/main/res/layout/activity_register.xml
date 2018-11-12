@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context="com.example.schoolshop.ui.RegisterActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+
+    <EditText
+        android:id="@+id/et_telphone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:background="#fff"
+        android:drawableLeft="@mipmap/icon_login_phone"
+        android:drawablePadding="@dimen/dp_15"
+        android:hint="请输入手机号码"
+        android:paddingLeft="@dimen/dp_13"
+        android:textSize="14sp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:background="#fafafa" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_smscode"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_55"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:background="#fff"
+            android:drawableLeft="@mipmap/btn_register_sms"
+            android:drawablePadding="@dimen/dp_15"
+            android:hint="请输入验证码"
+            android:paddingLeft="@dimen/dp_13"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="获取验证码" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:background="#fafafa" />
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:inputType="textPassword"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:background="#fff"
+        android:drawableLeft="@mipmap/icon_login_password"
+        android:drawablePadding="@dimen/dp_15"
+        android:hint="请输入密码(字母数字组合)"
+        android:paddingLeft="@dimen/dp_13"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:background="#fafafa" />
+
+    <EditText
+        android:id="@+id/tv_second_password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:background="#fff"
+        android:drawableLeft="@mipmap/icon_login_password"
+        android:drawablePadding="@dimen/dp_15"
+        android:hint="请再次确认密码"
+        android:paddingLeft="@dimen/dp_13"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:background="#fafafa" />
+
+    <EditText
+        android:id="@+id/tv_school"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:background="#fff"
+        android:drawableLeft="@mipmap/btn_rg_school"
+        android:drawablePadding="@dimen/dp_15"
+        android:hint="请输入你的院校"
+        android:paddingLeft="@dimen/dp_13"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:background="#fafafa" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_25"
+        android:background="@drawable/bg_btn_login"
+        android:text="立即注册"
+        android:textColor="#fff" />
+</LinearLayout>

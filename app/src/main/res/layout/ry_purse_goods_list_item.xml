@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_91"
+    android:id="@+id/ll_item"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/dp_90"
+            android:layout_margin="@dimen/dp_5"
+            android:scaleType="fitXY"
+            android:layout_height="@dimen/dp_80"
+            android:id="@+id/iv_cover" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_90"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_cover"
+            android:layout_toEndOf="@+id/iv_cover">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:id="@+id/tv_name"
+                android:maxLines="1"
+                android:padding="@dimen/dp_5"
+                android:text="测试数据测测试数据测试数据测试数据测试数据试数据"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ry_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_24" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tv_price"
+                android:layout_height="match_parent"
+                android:textColor="#ff0000"
+                android:text="￥0.00"
+                android:gravity="center"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="#fafafa"/>
+</LinearLayout>

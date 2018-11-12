@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4\\rc_conversation_list_empty.png",
+        "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\drawable-xxhdpi\\rc_conversation_list_empty.png"
+    },
+    {
+        "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4\\rc_conversation_list_empty.png",
+        "source": "G:\\SchoolShop\\IMKit\\src\\main\\res\\drawable-xxhdpi\\rc_conversation_list_empty.png"
+    },
+    {
+        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4\\rc_conversation_list_empty.png",
+        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable-xxhdpi\\rc_conversation_list_empty.png"
+    },
+    {
+        "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4\\rc_conversation_list_empty.png",
+        "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable-xxhdpi\\rc_conversation_list_empty.png"
+    }
+]

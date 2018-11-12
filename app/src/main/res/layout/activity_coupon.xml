@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.schoolshop.ui.CouponActivity">
+    <include layout="@layout/common_toolbar" />
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/rl_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.example.schoolshop.view.CustomRefreshHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+
+            <!-- 第二部分:缩放控件-->
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/id_appbarlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp"
+                app:layout_collapseParallaxMultiplier="0.3">
+
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapsing_tool_bar_test_ctl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    app:layout_scrollFlags="scroll">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ry_com"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </android.support.design.widget.CollapsingToolbarLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_5"
+                    android:background="#fafafa" />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="优惠券"
+    android:padding="@dimen/dp_5"
+    android:gravity="center|left"
+    android:drawablePadding="@dimen/dp_5"
+    android:drawableLeft="@mipmap/coupon"
+    android:textColor="#000"
+    android:background="#fff"/>
+            </android.support.design.widget.AppBarLayout>
+
+
+            <!-- 第三部分:Your Scroll View-->
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/myMainScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fafafa"
+                android:overScrollMode="always"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <!--- app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ry_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.design.widget.CoordinatorLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+
+
+
+</LinearLayout>

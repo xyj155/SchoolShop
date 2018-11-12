@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:id="@+id/tv_tag"
+    android:gravity="center"
+    android:text="热销"
+    android:textColor="#ff0000"
+    android:layout_marginRight="@dimen/dp_2"
+    android:padding="@dimen/dp_1.5"
+    android:textSize="11sp"
+    android:layout_marginLeft="@dimen/dp_2"
+    android:background="@drawable/goods_item_tag_hot"
+    android:layout_height="wrap_content">
+
+</TextView>

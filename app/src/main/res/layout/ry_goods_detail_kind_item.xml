@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:text="属性1"
+    android:button="@null"
+    android:paddingLeft="@dimen/dp_3"
+    android:layout_margin="@dimen/dp_4"
+    android:paddingRight="@dimen/dp_3"
+    android:gravity="center"
+    android:background="@drawable/goods_detail_tag_select"
+    android:id="@+id/tv_tag"
+    android:paddingTop="@dimen/dp_4"
+    android:paddingBottom="@dimen/dp_4"
+    android:textColor="@color/goodstag_ry_item_color"
+    android:layout_height="wrap_content">
+
+</RadioButton>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/fl_shopcar"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:background="#fafafa"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_30"
+                android:layout_above="@+id/radioGroup"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="21dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:drawableLeft="@mipmap/sort_location"
+                android:drawablePadding="@dimen/dp_5"
+                android:drawableRight="@mipmap/sort_select_location"
+                android:gravity="center"
+                android:text="嘉兴学院"
+                android:textColor="#000"
+                android:textSize="13sp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_35"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="综合排序" />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableRight="@mipmap/sort_drop"
+                    android:gravity="center"
+                    android:text="价格排序" />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="销量排序" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_3"
+            android:background="#fafafa" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_45"
+            android:orientation="horizontal">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ry_sort"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="match_parent" />
+
+
+            <View
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="match_parent"
+                android:background="#fafafa" />
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/sl_sort"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.example.schoolshop.view.CustomRefreshHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+                    android:id="@+id/ry_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_goods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+        <RelativeLayout
+            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_count"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="￥0.00"
+                    android:textColor="#000"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/bg_btn_shopcar"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/dp_13"
+                    android:paddingTop="@dimen/dp_13"
+                    android:text="去结算"
+                    android:textColor="#000" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.flipboard.bottomsheet.BottomSheetLayout
+            android:id="@+id/bottomSheetLayout"
+            android:layout_marginBottom="@dimen/dp_45"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.flipboard.bottomsheet.BottomSheetLayout>
+        <FrameLayout
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_shopcar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/shoppingcart_normal" />
+            <TextView
+                android:layout_width="@dimen/dp_20"
+                android:id="@+id/tv_shopcar_count"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_gravity="right"
+                android:textColor="#ffffff"
+                android:layout_height="@dimen/dp_20"
+                android:background="@drawable/bg_shopcar_bg_red_30dp"/>
+        </FrameLayout>
+
+    </FrameLayout>
+
+</FrameLayout>
