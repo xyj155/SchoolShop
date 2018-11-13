@@ -1,13 +1,10 @@
 package com.example.schoolshop.ui.homefragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseFragment;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by Administrator on 2018/10/31.
@@ -34,9 +31,6 @@ public class ShopCarFragment extends BaseFragment {
     }
 
 
-    public void loadList() {
-        Log.i(TAG, "loadList: ");
-    }
 
     @Override
     protected void initData(Bundle savedInstanceState) {

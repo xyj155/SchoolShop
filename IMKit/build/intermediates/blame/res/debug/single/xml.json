@@ -14,5 +14,9 @@
     {
         "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\xml\\rc_file_path.xml",
         "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\xml\\rc_file_path.xml"
+    },
+    {
+        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\xml\\rc_file_path.xml",
+        "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\xml\\rc_file_path.xml"
     }
 ]

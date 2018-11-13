@@ -14,5 +14,9 @@
     {
         "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\rc_conversation_list_empty.png",
         "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable-xxhdpi\\rc_conversation_list_empty.png"
+    },
+    {
+        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\rc_conversation_list_empty.png",
+        "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\drawable-xxhdpi\\rc_conversation_list_empty.png"
     }
 ]

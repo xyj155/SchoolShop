@@ -10,6 +10,8 @@ import android.widget.RadioGroup;
 
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseActivity;
+import com.example.schoolshop.contract.ShopCarContract;
+import com.example.schoolshop.presenter.ShopCarPresenter;
 import com.example.schoolshop.ui.homefragment.HomeFragment;
 import com.example.schoolshop.ui.homefragment.ShopCarFragment;
 import com.example.schoolshop.ui.homefragment.SortFragment;
@@ -18,7 +20,7 @@ import com.example.schoolshop.ui.homefragment.UserFragment;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements SortFragment.FragmentChangeListener, ShopCarContract.View {
 
 
     @InjectView(R.id.contentContainer)
@@ -148,5 +150,35 @@ public class MainActivity extends BaseActivity {
         ButterKnife.inject(this);
     }
 
+    private ShopCarPresenter shopCarPresenter=new ShopCarPresenter(this);
+    @Override
+    public void sendContent(String info) {
+        if (!info.isEmpty()){
+            supportFragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = supportFragmentManager.beginTransaction();
+            hideAllFragment(transaction);
+            if (rbResource.isChecked()){
+                rbResource.setChecked(false);
+                rbChat.setChecked(true);
+                shopCarPresenter.setUserOrder("1");
+                if (shopcarFragment == null) {
+                    shopcarFragment = new ShopCarFragment();
+                    transaction.add(R.id.contentContainer, shopcarFragment);
+                } else {
+                    transaction.show(shopcarFragment);
+                }
+            }
 
+        }
+    }
+
+    @Override
+    public void submitSuccess() {
+
+    }
+
+    @Override
+    public void submitFailed(String msg) {
+
+    }
 }

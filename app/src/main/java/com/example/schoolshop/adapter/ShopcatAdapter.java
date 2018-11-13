@@ -17,19 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.schoolshop.R;
 import com.example.schoolshop.gson.GoodGson;
 import com.example.schoolshop.gson.ShopGson;
-import com.xiaoma.taobao.R;
-import com.xiaoma.taobao.Utils.UtilTool;
-import com.xiaoma.taobao.Utils.UtilsLog;
-import com.xiaoma.taobao.entity.GoodGson.GoodsBean;
-import com.xiaoma.taobao.entity.ShopGson;
 
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
+
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by Administrator on 2017/3/26.
@@ -39,7 +36,7 @@ import butterknife.ButterKnife;
 public class ShopcatAdapter extends BaseExpandableListAdapter {
     private List<ShopGson> groups;
     //这个String对应着ShopGson的Id，也就是店铺的Id
-    private Map<String, List<GoodGson.GoodsBean>> childrens;
+    private Map<Integer, List<GoodGson.GoodsBean>> childrens;
     private Context mcontext;
     private CheckInterface checkInterface;
     private ModifyCountInterface modifyCountInterface;
@@ -48,7 +45,7 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
     private boolean flag=true; //组的编辑按钮是否可见，true可见，false不可见
 
 
-    public ShopcatAdapter(List<ShopGson> groups, Map<String, List<GoodGson.GoodsBean>> childrens, Context mcontext) {
+    public ShopcatAdapter(List<ShopGson> groups, Map<Integer, List<GoodGson.GoodsBean>> childrens, Context mcontext) {
         this.groups = groups;
         this.childrens = childrens;
         this.mcontext = mcontext;
@@ -61,7 +58,7 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        String groupId = groups.get(groupPosition).getId();
+        int groupId = groups.get(groupPosition).getId();
         return childrens.get(groupId).size();
     }
 
@@ -102,7 +99,7 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
             groupViewHolder = (GroupViewHolder) convertView.getTag();
         }
         final ShopGson group = (ShopGson) getGroup(groupPosition);
-        groupViewHolder.storeName.setText(group.getName());
+        groupViewHolder.storeName.setText(group.getShop_name());
         groupViewHolder.storeCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,13 +178,13 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
 
         final GoodGson.GoodsBean child = (GoodGson.GoodsBean) getChild(groupPosition, childPosition);
         if (child != null) {
-            childViewHolder.goodsName.setText(child.getDesc());
-            childViewHolder.goodsPrice.setText("￥" + child.getPrice() + "");
-            childViewHolder.goodsNum.setText(String.valueOf(child.getCount()));
-            childViewHolder.goodsImage.setImageResource(R.drawable.cmaz);
+            childViewHolder.goodsName.setText(child.getGoods_name());
+            childViewHolder.goodsPrice.setText("￥" + child.getGoods_price() + "");
+            childViewHolder.goodsNum.setText(String.valueOf(child.getNum()));
+            childViewHolder.goodsImage.setImageResource(R.mipmap.head);
             childViewHolder.goods_size.setText("门票:" + child.getColor() + ",类型:" + child.getSize());
             //设置打折前的原价
-            SpannableString spannableString = new SpannableString("￥" + child.getPrime_price() + "");
+            SpannableString spannableString = new SpannableString("￥" + child.getGoods_price() + "");
             StrikethroughSpan span = new StrikethroughSpan();
             spannableString.setSpan(span,0,spannableString.length()-1+1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             //避免无限次的append
@@ -195,7 +192,7 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
                 childViewHolder.goodsPrimePrice.setText("");
             }
             childViewHolder.goodsPrimePrice.setText(spannableString);
-            childViewHolder.goodsBuyNum.setText("x" + child.getCount() + "");
+            childViewHolder.goodsBuyNum.setText("x" + child.getNum() + "");
             childViewHolder.singleCheckBox.setChecked(child.isChoosed());
             childViewHolder.singleCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -256,14 +253,14 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
         View view= LayoutInflater.from(mcontext).inflate(R.layout.dialog_change_num,null);
         final AlertDialog dialog=alertDialog_Builder.create();
         dialog.setView(view);//errored,这里是dialog，不是alertDialog_Buidler
-        count=child.getCount();
+        count=child.getNum();
         final EditText num= (EditText) view.findViewById(R.id.dialog_num);
         num.setText(count+"");
         //自动弹出键盘
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                UtilTool.showKeyboard(mcontext,showCountView);
+//                UtilTool.showKeyboard(mcontext,showCountView);
             }
         });
         final TextView increase= (TextView) view.findViewById(R.id.dialog_increaseNum);
@@ -283,9 +280,8 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
                 if(number==0){
                     dialog.dismiss();
                 }else{
-                    UtilsLog.i("数量="+number+"");
                     num.setText(String.valueOf(number));
-                    child.setCount(number);
+                    child.setNum(number);
                     modifyCountInterface.doUpdate(groupPosition,childPosition,showCountView,isChecked);
                     dialog.dismiss();
                 }
@@ -342,15 +338,15 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
 
 
     static class GroupViewHolder {
-        @BindView(R.id.store_checkBox)
+        @InjectView(R.id.store_checkBox)
         CheckBox storeCheckBox;
-        @BindView(R.id.store_name)
+        @InjectView(R.id.store_name)
         TextView storeName;
-        @BindView(R.id.store_edit)
+        @InjectView(R.id.store_edit)
         TextView storeEdit;
 
         public GroupViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            ButterKnife.inject(this, view);
         }
     }
 
@@ -441,37 +437,37 @@ public class ShopcatAdapter extends BaseExpandableListAdapter {
 
 
     static class ChildViewHolder {
-        @BindView(R.id.single_checkBox)
+        @InjectView(R.id.single_checkBox)
         CheckBox singleCheckBox;
-        @BindView(R.id.goods_image)
+        @InjectView(R.id.goods_image)
         ImageView goodsImage;
-        @BindView(R.id.goods_name)
+        @InjectView(R.id.goods_name)
         TextView goodsName;
-        @BindView(R.id.goods_size)
+        @InjectView(R.id.goods_size)
         TextView goods_size;
-        @BindView(R.id.goods_price)
+        @InjectView(R.id.goods_price)
         TextView goodsPrice;
-        @BindView(R.id.goods_prime_price)
+        @InjectView(R.id.goods_prime_price)
         TextView goodsPrimePrice;
-        @BindView(R.id.goods_buyNum)
+        @InjectView(R.id.goods_buyNum)
         TextView goodsBuyNum;
-        @BindView(R.id.goods_data)
+        @InjectView(R.id.goods_data)
         RelativeLayout goodsData;
-        @BindView(R.id.reduce_goodsNum)
+        @InjectView(R.id.reduce_goodsNum)
         TextView reduceGoodsNum;
-        @BindView(R.id.goods_Num)
+        @InjectView(R.id.goods_Num)
         TextView goodsNum;
-        @BindView(R.id.increase_goods_Num)
+        @InjectView(R.id.increase_goods_Num)
         TextView increaseGoodsNum;
-        @BindView(R.id.goodsSize)
+        @InjectView(R.id.goodsSize)
         TextView goodsSize;
-        @BindView(R.id.del_goods)
+        @InjectView(R.id.del_goods)
         TextView delGoods;
-        @BindView(R.id.edit_goods_data)
+        @InjectView(R.id.edit_goods_data)
         LinearLayout editGoodsData;
 
         public ChildViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            ButterKnife.inject(this, view);
         }
     }
 }
