@@ -2,6 +2,7 @@ package com.example.schoolshop.api;
 
 import com.example.schoolshop.base.BaseGson;
 import com.example.schoolshop.base.EmptyGson;
+import com.example.schoolshop.gson.AdGson;
 import com.example.schoolshop.gson.AddressGson;
 import com.example.schoolshop.gson.BannerGson;
 import com.example.schoolshop.gson.CouponGson;
@@ -114,7 +115,8 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Order/getRunHelperByLocation")
     Observable<BaseGson<RunHelperGson>> getRunHelperByLocation(@Query("location") String location);
-
+    @GET("/SchoolShop/public/index.php/index/Home/getADBanner")
+    Observable<BaseGson<AdGson>> getADBanner(@Query("location") String location);
     @GET("/SchoolShop/public/index.php/index/Coupon/getCouponListByLocation")
     Observable<BaseGson<CouponGson>> getCouponListByLocation(@Query("uid") String uid,@Query("kind") String kind, @Query("location") String location);
 

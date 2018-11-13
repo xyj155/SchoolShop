@@ -11,6 +11,11 @@
         <enum name="speedOne" value="1" />
         <enum name="speedTwo" value="2" />
     </attr>
+    <declare-styleable name="ProgressLayout">
+        <attr name="progressLoadingStateBackgroundColor" format="color" />
+        <attr name="progressEmptyStateBackgroundColor" format="color" />
+        <attr name="progressErrorStateBackgroundColor" format="color" />
+    </declare-styleable>
     <declare-styleable name="qr_ViewfinderView">
         <attr name="qr_angleColor" format="color"/>
         <attr name="qr_hint" format="string"/>

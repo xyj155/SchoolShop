@@ -1,130 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.schoolshop.view.conponview.CouponView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/couponView"
+<RelativeLayout
+    android:layout_marginTop="@dimen/dp_2"
+    android:layout_marginBottom="@dimen/dp_2"
+    android:layout_marginRight="@dimen/dp_5"
+    android:layout_marginLeft="@dimen/dp_5"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_100"
-    android:layout_margin="@dimen/dp_5"
-    android:background="#EED5B7"
+    android:background="#fafafa"
+    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_white_8"
+    android:elevation="@dimen/dp_1"
     android:orientation="vertical"
-    android:padding="10dp"
-    app:cv_dash_line_color="@android:color/white"
-    app:cv_dash_line_gap="5dp"
-    app:cv_dash_line_height="0.8dp"
-    app:cv_dash_line_length="10dp"
-    app:cv_dash_line_margin_bottom="5dp"
-    app:cv_dash_line_margin_left="5dp"
-    app:cv_dash_line_margin_right="5dp"
-    app:cv_dash_line_margin_top="8dp"
-    app:cv_is_dash_line_bottom="true"
-    app:cv_is_dash_line_left="true"
-    app:cv_is_dash_line_right="true"
-    app:cv_is_dash_line_top="false"
-    app:cv_is_semicircle_bottom="false"
-    app:cv_is_semicircle_left="false"
-    app:cv_is_semicircle_right="false"
-    app:cv_is_semicircle_top="true"
-    app:cv_semicircle_color="@android:color/white"
-    app:cv_semicircle_gap="4dp"
-    app:cv_semicircle_radius="4dp">
-
-    <LinearLayout
+    android:padding="@dimen/dp_5"
+    android:layout_height="wrap_content">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:padding="@dimen/dp_5"
+    android:text="优惠券"
+    android:textColor="#ff0000"/>
+    <com.example.schoolshop.view.conponview.CouponView xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_marginTop="@dimen/dp_20"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/couponView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="5">
+        android:layout_height="@dimen/dp_100"
+        android:layout_margin="@dimen/dp_5"
+        android:background="#fff6f2"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        app:cv_dash_line_color="@android:color/white"
+        app:cv_dash_line_gap="5dp"
+        app:cv_dash_line_height="0.8dp"
+        app:cv_dash_line_length="10dp"
+        app:cv_dash_line_margin_bottom="5dp"
+        app:cv_dash_line_margin_left="5dp"
+        app:cv_dash_line_margin_right="5dp"
+        app:cv_dash_line_margin_top="8dp"
+        app:cv_is_dash_line_bottom="true"
+        app:cv_is_dash_line_left="true"
+        app:cv_is_dash_line_right="true"
+        app:cv_is_dash_line_top="false"
+        app:cv_is_semicircle_bottom="false"
+        app:cv_is_semicircle_left="false"
+        app:cv_is_semicircle_right="false"
+        app:cv_is_semicircle_top="true"
+        app:cv_semicircle_color="@android:color/white"
+        app:cv_semicircle_gap="4dp"
+        app:cv_semicircle_radius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3.5"
             android:orientation="horizontal"
-            android:weightSum="4">
+            android:weightSum="5">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.8"
-                android:gravity="center"
-                android:text="￥"
-                android:textSize="18sp"
-                android:textColor="#fff" />
-
-            <TextView
-                android:id="@+id/tv_price"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.2"
-                android:gravity="center|left"
-                android:text="25"
-                android:textColor="#fff"
-                android:textSize="@dimen/dp_38" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center|left"
+                android:layout_weight="3.5"
                 android:orientation="horizontal"
-                android:padding="@dimen/dp_5">
-
-                <com.example.schoolshop.view.CircleImageView
-                    android:id="@+id/iv_head"
-                    android:layout_width="@dimen/dp_35"
-                    android:layout_height="@dimen/dp_35"
-                    android:src="@mipmap/head" />
+                android:weightSum="4">
 
                 <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_toEndOf="@+id/iv_head"
-                    android:layout_toRightOf="@+id/iv_head"
+                    android:layout_weight="2.8"
+                    android:gravity="center"
+                    android:text="￥"
+                    android:textColor="#ff0000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:gravity="center|left"
+                    android:text="25"
+                    android:textColor="#ff0000"
+                    android:textSize="@dimen/dp_38" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_5">
+
+                    <com.example.schoolshop.view.CircleImageView
+                        android:id="@+id/iv_head"
+                        android:layout_width="@dimen/dp_35"
+                        android:layout_height="@dimen/dp_35"
+                        android:src="@mipmap/head" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@+id/iv_head"
+                        android:layout_toRightOf="@+id/iv_head"
+                        android:paddingLeft="@dimen/dp_8"
+                        android:text="欧尚食品店"
+                        android:textColor="#ff0000" />
+
+                    <TextView
+                        android:id="@+id/tv_hand"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/tv_hand_bg_r_30"
+                        android:gravity="center"
+                        android:padding="@dimen/dp_5"
+                        android:paddingLeft="@dimen/dp_8"
+                        android:paddingRight="@dimen/dp_8"
+                        android:text="领取"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/dp_8"
-                    android:text="欧尚食品店"
-                    android:textColor="#fff" />
+                    android:text="2018-10-10 00:00:00  2018-10-10 00:00:00 "
+                    android:textColor="#ff0000"
+                    android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_kind"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"
-                    android:padding="@dimen/dp_5"
-                    android:text="领取"
-                    android:textColor="#fff"
-                    android:id="@+id/tv_hand"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_8"
-                android:text="2018-10-10 00:00:00  2018-10-10 00:00:00 "
-                android:textColor="#fff"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/tv_kind"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_5"
-                android:padding="@dimen/dp_3"
-                android:text="店铺优惠券:"
-                android:textColor="#fff" />
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:padding="@dimen/dp_3"
+                    android:text="店铺优惠券:"
+                    android:textColor="#ff0000" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</com.example.schoolshop.view.conponview.CouponView>
+    </com.example.schoolshop.view.conponview.CouponView>
+</LinearLayout>
+</RelativeLayout>

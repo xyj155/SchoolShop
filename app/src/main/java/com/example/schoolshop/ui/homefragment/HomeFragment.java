@@ -2,6 +2,7 @@ package com.example.schoolshop.ui.homefragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseFragment;
 import com.example.schoolshop.contract.HomeContract;
+import com.example.schoolshop.gson.AdGson;
 import com.example.schoolshop.gson.BannerGson;
 import com.example.schoolshop.gson.GoodGson;
 import com.example.schoolshop.presenter.HomePresenter;
@@ -34,6 +36,10 @@ import com.example.schoolshop.ui.RunHelperOrderActivity;
 import com.example.schoolshop.ui.SecondSellerActivity;
 import com.example.schoolshop.ui.ShopListActivity;
 import com.example.schoolshop.util.GlideRoundTransform;
+import com.example.schoolshop.view.addialog.AdConstant;
+import com.example.schoolshop.view.addialog.AdManager;
+import com.example.schoolshop.view.addialog.bean.AdInfo;
+import com.example.schoolshop.view.addialog.transformer.DepthPageTransformer;
 import com.example.schoolshop.view.banner.AutoScrollViewPager;
 import com.example.schoolshop.view.banner.BaseViewPagerAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -108,7 +114,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
             }
         };
         bannerHome.setAdapter(mBaseViewPagerAdapter);
-
+        homePresenter.getAdBanner("嘉兴");
 
     }
 
@@ -191,6 +197,41 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         goodsList.addAll(goodGsons);
         adapter.replaceData(goodsList);
         ryHot.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void loadAD(List<AdGson> gsons) {
+        ArrayList<AdInfo> advList = new ArrayList<>();
+        for (int i = 0; i <gsons.size() ; i++) {
+            AdInfo adInfo = new AdInfo();
+            adInfo.setActivityImg(gsons.get(i).getAd_str());
+            advList.add(adInfo);
+        }
+        AdManager adManager = new AdManager(getActivity(), advList);
+        adManager.setOverScreen(true)
+                .setPageTransformer(new DepthPageTransformer())
+                .setBackViewColor(Color.parseColor("#AA333333"))
+                .setAnimBackViewTransparent(false)
+                .setDialogCloseable(true)
+                .setBounciness(15)
+                .setSpeed(5)
+                .setOnImageClickListener(new AdManager.OnImageClickListener() {
+                    @Override
+                    public void onImageClick(View view, AdInfo advInfo) {
+
+                    }
+                }).setOnCloseClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        })
+
+/**
+ * 开始执行弹窗的显示操作，可传值为0-360，0表示从右开始弹出，逆时针方向，也可以传入自定义的方向值
+ */
+                .showAdDialog(AdConstant.ANIM_UP_TO_DOWN);
     }
 
 

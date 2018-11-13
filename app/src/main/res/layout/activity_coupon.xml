@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.schoolshop.ui.CouponActivity">
+
     <include layout="@layout/common_toolbar" />
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/rl_coupon"
         android:layout_width="match_parent"
@@ -48,16 +50,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_5"
                     android:background="#fafafa" />
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="优惠券"
-    android:padding="@dimen/dp_5"
-    android:gravity="center|left"
-    android:drawablePadding="@dimen/dp_5"
-    android:drawableLeft="@mipmap/coupon"
-    android:textColor="#000"
-    android:background="#fff"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:drawableLeft="@mipmap/coupon"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center|left"
+                    android:padding="@dimen/dp_5"
+                    android:text="优惠券"
+                    android:textColor="#000" />
             </android.support.design.widget.AppBarLayout>
 
 
@@ -73,15 +76,13 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ry_list"
+                    android:background="#fafafa"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
             </android.support.v4.widget.NestedScrollView>
         </android.support.design.widget.CoordinatorLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-
-
 
 
 </LinearLayout>

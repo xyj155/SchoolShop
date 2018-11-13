@@ -4,6 +4,7 @@ import com.example.schoolshop.base.BaseGson;
 import com.example.schoolshop.base.BaseObserver;
 import com.example.schoolshop.contract.HomeContract;
 import com.example.schoolshop.entity.HomeDataEntity;
+import com.example.schoolshop.gson.AdGson;
 import com.example.schoolshop.gson.BannerGson;
 import com.example.schoolshop.gson.GoodGson;
 import com.example.schoolshop.model.HomeModel;
@@ -50,7 +51,34 @@ public class HomePresenter implements HomeContract.Presenter {
                     @Override
                     public void onNext(HomeDataEntity homeDataEntity) {
                         view.hideLoading();
-                        view.loadHomeData(homeDataEntity.getBannerGsons(),homeDataEntity.getGoodGson());
+                        view.loadHomeData(homeDataEntity.getBannerGsons(), homeDataEntity.getGoodGson());
+                    }
+                });
+    }
+
+    @Override
+    public void getAdBanner(String location) {
+        homeModel.getAdBanner(location)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseGson<AdGson>>() {
+                    @Override
+                    public void onError(String error) {
+                        view.loadFailed(error);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseGson<AdGson> adGsonBaseGson) {
+                        if (adGsonBaseGson.isStatus()) {
+                            view.loadAD(adGsonBaseGson.getList());
+                        } else {
+                            view.loadFailed(adGsonBaseGson.getMsg());
+                        }
                     }
                 });
     }
