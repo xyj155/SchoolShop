@@ -14,7 +14,7 @@ import rx.Observable;
 
 public interface CouponContract {
     interface Model {
-        Observable<BaseGson<CouponGson>> getCouponListByLocation(String uid,String kind,String location);
+        Observable<BaseGson<CouponGson>> getCouponListByLocation(String uid, String kind, String location);
     }
 
     interface View extends BaseView{
@@ -24,6 +24,6 @@ public interface CouponContract {
     }
 
     interface Presenter {
-       void getCouponListByLocation(String uid,String kind,String location);
+       void getCouponListByLocation(String uid, String kind, String location);
     }
 }

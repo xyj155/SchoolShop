@@ -18,10 +18,10 @@ public interface UserAddressContract {
         Observable<BaseGson<EmptyGson>> addUserReceiveAddress(
 
                 String username,
-               String tel,
-                 String address,
-                 String uid,
-                 String location,
+                String tel,
+                String address,
+                String uid,
+                String location,
                 String isReceive
         );
         Observable<BaseGson<AddressGson>> getUserAddressList(String uid);
@@ -36,12 +36,12 @@ public interface UserAddressContract {
         void getUserAddressList(String uid);
       void   addUserReceiveAddress(
 
-                String username,
-                String tel,
-                String address,
-                String uid,
-                String location,
-                String isReceive
-        );
+              String username,
+              String tel,
+              String address,
+              String uid,
+              String location,
+              String isReceive
+      );
     }
 }

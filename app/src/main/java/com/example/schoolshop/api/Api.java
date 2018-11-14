@@ -119,14 +119,16 @@ public interface Api {
     @GET("/SchoolShop/public/index.php/index/Home/getADBanner")
     Observable<BaseGson<AdGson>> getADBanner(@Query("location") String location);
     @GET("/SchoolShop/public/index.php/index/Coupon/getCouponListByLocation")
-    Observable<BaseGson<CouponGson>> getCouponListByLocation(@Query("uid") String uid,@Query("kind") String kind, @Query("location") String location);
+    Observable<BaseGson<CouponGson>> getCouponListByLocation(@Query("uid") String uid, @Query("kind") String kind, @Query("location") String location);
+
+    @GET("/SchoolShop/public/index.php/index/Goods/setUserOrder")
+    Observable<BaseGson<EmptyGson>> setUserOrder(@Query("uid") String uid);
+
+    @GET("/SchoolShop/public/index.php/index/Order/submitRunHelperOrder")
+    Observable<BaseGson<EmptyGson>> submitRunHelperOrder(@Query("uid") String uid, @Query("hid") String hid, @Query("request") String request);
 
     @GET("/SchoolShop/public/index.php/index/Goods/getGoodsPrice")
     Observable<BaseGson<GoodsPrice>> getGoodsPrice(@Query("gid") String gid, @Query("color") String color, @Query("model") String model, @Query("size") String size);
-
-    @GET("/SchoolShop/public/index.php/index/Order/submitRunHelperOrder")
-    Observable<BaseGson<EmptyGson>> submitRunHelperOrder(@Query("uid") String uid,@Query("hid") String hid,@Query("request") String request);
-
 
     @GET("/SchoolShop/public/index.php/index/Goods/submitUserShopCar")
     Observable<BaseGson<UserShopCarGson>> submitUserShopCar(@Query("uid") String uid);

@@ -11,14 +11,18 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.schoolshop.R;
 import com.example.schoolshop.adapter.ShopAdapter;
 import com.example.schoolshop.base.BaseFragment;
 import com.example.schoolshop.base.BaseGson;
-import com.example.schoolshop.contract.ShopCarContract;
+import com.example.schoolshop.contract.UserShopCarContract;
 import com.example.schoolshop.gson.UserShopCarGson;
-import com.example.schoolshop.presenter.ShopCarPresenter;
+import com.example.schoolshop.presenter.UserShopCarPresenter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,23 +39,25 @@ import static com.example.schoolshop.R.id.third_totalprice;
  * Created by Administrator on 2018/10/31.
  */
 
-public class ShopCarFragment extends BaseFragment implements ShopCarContract.View {
+public class ShopCarFragment extends BaseFragment implements UserShopCarContract.View {
     public static ShopCarFragment instance;
-    @InjectView(third_recyclerview)
-    RecyclerView thirdRecyclerview;
-    @InjectView(third_allselect)
-    CheckBox thirdAllselect;
-    @InjectView(third_totalprice)
-    TextView thirdTotalprice;
-    @InjectView(third_totalnum)
-    TextView thirdTotalnum;
     @InjectView(R.id.linearLayout2)
     LinearLayout linearLayout2;
     @InjectView(R.id.third_submit)
     TextView thirdSubmit;
     @InjectView(R.id.fl_order)
     FrameLayout flOrder;
-    private ShopCarPresenter presenter;
+    @InjectView(R.id.third_recyclerview)
+    RecyclerView thirdRecyclerview;
+    @InjectView(R.id.sl_shopcar)
+    SmartRefreshLayout slShopcar;
+    @InjectView(R.id.third_allselect)
+    CheckBox thirdAllselect;
+    @InjectView(R.id.third_totalprice)
+    TextView thirdTotalprice;
+    @InjectView(R.id.third_totalnum)
+    TextView thirdTotalnum;
+    private UserShopCarPresenter presenter;
     private ShopAdapter adapter;
     BaseGson<UserShopCarGson> shopBean;
     List<BaseGson<UserShopCarGson>> list = new ArrayList<>();
@@ -70,8 +76,15 @@ public class ShopCarFragment extends BaseFragment implements ShopCarContract.Vie
 
     @Override
     protected void init(View view) {
-        presenter = new ShopCarPresenter(this);
-        presenter.submitUserShopCar("1");
+        ButterKnife.inject(this, view);
+        presenter = new UserShopCarPresenter(this);
+        slShopcar.autoRefresh();
+        slShopcar.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                presenter.submitUserShopCar("1");
+            }
+        });
         //线性布局
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         thirdRecyclerview.setLayoutManager(manager);
@@ -89,16 +102,12 @@ public class ShopCarFragment extends BaseFragment implements ShopCarContract.Vie
             @Override
             public void setTotal(String total, String num, boolean allCheck) {
                 thirdAllselect.setChecked(allCheck);
-                thirdTotalnum.setText("共计： "+num);
-                thirdTotalprice.setText("￥ "+total);
+                thirdTotalnum.setText("共计： " + num);
+                thirdTotalprice.setText("￥ " + total);
             }
         });
     }
 
-
-    public void loadList() {
-        Log.i(TAG, "loadList: ");
-    }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -106,33 +115,20 @@ public class ShopCarFragment extends BaseFragment implements ShopCarContract.Vie
     }
 
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void loadFailed(String msg) {
-
-    }
-
     private static final String TAG = "TestActivity";
 
     @Override
     public void loadShopCarList(BaseGson<UserShopCarGson> userShopCarGsons) {
         Log.i(TAG, "loadShopCarList: " + userShopCarGsons);
         adapter.add(userShopCarGsons);
+        slShopcar.finishRefresh();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
+
         ButterKnife.inject(this, rootView);
         return rootView;
     }
@@ -141,5 +137,21 @@ public class ShopCarFragment extends BaseFragment implements ShopCarContract.Vie
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void showLoading() {
+        showDialog();
+    }
+
+    @Override
+    public void hideLoading() {
+        loadSuccess();
+    }
+
+    @Override
+    public void loadFailed(String msg) {
+        slShopcar.finishRefresh();
+        Toast.makeText(getActivity(), "购物车加载错误", Toast.LENGTH_SHORT).show();
     }
 }

@@ -12,7 +12,7 @@ import rx.Observable;
 
 public interface HomeSortContract {
     interface Model {
-        Observable<BaseGson<GoodGson>> getGoodsListByLocation(String location,String kind,String uid);
+        Observable<BaseGson<GoodGson>> getGoodsListByLocation(String location, String kind, String uid);
     }
 
     interface View extends BaseView {
@@ -20,6 +20,6 @@ public interface HomeSortContract {
     }
 
     interface Presenter {
-        void getGoodsListByLocation(String location,String kind,String uid);
+        void getGoodsListByLocation(String location, String kind, String uid);
     }
 }

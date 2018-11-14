@@ -16,8 +16,8 @@ import rx.Observable;
 public interface RunHelperContract {
     interface Model {
         Observable<BaseGson<RunHelperGson>> getRunHelperByLocation(String location);
-        Observable<BaseGson<EmptyGson>> submitRunHelperOrder(String uid, String hid,String request);
-        Observable<BaseGson<EmptyGson>>  submitOrder(String uid, String hid,String request);
+        Observable<BaseGson<EmptyGson>> submitRunHelperOrder(String uid, String hid, String request);
+        Observable<BaseGson<EmptyGson>>  submitOrder(String uid, String hid, String request);
     }
 
     interface View extends BaseView{
@@ -29,7 +29,7 @@ public interface RunHelperContract {
 
     interface Presenter {
         void getRunHelperByLocation(String location);
-        void submitRunHelperOrder(String uid, String hid,String request);
-        void submitOrder(String uid, String hid,String request);
+        void submitRunHelperOrder(String uid, String hid, String request);
+        void submitOrder(String uid, String hid, String request);
     }
 }

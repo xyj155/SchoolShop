@@ -1,25 +1,26 @@
 package com.example.schoolshop.contract;
 
+
 import com.example.schoolshop.base.BaseGson;
-import com.example.schoolshop.base.BaseView;
-import com.example.schoolshop.gson.UserShopCarGson;
+import com.example.schoolshop.base.EmptyGson;
 
 import rx.Observable;
 
 /**
- * Created by Administrator on 2018/11/14.
+ * Created by 徐易杰 on 2018/11/13.
  */
 
 public interface ShopCarContract {
     interface Model {
-        Observable<BaseGson<UserShopCarGson>> submitUserShopCar(String uid);
+        Observable<BaseGson<EmptyGson>> setUserOrder(String uid);
     }
 
-    interface View extends BaseView{
-        void loadShopCarList(BaseGson<UserShopCarGson> userShopCarGsons);
+    interface View {
+        void submitSuccess();
+        void submitFailed(String msg);
     }
 
     interface Presenter {
-        void submitUserShopCar(String uid);
+        void setUserOrder(String uid);
     }
 }

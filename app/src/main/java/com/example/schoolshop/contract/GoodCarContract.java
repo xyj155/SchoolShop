@@ -14,7 +14,7 @@ import rx.Observable;
 
 public interface GoodCarContract {
     interface Model {
-        Observable<BaseGson<EmptyGson>> addGoodsCar(String uid, String gid, String comment,String isDelete);
+        Observable<BaseGson<EmptyGson>> addGoodsCar(String uid, String gid, String comment, String isDelete);
         Observable<BaseGson<GoodGson.GoodsBean>> getShopCarGoodsList(String uid);
     }
 
@@ -27,7 +27,7 @@ public interface GoodCarContract {
     }
 
     interface Presenter {
-        void addGoodsCar(String uid, String gid, String comment,String isDelete);
+        void addGoodsCar(String uid, String gid, String comment, String isDelete);
         void getShopCarGoodsList(String uid);
     }
 }

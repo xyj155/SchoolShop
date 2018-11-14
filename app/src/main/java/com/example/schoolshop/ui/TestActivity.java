@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -46,7 +45,7 @@ public class TestActivity extends AppCompatActivity implements ShopCarContract.V
         third_submit = (Button) findViewById(R.id.third_submit);
         //调用P层
         presenter = new ShopCarPresenter(this);
-        presenter.submitUserShopCar("1");
+//        presenter.submitUserShopCar("1");
         //线性布局
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         third_recyclerview.setLayoutManager(manager);
@@ -75,26 +74,36 @@ public class TestActivity extends AppCompatActivity implements ShopCarContract.V
 //        adapter.add(bean);
 //    }
 
+//    @Override
+//    public void showLoading() {
+//
+//    }
+//
+//    @Override
+//    public void hideLoading() {
+
+//    }
+
+//    @Override
+//    public void loadFailed(String msg) {
+//
+//    }
+//
+//    private static final String TAG = "TestActivity";
+//    @Override
+//    public void loadShopCarList(BaseGson<UserShopCarGson> userShopCarGsons) {
+//        Log.i(TAG, "loadShopCarList: "+userShopCarGsons);
+//        adapter.add(userShopCarGsons);
+//    }
+
     @Override
-    public void showLoading() {
+    public void submitSuccess() {
 
     }
 
     @Override
-    public void hideLoading() {
+    public void submitFailed(String msg) {
 
-    }
-
-    @Override
-    public void loadFailed(String msg) {
-
-    }
-
-    private static final String TAG = "TestActivity";
-    @Override
-    public void loadShopCarList(BaseGson<UserShopCarGson> userShopCarGsons) {
-        Log.i(TAG, "loadShopCarList: "+userShopCarGsons);
-        adapter.add(userShopCarGsons);
     }
 }
 

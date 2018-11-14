@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
     @InjectView(R.id.tv_shopcar_count)
     TextView tvShopcarCount;
 
-    public HomeSortPresenter homeSortPresenter = new HomeSortPresenter(this);
+
     private SortItemAdapter sortAdapter = new SortItemAdapter(null);
     private List<String> list = new ArrayList<>();
     private int layoutPosition;
@@ -86,6 +87,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
     private View sheetDialog;
     private ShopCarAdapter shopCarAdapter = new ShopCarAdapter(null);
     private Handler mHanlder;
+    public HomeSortPresenter homeSortPresenter = new HomeSortPresenter(this);
     public GoodCarPresenter goodCarPresent = new GoodCarPresenter(this);
     private List<GoodGson.GoodsBean> goodsList = new ArrayList<>();
     private NumberFormat nf;
@@ -135,6 +137,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
             public void onRefresh(RefreshLayout refreshLayout) {
                 String item = sortAdapter.getItem(layoutPosition);
                 homeSortPresenter.getGoodsListByLocation("嘉兴", item, "1");
+                goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
             }
         });
         goodAdapter = new GoodsAdapter(goodsList, SortFragment.this);
@@ -145,7 +148,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-
+        myListener = (FragmentChangeListener) getActivity();
         ButterKnife.inject(this, rootView);
         return rootView;
     }
@@ -173,9 +176,16 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    //加载商品条目
+    private static final String TAG = "SortFragment";
+
+    /**
+     * 加载商品列表
+     *
+     * @param goodGson
+     */
     @Override
     public void loadGoodsList(final GoodGson goodGson) {
+        Log.i(TAG, "loadGoodsList: " + goodGson);
         slSort.finishRefresh();
         list.addAll(goodGson.getKind());
         for (int i = 0; i < list.size() - 1; i++) {
@@ -190,7 +200,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
         goodsList.clear();//清除当前所有商品
         goodsList.addAll(goodGson.getGoods());
 
-   goodAdapter.notifyDataSetChanged();
+        goodAdapter.notifyDataSetChanged();
     }
 
 
@@ -201,9 +211,26 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
                 showCart();//显示购物车
                 break;
             case R.id.tv_count:
+                if (shopCarAdapter.getItemCount() < 1) {
+                    Toast.makeText(getContext(), "购物车里面还没东西哦！", Toast.LENGTH_SHORT).show();
+                } else {
+//                    String item = sortAdapter.getItem(layoutPosition);
+//                    homeSortPresenter.getGoodsListByLocation("嘉兴", item, "1");
+//                    goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
+                    slSort.autoRefresh();
+                    myListener.sendContent("index");
+                }
+
                 break;
         }
     }
+
+    private FragmentChangeListener myListener;
+
+    public interface FragmentChangeListener {
+        public void sendContent(String info);
+    }
+
 
     //显示购物车列表
     private void showCart() {
@@ -213,7 +240,6 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
             bottomSheetLayout.showWithSheetView(sheetDialog);
         }
     }
-
 
 
     //刷新布局 总价、购买数量等
@@ -247,9 +273,14 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
 
     }
 
-
+    /**
+     * 加载购物车
+     *
+     * @param goodsBeen
+     */
     @Override
     public void loadShopCarList(List<GoodGson.GoodsBean> goodsBeen) {
+        Log.i(TAG, "loadShopCarList: running" + goodsBeen.size());
         int count = 0;
         double cost = 0;
         shopCarAdapter.replaceData(goodsBeen);
@@ -270,7 +301,6 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
     }
 
 
-
     public class ShopCarAdapter extends BaseQuickAdapter<GoodGson.GoodsBean, BaseViewHolder> {
         private NumberFormat nf;
 
@@ -289,7 +319,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
                     .setOnClickListener(R.id.iv_add, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            goodCarPresent.addGoodsCar("1", String.valueOf(item.getId()), "","0");
+                            goodCarPresent.addGoodsCar("1", String.valueOf(item.getId()), "", "0");
                             SortFragment.this.update();
                             notifyDataSetChanged();
 
@@ -298,7 +328,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
                     .setOnClickListener(R.id.iv_reduce, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            goodCarPresent.addGoodsCar("1", String.valueOf(item.getId()),"", "1");
+                            goodCarPresent.addGoodsCar("1", String.valueOf(item.getId()), "", "1");
                             SortFragment.this.update();
                             TextView view = (TextView) helper.getView(R.id.tv_count);
                             if (Integer.valueOf(view.getText().toString()) < 2) {

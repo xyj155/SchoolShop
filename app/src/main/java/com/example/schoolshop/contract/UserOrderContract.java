@@ -14,7 +14,7 @@ import rx.Observable;
 
 public interface UserOrderContract {
     interface Model {
-        Observable<BaseGson<UserOrderFormAllListGson>> getUserOrdersList(String uid,String status);
+        Observable<BaseGson<UserOrderFormAllListGson>> getUserOrdersList(String uid, String status);
     }
 
     interface View extends BaseView {
@@ -22,6 +22,6 @@ public interface UserOrderContract {
     }
 
     interface Presenter {
-        void getUserOrdersList(String uid,String status);
+        void getUserOrdersList(String uid, String status);
     }
 }
