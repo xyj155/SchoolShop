@@ -13,13 +13,16 @@ import rx.Observable;
 public interface UserShopCarContract {
     interface Model {
         Observable<BaseGson<UserShopCarGson>> submitUserShopCar(String uid);
+        Observable<BaseGson<UserShopCarGson>> submitUserShopCarWithoutDialog(String uid);
     }
 
     interface View extends BaseView {
         void loadShopCarList(BaseGson<UserShopCarGson> shopCarGsonBaseGson);
+        void loadShopCarListWithoutDialog(BaseGson<UserShopCarGson> shopCarGsonBaseGson);
     }
 
     interface Presenter {
         void submitUserShopCar(String uid);
+        void submitUserShopCarWithoutDialog(String uid);
     }
 }

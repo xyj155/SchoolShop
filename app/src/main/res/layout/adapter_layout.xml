@@ -29,11 +29,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_10" />
-
+<com.example.schoolshop.view.CircleImageView
+    android:layout_width="@dimen/dp_25"
+    android:id="@+id/iv_shop"
+    android:layout_marginRight="@dimen/dp_5"
+    android:layout_height="@dimen/dp_25" />
             <!-- 商店名称 -->
             <TextView
                 android:id="@+id/tv_item_shopcart_shopname"
                 android:layout_width="match_parent"
+                android:drawableRight="@mipmap/go_in"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
                 android:padding="8.5dp"

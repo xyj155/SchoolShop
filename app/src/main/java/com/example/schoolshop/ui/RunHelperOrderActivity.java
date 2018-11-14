@@ -126,7 +126,7 @@ public class RunHelperOrderActivity extends BaseActivity implements RunHelperCon
         @Override
         protected void convert(BaseViewHolder helper, final RunHelperGson item) {
             helper.setText(R.id.tv_name, item.getName())
-                    .setText(R.id.tv_address, "地址：" + item.getAddress())
+                    .setText(R.id.tv_address, "express_to：" + item.getAddress())
                     .setOnClickListener(R.id.tv_hand, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

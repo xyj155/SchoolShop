@@ -19,6 +19,7 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.MarkerOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -40,6 +41,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.amap.api.maps.AMap.MAP_TYPE_NORMAL;
 
 public class ExpressTraceActivity extends BaseActivity implements ExpressContract.View {
 
@@ -85,8 +88,8 @@ public class ExpressTraceActivity extends BaseActivity implements ExpressContrac
         }
         this.aMap.getUiSettings().setLogoPosition(-80);
         this.aMap.getUiSettings().setZoomControlsEnabled(false);
-        this.aMap.moveCamera(CameraUpdateFactory.zoomTo(6));
-        this.aMap.setMapType(-1);
+        this.aMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+        this.aMap.setMapType(MAP_TYPE_NORMAL);
         // TODO: add setContentView(...) invocation
 
     }
@@ -151,9 +154,17 @@ public class ExpressTraceActivity extends BaseActivity implements ExpressContrac
         localMarkerOptions2.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.to)));
         aMap.addMarker(localMarkerOptions1);
         aMap.addMarker(localMarkerOptions2);
-        LatLng latLng = new LatLng(12.73765D, 112.40887D);
+        LatLng latLng = new LatLng((Double.valueOf(expressGson.getFromGeo().substring(11)).doubleValue()
+                +Double.valueOf(expressGson.getToGeo().substring(11)).doubleValue())/2, (Double.valueOf(expressGson.getToGeo().substring(0, 10)).doubleValue()+Double.valueOf(expressGson.getFromGeo().substring(0, 10)).doubleValue())/2);
         aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng, 4.0F, 0.0F, 0.0F)));
+        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng,  5, 0, 0)));
+
+
+        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();//存放所有点的经纬度
+        boundsBuilder.include(new LatLng(Double.valueOf(expressGson.getToGeo().substring(11)).doubleValue(),
+                Double.valueOf(expressGson.getToGeo().substring(0, 10)).doubleValue()));
+        boundsBuilder.include(new LatLng(Double.valueOf(expressGson.getFromGeo().substring(11)).doubleValue(), Double.valueOf(expressGson.getFromGeo().substring(0, 10)).doubleValue()));
+        aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 50));//第二个参数为四周留空宽度
     }
 
 

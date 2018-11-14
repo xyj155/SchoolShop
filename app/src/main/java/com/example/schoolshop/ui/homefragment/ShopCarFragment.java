@@ -24,16 +24,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static com.example.schoolshop.R.id.third_allselect;
-import static com.example.schoolshop.R.id.third_recyclerview;
-import static com.example.schoolshop.R.id.third_totalnum;
-import static com.example.schoolshop.R.id.third_totalprice;
 
 /**
  * Created by Administrator on 2018/10/31.
@@ -57,16 +49,33 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
     TextView thirdTotalprice;
     @InjectView(R.id.third_totalnum)
     TextView thirdTotalnum;
-    private UserShopCarPresenter presenter;
+    UserShopCarPresenter  presenter = new UserShopCarPresenter(this);
     private ShopAdapter adapter;
-    BaseGson<UserShopCarGson> shopBean;
-    List<BaseGson<UserShopCarGson>> list = new ArrayList<>();
+    private ShopCarFragment shopCarFragment;
+
+    public ShopCarFragment getShopCarFragment() {
+        if (shopCarFragment == null) {
+            shopCarFragment = new ShopCarFragment();
+        }
+        return shopCarFragment;
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            Log.i(TAG, "onHiddenChanged: ");
+            presenter.submitUserShopCarWithoutDialog("1");
+        }
+    }
 
     public static ShopCarFragment getInstance() {
         if (instance == null) {
             return new ShopCarFragment();
         }
         return instance;
+
     }
 
     @Override
@@ -74,10 +83,10 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
         return R.layout.fragment_shopcar;
     }
 
+
     @Override
     protected void init(View view) {
         ButterKnife.inject(this, view);
-        presenter = new UserShopCarPresenter(this);
         slShopcar.autoRefresh();
         slShopcar.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -125,11 +134,18 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
     }
 
     @Override
+    public void loadShopCarListWithoutDialog(BaseGson<UserShopCarGson> shopCarGsonBaseGson) {
+        adapter.add(shopCarGsonBaseGson);
+        slShopcar.finishRefresh();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-
         ButterKnife.inject(this, rootView);
+
+
         return rootView;
     }
 
@@ -149,9 +165,12 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
         loadSuccess();
     }
 
+
     @Override
     public void loadFailed(String msg) {
         slShopcar.finishRefresh();
         Toast.makeText(getActivity(), "购物车加载错误", Toast.LENGTH_SHORT).show();
     }
+
+
 }

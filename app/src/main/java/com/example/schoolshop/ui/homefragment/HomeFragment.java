@@ -213,6 +213,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
                 .setPageTransformer(new DepthPageTransformer())
                 .setBackViewColor(Color.parseColor("#AA333333"))
                 .setAnimBackViewTransparent(false)
+                .setWidthPerHeight(0.65f)
                 .setDialogCloseable(true)
                 .setBounciness(15)
                 .setSpeed(5)

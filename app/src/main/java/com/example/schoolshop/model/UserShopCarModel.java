@@ -16,4 +16,9 @@ public class UserShopCarModel implements UserShopCarContract.Model {
     public Observable<BaseGson<UserShopCarGson>> submitUserShopCar(String uid) {
         return RetrofitUtil.getInstance().getServerices().submitUserShopCar(uid);
     }
+
+    @Override
+    public Observable<BaseGson<UserShopCarGson>> submitUserShopCarWithoutDialog(String uid) {
+        return RetrofitUtil.getInstance().getServerices().submitUserShopCar(uid);
+    }
 }

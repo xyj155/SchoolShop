@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -18,9 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.schoolshop.R;
-import com.malinskiy.materialicons.IconDrawable;
-import com.malinskiy.materialicons.Iconify;
 
 
 /**
@@ -140,6 +138,7 @@ public class ProgressLayout extends RelativeLayout {
         this.errorButton = button;
         switchState(State.ERROR_SMALL, onClickListener);
     }
+
     public void showErrorSmall(OnClickListener onClickListener) {
         switchState(State.ERROR_SMALL, onClickListener);
     }
@@ -293,11 +292,11 @@ public class ProgressLayout extends RelativeLayout {
             emptyStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.emptyStateRelativeLayout);
             emptyStateImageView = (ImageView) view.findViewById(R.id.emptyStateImageView);
 
-            Drawable emptyDrawable = new IconDrawable(getContext(), Iconify.IconValue.zmdi_shopping_basket)
-                    .colorRes(android.R.color.white);
+//            Drawable emptyDrawable = new IconDrawable(getContext(), Iconify.IconValue.zmdi_shopping_basket)
+//                    .colorRes(android.R.color.white);
 
-            emptyStateImageView.setImageDrawable(emptyDrawable);
-
+//            emptyStateImageView.setImageDrawable(emptyDrawable);
+            Glide.with(attachActivity).asBitmap().load(R.mipmap.empty_rank).into(emptyStateImageView);
             //Set background color if not TRANSPARENT
             if (emptyStateBackgroundColor != Color.TRANSPARENT) {
                 emptyStateRelativeLayout.setBackgroundColor(emptyStateBackgroundColor);
@@ -375,11 +374,7 @@ public class ProgressLayout extends RelativeLayout {
 
             errorStateImageView = (ImageView) view.findViewById(R.id.errorStateImageView);
             errorStateButton = (Button) view.findViewById(R.id.errorStateButton);
-
-            Drawable errorDrawable = new IconDrawable(getContext(), Iconify.IconValue.zmdi_wifi_off)
-                    .colorRes(R.color.mc);
-
-            errorStateImageView.setImageDrawable(errorDrawable);
+            Glide.with(attachActivity).asBitmap().load(R.mipmap.empty_rank).into(emptyStateImageView);
 
             if (onClickListener != null) {
                 errorStateButton.setOnClickListener(onClickListener);
@@ -414,10 +409,7 @@ public class ProgressLayout extends RelativeLayout {
             if (errorMessage != null) {
                 errorStateContentTextView.setText(errorMessage);
             }
-            Drawable errorDrawable = new IconDrawable(getContext(), Iconify.IconValue.zmdi_wifi_off)
-                    .colorRes(R.color.mc);
-
-            errorStateImageView.setImageDrawable(errorDrawable);
+            Glide.with(attachActivity).asBitmap().load(R.mipmap.empty_rank).into(emptyStateImageView);
 
             if (onClickListener != null) {
                 errorStateButton.setOnClickListener(onClickListener);

@@ -126,12 +126,21 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
                 });
 
         shopCarAdapter.bindToRecyclerView(ryShopCar);
+
+        Bundle args = new Bundle();
+        args = getArguments();
+        Log.i(TAG, "init: " + args);
+        if (args != null) {
+            Log.i(TAG, "initData: " + args.getString("change"));
+        }
+
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         homeSortPresenter.getGoodsListByLocation("嘉兴", "热销产品", "1");//请求商品列表数据
         goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
+        slSort.autoRefresh();
         slSort.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
@@ -142,6 +151,8 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
         });
         goodAdapter = new GoodsAdapter(goodsList, SortFragment.this);
         ryList.setAdapter(goodAdapter);
+
+
     }
 
     @Override
@@ -167,6 +178,14 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
     @Override
     public void hideLoading() {
         loadSuccess();
+    }
+
+
+    private OnFragmentSelectedListener mCallback;
+
+
+    public interface OnFragmentSelectedListener {
+        void onFragmentSelected(String info);
     }
 
     @Override
@@ -214,15 +233,18 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
                 if (shopCarAdapter.getItemCount() < 1) {
                     Toast.makeText(getContext(), "购物车里面还没东西哦！", Toast.LENGTH_SHORT).show();
                 } else {
-//                    String item = sortAdapter.getItem(layoutPosition);
-//                    homeSortPresenter.getGoodsListByLocation("嘉兴", item, "1");
-//                    goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
                     slSort.autoRefresh();
                     myListener.sendContent("index");
                 }
 
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     private FragmentChangeListener myListener;

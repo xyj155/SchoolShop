@@ -20,7 +20,8 @@ import com.example.schoolshop.ui.homefragment.UserFragment;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends BaseActivity implements SortFragment.FragmentChangeListener, ShopCarContract.View {
+
+public class MainActivity extends BaseActivity implements SortFragment.FragmentChangeListener, ShopCarContract.View{
 
 
     @InjectView(R.id.contentContainer)
@@ -51,7 +52,6 @@ public class MainActivity extends BaseActivity implements SortFragment.FragmentC
         return instance;
     }
 
-
     @Override
     public int intiLayout() {
         return R.layout.activity_main;
@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity implements SortFragment.FragmentC
 
     @Override
     public void initView() {
+
         // TODO: add setContentView(...) invocation
         ButterKnife.inject(this);
         notSetStatusBarColor();
@@ -168,7 +169,7 @@ public class MainActivity extends BaseActivity implements SortFragment.FragmentC
                     transaction.show(shopcarFragment);
                 }
             }
-
+            transaction.commit();
         }
     }
 
@@ -181,4 +182,5 @@ public class MainActivity extends BaseActivity implements SortFragment.FragmentC
     public void submitFailed(String msg) {
 
     }
+
 }

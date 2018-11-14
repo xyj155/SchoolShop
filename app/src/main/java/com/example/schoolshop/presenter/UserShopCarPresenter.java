@@ -50,4 +50,31 @@ public class UserShopCarPresenter implements UserShopCarContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void submitUserShopCarWithoutDialog(String uid) {
+        model.submitUserShopCar(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseGson<UserShopCarGson>>() {
+                    @Override
+                    public void onError(String error) {
+                        view.loadFailed(error);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseGson<UserShopCarGson> shopCarGsonBaseGson) {
+                        if (shopCarGsonBaseGson.isStatus()) {
+                            view.loadShopCarList(shopCarGsonBaseGson);
+                        } else {
+                            view.loadFailed(shopCarGsonBaseGson.getMsg());
+                        }
+                    }
+                });
+    }
 }

@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseGson;
 import com.example.schoolshop.gson.UserShopCarGson;
@@ -23,9 +25,9 @@ import java.util.Map;
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     private Context context;//传入上下文
-    private List<UserShopCarGson.GoodsBean> list;//bean包的集合
+    private List<UserShopCarGson.GoodsBean> list = new ArrayList<>();//bean包的集合
     //存放商家的集合
-    private Map<Integer, String> map = new HashMap<>();
+    private Map<Integer, UserShopCarGson> map = new HashMap<>();
 
     //有参构造
 
@@ -41,14 +43,12 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
      */
     public void add(BaseGson<UserShopCarGson> bean) {
         //判段如果list是空的
-        if (this.list == null) {
-            //那就把listNew出来
-            this.list = new ArrayList<>();
-        }
+        list.clear();
+        map.clear();
         //遍历商家
         for (UserShopCarGson shop : bean.getList()) {
             Log.i(TAG, "add: " + shop.getShop_name());
-            map.put(shop.getId(), shop.getShop_name());
+            map.put(shop.getId(), shop);
             // 遍历商品
             for (int i = 0; i < shop.getGoods().size(); i++) {
                 this.list.add(shop.getGoods().get(i));
@@ -104,9 +104,12 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 //            显示商家的名称
 //            list.get(position).getSellerid() 取到商家的id
 //            map.get（）取到 商家的名称
-            holder.tv_item_shopcart_shopname.setText(map.get(list.get(position).getGoods_owner()));
+            Glide.with(context).asBitmap().load(map.get(list.get(position).getGoods_owner()).getShop_cover()).apply(new RequestOptions().error(R.mipmap.head)).into(holder.ivShop);
+
+            holder.tv_item_shopcart_shopname.setText(map.get(list.get(position).getGoods_owner()).getShop_name());
             Log.i(TAG, "onBindViewHolder: " + map.get(list.get(position).getGoods_owner()));
         } else {
+            holder.ivShop.setVisibility(View.GONE);
             holder.shop_checkbox.setVisibility(View.GONE);//隐藏商家
             holder.tv_item_shopcart_shopname.setVisibility(View.GONE);//隐藏商家
             holder.view.setVisibility(View.GONE);
@@ -114,7 +117,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         holder.tv_item_shopcart_cloth_size.setText(list.get(position).getComment().isEmpty() ? "" : list.get(position).getComment());
         holder.item_checkbox.setChecked(list.get(position).isItemSelected());
         holder.item_name.setText(list.get(position).getGoods_name());
-        holder.item_price.setText(list.get(position).getGoods_price() + "");
+        holder.item_price.setText("￥ "+list.get(position).getGoods_price() + "");
         Glide.with(context).asBitmap().load(list.get(position).getGoods_pic()).into(holder.item_pic);
         holder.plus_view_id.setEditText(list.get(position).getNum());
         holder.shop_checkbox.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +185,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
      */
     private void sum(List<UserShopCarGson.GoodsBean> list) {
         int totalNum = 0;
-        float totalMoney = 0.0f;
+        double totalMoney = 0.0f;
         boolean allCheck = true;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).isItemSelected()) {
@@ -211,11 +214,13 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         TextView tv_item_shopcart_shopname, item_price, item_name, tv_item_shopcart_cloth_size;
         SimpleDraweeView item_pic;
         TextView item_del;
+        ImageView ivShop;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView.findViewById(R.id.view);
             item_del = itemView.findViewById(R.id.item_del);
+            ivShop = itemView.findViewById(R.id.iv_shop);
             shop_checkbox = itemView.findViewById(R.id.shop_checkbox);
             item_checkbox = itemView.findViewById(R.id.item_checkbox);
             tv_item_shopcart_shopname = itemView.findViewById(R.id.tv_item_shopcart_shopname);
