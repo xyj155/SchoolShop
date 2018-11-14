@@ -11,6 +11,9 @@
         <enum name="speedOne" value="1" />
         <enum name="speedTwo" value="2" />
     </attr>
+    <style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+           <item name="android:button">@drawable/shopcar_checkbox_bg</item>
+           </style>
     <declare-styleable name="ProgressLayout">
         <attr name="progressLoadingStateBackgroundColor" format="color" />
         <attr name="progressEmptyStateBackgroundColor" format="color" />

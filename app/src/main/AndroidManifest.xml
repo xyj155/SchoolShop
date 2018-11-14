@@ -112,9 +112,11 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.CouponActivity"></activity>
+        <activity android:name=".ui.CouponActivity" />
         <activity android:name=".ui.SecondSellerActivity" />
+        <activity android:name=".ui.TestActivity">
 
+        </activity>
     </application>
 
 </manifest>

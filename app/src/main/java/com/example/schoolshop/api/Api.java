@@ -17,6 +17,7 @@ import com.example.schoolshop.gson.SecondHandGson;
 import com.example.schoolshop.gson.ShopGson;
 import com.example.schoolshop.gson.UserGson;
 import com.example.schoolshop.gson.UserOrderFormAllListGson;
+import com.example.schoolshop.gson.UserShopCarGson;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -125,4 +126,8 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Order/submitRunHelperOrder")
     Observable<BaseGson<EmptyGson>> submitRunHelperOrder(@Query("uid") String uid,@Query("hid") String hid,@Query("request") String request);
+
+
+    @GET("/SchoolShop/public/index.php/index/Goods/submitUserShopCar")
+    Observable<BaseGson<UserShopCarGson>> submitUserShopCar(@Query("uid") String uid);
 }
