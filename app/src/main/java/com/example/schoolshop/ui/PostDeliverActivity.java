@@ -1,12 +1,17 @@
 package com.example.schoolshop.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.schoolshop.R;
 import com.example.schoolshop.adapter.PaymentPagerAdapter;
@@ -29,6 +34,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class PostDeliverActivity extends BaseActivity {
 
@@ -36,6 +42,14 @@ public class PostDeliverActivity extends BaseActivity {
     MagicIndicator magicIndicator;
     @InjectView(R.id.view_pager)
     ViewPager viewPager;
+    @InjectView(R.id.iv_back)
+    ImageView ivBack;
+    @InjectView(R.id.tv_title)
+    TextView tvTitle;
+    @InjectView(R.id.toolbar)
+    RelativeLayout toolbar;
+    @InjectView(R.id.ll_submit)
+    LinearLayout llSubmit;
     private String[] title = {"货品快递", "我的添加"};
 
     @Override
@@ -106,4 +120,8 @@ public class PostDeliverActivity extends BaseActivity {
     }
 
 
+    @OnClick(R.id.ll_submit)
+    public void onViewClicked() {
+        startActivityForResult(new Intent(PostDeliverActivity.this,ExpressUserAddedActivity.class),0);
+    }
 }

@@ -37,6 +37,24 @@ public class PostPackageGson {
     private String to;
     private String goodPic;
     private String goodName;
+    private String comment;
+    private String is_self;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getIs_self() {
+        return is_self;
+    }
+
+    public void setIs_self(String is_self) {
+        this.is_self = is_self;
+    }
 
     public int getId() {
         return id;

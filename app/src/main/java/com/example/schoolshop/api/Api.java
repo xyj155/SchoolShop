@@ -40,6 +40,7 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Secondhand/getSecondHandsByLocation")
     Observable<BaseGson<SecondHandGson>> getSecondHandsByLocation(@Query("location") String id, @Query("kind") String kind);
+
     @FormUrlEncoded
     @POST("/SchoolShop/public/index.php/index/User/login")
     Observable<BaseGson<UserGson>> userLogin(@Field("username") String username, @Field("password") String password);
@@ -111,13 +112,16 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/User/getUserGoodsCollection")
     Observable<BaseGson<GoodGson.GoodsBean>> getUserGoodsCollection(@Query("uid") String uid);
+
     @GET("/SchoolShop/public/index.php/index/Deliver/getUserPackageById")
     Observable<BaseGson<ExpressGson>> getUserPackageById(@Query("id") String id);
 
     @GET("/SchoolShop/public/index.php/index/Order/getRunHelperByLocation")
     Observable<BaseGson<RunHelperGson>> getRunHelperByLocation(@Query("location") String location);
+
     @GET("/SchoolShop/public/index.php/index/Home/getADBanner")
     Observable<BaseGson<AdGson>> getADBanner(@Query("location") String location);
+
     @GET("/SchoolShop/public/index.php/index/Coupon/getCouponListByLocation")
     Observable<BaseGson<CouponGson>> getCouponListByLocation(@Query("uid") String uid, @Query("kind") String kind, @Query("location") String location);
 
@@ -132,4 +136,17 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Goods/submitUserShopCar")
     Observable<BaseGson<UserShopCarGson>> submitUserShopCar(@Query("uid") String uid);
+
+    @FormUrlEncoded
+    @POST("/SchoolShop/public/index.php/index/Deliver/addUserSelfPackage")
+    Observable<BaseGson<EmptyGson>> addUserSelfPackage(
+            @Field("uid") String uid,
+            @Field("num") String num,
+            @Field("code") String code,
+            @Field("name") String name,
+            @Field("comment") String comment
+    );
+
+    @GET("/SchoolShop/public/index.php/index/Deliver/getUserAddedExpressList")
+    Observable<BaseGson<PostPackageGson>> getUserAddedExpressList(@Query("uid") String uid);
 }
