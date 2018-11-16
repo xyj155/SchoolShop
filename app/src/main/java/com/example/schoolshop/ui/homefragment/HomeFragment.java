@@ -204,7 +204,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void loadAD(List<AdGson> gsons) {
         ArrayList<AdInfo> advList = new ArrayList<>();
-        for (int i = 0; i <gsons.size() ; i++) {
+        for (int i = 0; i < gsons.size(); i++) {
             AdInfo adInfo = new AdInfo();
             adInfo.setActivityImg(gsons.get(i).getAd_str());
             advList.add(adInfo);
@@ -257,7 +257,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
                 break;
             case R.id.tv_ticket:
                 startActivity(new Intent(getContext(), CouponActivity.class));
-
                 break;
             case R.id.tv_helper:
                 startActivity(new Intent(getContext(), SecondSellerActivity.class));

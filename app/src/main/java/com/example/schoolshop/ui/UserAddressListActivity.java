@@ -81,13 +81,13 @@ public class UserAddressListActivity extends BaseActivity implements UserAddress
 
     @Override
     public void loadAddressList(List<AddressGson> addressGsonList) {
-        Log.i(TAG, "loadAddressList: "+addressGsonList.size());
-        if (addressGsonList.size()>0){
+        Log.i(TAG, "loadAddressList: " + addressGsonList.size());
+        if (addressGsonList.size() > 0) {
             userAdapter.replaceData(addressGsonList);
             ryAddress.setVisibility(View.VISIBLE);
             ryAddress.setAdapter(userAdapter);
             tvEmpty.setVisibility(View.GONE);
-        }else {
+        } else {
             tvEmpty.setVisibility(View.VISIBLE);
         }
 
@@ -120,8 +120,19 @@ public class UserAddressListActivity extends BaseActivity implements UserAddress
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, AddressGson item) {
-            Log.i(TAG, "convert: "+item.getDetail().isEmpty());
+        protected void convert(BaseViewHolder helper, final AddressGson item) {
+            Log.i(TAG, "convert: " + item.getDetail().isEmpty());
+            helper.setOnClickListener(R.id.rl_address, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(UserAddressListActivity.this, SubmitGoodsOrderActivity.class);
+                    intent.putExtra("username", item.getUsername());
+                    intent.putExtra("address", item.getDetail());
+                    intent.putExtra("city", item.getAddress());
+                    setResult(0xff, intent);
+                    finish();
+                }
+            });
             View view = helper.getView(R.id.tv_address);
             if (item.getDetail().trim().isEmpty()) {
                 helper.setText(R.id.tv_location, item.getAddress())
