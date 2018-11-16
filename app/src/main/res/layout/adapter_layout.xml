@@ -29,18 +29,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_10" />
-<com.example.schoolshop.view.CircleImageView
-    android:layout_width="@dimen/dp_25"
-    android:id="@+id/iv_shop"
-    android:layout_marginRight="@dimen/dp_5"
-    android:layout_height="@dimen/dp_25" />
+
+            <com.example.schoolshop.view.CircleImageView
+                android:id="@+id/iv_shop"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginRight="@dimen/dp_5" />
             <!-- 商店名称 -->
             <TextView
                 android:id="@+id/tv_item_shopcart_shopname"
                 android:layout_width="match_parent"
-                android:drawableRight="@mipmap/go_in"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/go_in"
                 android:padding="8.5dp"
                 android:text="宝儿家服装"
                 android:textColor="@color/black" />
@@ -83,9 +84,9 @@
                 <!-- 商品图片 -->
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/item_pic"
-                    android:layout_margin="@dimen/dp_4"
                     android:layout_width="80dp"
-                    android:layout_height="80dp" />
+                    android:layout_height="80dp"
+                    android:layout_margin="@dimen/dp_4" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -97,11 +98,11 @@
                         android:id="@+id/item_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxLines="2"
+                        android:layout_margin="@dimen/dp_3"
                         android:ellipsize="end"
+                        android:maxLines="2"
                         android:text="颜色：黑色"
                         android:textColor="@color/black"
-                        android:layout_margin="@dimen/dp_3"
                         android:textSize="12sp" />
 
                     <TextView
