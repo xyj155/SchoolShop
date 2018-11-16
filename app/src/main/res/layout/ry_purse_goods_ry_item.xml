@@ -3,17 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/dp_8">
+    android:id="@+id/ll_goods"
+    android:padding="@dimen/dp_2">
 
     <ImageView
+        android:id="@+id/iv_cover"
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/dp_110" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
+        android:id="@+id/tv_name"
         android:padding="3dp"
         android:text="Vivo x20全网通手机" />
 
@@ -21,7 +25,8 @@
         android:id="@+id/tv_original"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="left"
+        android:paddingLeft="@dimen/dp_14"
         android:padding="@dimen/dp_2"
         android:text="￥2200.00" />
 
@@ -29,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:id="@+id/tv_price"
         android:text="￥000"
         android:textColor="#ff0000"
         android:textSize="17sp" />

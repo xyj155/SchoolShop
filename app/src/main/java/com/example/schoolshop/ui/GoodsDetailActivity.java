@@ -1,5 +1,6 @@
 package com.example.schoolshop.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
@@ -153,11 +154,11 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     public void setPrice(List<GoodsPrice> price) {
         Log.i(TAG, "setPrice: " + price);
         if (BottmTvPrice != null) {
-            if (price.size()>0){
+            if (price.size() > 0) {
                 Log.i(TAG, "setPrice: " + price);
-                BottmTvPrice.setText("￥ "+price.get(0).getPro_price() + "");
-                tvNum.setText("库存："+price.get(0).getPro_num() + "");
-            }else {
+                BottmTvPrice.setText("￥ " + price.get(0).getPro_price() + "");
+                tvNum.setText("库存：" + price.get(0).getPro_num() + "");
+            } else {
                 BottmTvPrice.setText("该商品缺货");
                 tvNum.setText("库存：0");
             }
@@ -168,7 +169,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     private TextView BottmTvPrice;
     private TextView tvSelect, tvNum;
 
-    public void showBottomDialog() {
+    public void showBottomDialog(final boolean isShopCar) {
         View contentView = LayoutInflater.from(this)
                 .inflate(R.layout.buy_goods_bottom_dialog, null);
         ImageView ivCloase = contentView.findViewById(R.id.iv_close);
@@ -224,6 +225,30 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
             }
 
             tvPrice.setText("￥ " + goodsDetailGson.getGoods().getGoods_price());
+            TextView tvSubmit = contentView.findViewById(R.id.tv_submit);
+            tvSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (kindSelectBuilder.toString().isEmpty() || colorSelectBuilder.toString().isEmpty() || attributeSelectBuilder.toString().isEmpty()) {
+                        Toast.makeText(GoodsDetailActivity.this, "亲！请选择商品属性", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (isShopCar) {
+
+                        } else {
+                            String kind = kindSelectBuilder.toString().isEmpty() ? "" : "样式：" + kindSelectBuilder.toString();
+                            String color = colorSelectBuilder.toString().isEmpty() ? "" : "颜色：" + colorSelectBuilder.toString();
+                            String attr = attributeSelectBuilder.toString().isEmpty() ? "" : "属性：" + attributeSelectBuilder.toString();
+                            Intent intent = new Intent(GoodsDetailActivity.this, SubmitGoodsOrderActivity.class);
+                            intent.putExtra("attr", kind + "  " + color + "  " + attr);
+                            intent.putExtra("gid", getIntent().getStringExtra("id"));
+                            intent.putExtra("uid", "1");
+                            intent.putExtra("price", BottmTvPrice.getText().toString().replace("￥", ""));
+                            startActivity(intent);
+                        }
+                    }
+
+                }
+            });
 
         }
         final BottomSheetDialog dialog = new BottomSheetDialog(this);
@@ -247,7 +272,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_choose:
-                showBottomDialog();
+                showBottomDialog(true);
                 break;
             case R.id.tv_submit:
                 break;
@@ -300,10 +325,11 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
                 kindSelectBuilder.append(item);
                 Log.i(TAG, "convert: " + item);
                 tvSelect.setText(kindSelectBuilder.toString() + "  " + colorSelectBuilder.toString() + "  " + attributeSelectBuilder.toString());
-                goodDetailPresenter.getGoodsPrice(getIntent().getStringExtra("id") ,
+                goodDetailPresenter.getGoodsPrice(getIntent().getStringExtra("id"),
                         colorSelectBuilder.toString(),
                         kindSelectBuilder.toString(),
-                        attributeSelectBuilder.toString());            } else {
+                        attributeSelectBuilder.toString());
+            } else {
                 helper.setChecked(R.id.tv_tag, false);
             }
             onBind = false;
@@ -348,7 +374,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
                 helper.setChecked(R.id.tv_tag, true);
                 colorSelectBuilder.append(item);
                 tvSelect.setText(kindSelectBuilder.toString() + "  " + colorSelectBuilder.toString() + "  " + attributeSelectBuilder.toString());
-                goodDetailPresenter.getGoodsPrice(getIntent().getStringExtra("id") ,
+                goodDetailPresenter.getGoodsPrice(getIntent().getStringExtra("id"),
                         colorSelectBuilder.toString(),
                         kindSelectBuilder.toString(),
                         attributeSelectBuilder.toString());
@@ -397,10 +423,11 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
                 helper.setChecked(R.id.tv_tag, true);
                 attributeSelectBuilder.append(item);
                 tvSelect.setText(kindSelectBuilder.toString() + "  " + colorSelectBuilder.toString() + "  " + attributeSelectBuilder.toString());
-                goodDetailPresenter.getGoodsPrice(getIntent().getStringExtra("id") ,
+                goodDetailPresenter.getGoodsPrice(getIntent().getStringExtra("id"),
                         colorSelectBuilder.toString(),
                         kindSelectBuilder.toString(),
-                        attributeSelectBuilder.toString());            } else {
+                        attributeSelectBuilder.toString());
+            } else {
                 helper.setChecked(R.id.tv_tag, false);
             }
             onBind = false;

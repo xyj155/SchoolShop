@@ -10,6 +10,7 @@ import com.example.schoolshop.gson.ExpressGson;
 import com.example.schoolshop.gson.GoodGson;
 import com.example.schoolshop.gson.GoodsDetailGson;
 import com.example.schoolshop.gson.GoodsPrice;
+import com.example.schoolshop.gson.HotGoodsGson;
 import com.example.schoolshop.gson.LeanCloudGson;
 import com.example.schoolshop.gson.PostPackageGson;
 import com.example.schoolshop.gson.RunHelperGson;
@@ -149,4 +150,7 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Deliver/getUserAddedExpressList")
     Observable<BaseGson<PostPackageGson>> getUserAddedExpressList(@Query("uid") String uid);
+
+    @GET("/SchoolShop/public/index.php/index/Purse/getHotGoodsList")
+    Observable<BaseGson<HotGoodsGson>> getHotGoodsList();
 }

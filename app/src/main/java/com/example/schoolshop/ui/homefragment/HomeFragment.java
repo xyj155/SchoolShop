@@ -31,6 +31,7 @@ import com.example.schoolshop.ui.ConversationListActivity;
 import com.example.schoolshop.ui.CouponActivity;
 import com.example.schoolshop.ui.GoodsDetailActivity;
 import com.example.schoolshop.ui.PostDeliverActivity;
+import com.example.schoolshop.ui.PurseGoodsActivity;
 import com.example.schoolshop.ui.RechargeActivity;
 import com.example.schoolshop.ui.RunHelperOrderActivity;
 import com.example.schoolshop.ui.SecondSellerActivity;
@@ -240,10 +241,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_purse:
+                startActivity(new Intent(getContext(), PurseGoodsActivity.class));
                 break;
             case R.id.iv_scan:
                 startActivity(new Intent(getContext(), CaptureActivity.class));
-                break;
+
             case R.id.iv_seller:
                 startActivity(new Intent(getContext(), ShopListActivity.class));
                 break;
