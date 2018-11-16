@@ -128,6 +128,7 @@ public class UserAddressListActivity extends BaseActivity implements UserAddress
                     Intent intent = new Intent(UserAddressListActivity.this, SubmitGoodsOrderActivity.class);
                     intent.putExtra("username", item.getUsername());
                     intent.putExtra("address", item.getDetail());
+                    intent.putExtra("tel", item.getTel());
                     intent.putExtra("city", item.getAddress());
                     setResult(0xff, intent);
                     finish();

@@ -63,6 +63,8 @@ public class SubmitGoodsOrderActivity extends BaseActivity {
     TextView tvPay;
     @InjectView(R.id.tv_address)
     TextView tvAddress;
+    @InjectView(R.id.rl_address)
+    RelativeLayout rlAddress;
 
     @Override
     public int intiLayout() {
@@ -91,9 +93,12 @@ public class SubmitGoodsOrderActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_choose, R.id.iv_reduce, R.id.iv_add, R.id.rl_post_free, R.id.rl_coupon, R.id.tv_pay})
+    @OnClick({R.id.rl_address,R.id.tv_choose, R.id.iv_reduce, R.id.iv_add, R.id.rl_post_free, R.id.rl_coupon, R.id.tv_pay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.rl_address:
+                startActivityForResult(new Intent(SubmitGoodsOrderActivity.this, UserAddressListActivity.class), 0xff);
+                break;
             case R.id.tv_choose:
                 startActivityForResult(new Intent(SubmitGoodsOrderActivity.this, UserAddressListActivity.class), 0xff);
                 break;
@@ -116,8 +121,15 @@ public class SubmitGoodsOrderActivity extends BaseActivity {
         if (requestCode == 0xff) {
             tvTel.setVisibility(View.VISIBLE);
             tvChoose.setVisibility(View.GONE);
+            tvLocation.setVisibility(View.VISIBLE);
+            tvLocation.setText("姓名："+data.getStringExtra("username"));
             tvAddress.setVisibility(View.VISIBLE);
-            tvAddress.setText(data.getStringExtra("city")+" "+data.getStringExtra("address"));
+            tvTel.setText("联系方式："+data.getStringExtra("tel"));
+            if (data.getStringExtra("address") == null){
+                tvAddress.setText("地址："+data.getStringExtra("city") );
+            }else {
+                tvAddress.setText("地址："+data.getStringExtra("city")+data.getStringExtra("address") );
+            }
         }
     }
 }

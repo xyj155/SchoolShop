@@ -20,32 +20,32 @@
         "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_white_bg_shape.xml"
     },
     {
-        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_sp_grid_mask.xml",
-        "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_sp_grid_mask.xml"
+        "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_cs_leave_message_btn.xml",
+        "source": "G:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_cs_leave_message_btn.xml"
     },
     {
         "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_item_list_selector.xml",
         "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_item_list_selector.xml"
     },
     {
-        "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_cs_leave_message_btn.xml",
-        "source": "G:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_cs_leave_message_btn.xml"
-    },
-    {
-        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_bg_mentionlist_item.xml",
-        "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_bg_mentionlist_item.xml"
+        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_sp_grid_mask.xml",
+        "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_sp_grid_mask.xml"
     },
     {
         "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_corner_style.xml",
         "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_corner_style.xml"
     },
     {
-        "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_corner_popup_dialog_style.xml",
-        "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_corner_popup_dialog_style.xml"
+        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_bg_mentionlist_item.xml",
+        "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_bg_mentionlist_item.xml"
     },
     {
         "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_sel_picsel_toolbar_back.xml",
         "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable\\rc_sel_picsel_toolbar_back.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_corner_popup_dialog_style.xml",
+        "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_corner_popup_dialog_style.xml"
     },
     {
         "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_cs_ratingbar.xml",
@@ -96,12 +96,12 @@
         "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable\\rc_sel_picsel_toolbar_send.xml"
     },
     {
-        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_an_voice_sent.xml",
-        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_an_voice_sent.xml"
-    },
-    {
         "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_bg_menu.xml",
         "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_bg_menu.xml"
+    },
+    {
+        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_an_voice_sent.xml",
+        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_an_voice_sent.xml"
     },
     {
         "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_an_voice_receive.xml",
@@ -124,12 +124,12 @@
         "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable\\rc_bg_black_cover.xml"
     },
     {
-        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_cs_leave_message_btn.xml",
-        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_cs_leave_message_btn.xml"
-    },
-    {
         "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_cs_corner_single_check_style.xml",
         "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_cs_corner_single_check_style.xml"
+    },
+    {
+        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_cs_leave_message_btn.xml",
+        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_cs_leave_message_btn.xml"
     },
     {
         "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_menu_background_selector.xml",
@@ -152,24 +152,24 @@
         "source": "D:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_voice_input_selector.xml"
     },
     {
-        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ext_plugin_image_selector.xml",
-        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_ext_plugin_image_selector.xml"
-    },
-    {
         "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_bg_item.xml",
         "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable\\rc_bg_item.xml"
+    },
+    {
+        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ext_plugin_image_selector.xml",
+        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_ext_plugin_image_selector.xml"
     },
     {
         "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_corner_voice_style.xml",
         "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_corner_voice_style.xml"
     },
     {
-        "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_corner_voice_style.xml",
-        "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable\\rc_corner_voice_style.xml"
-    },
-    {
         "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_progress_sending_style.xml",
         "source": "G:\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_progress_sending_style.xml"
+    },
+    {
+        "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_corner_voice_style.xml",
+        "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable\\rc_corner_voice_style.xml"
     },
     {
         "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_voice_input_selector.xml",
@@ -184,12 +184,12 @@
         "source": "G:\\SchoolShop-master\\IMKit\\src\\main\\res\\drawable\\rc_ext_plugin_location_selector.xml"
     },
     {
-        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ic_no_selector.xml",
-        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_ic_no_selector.xml"
-    },
-    {
         "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ed_public_service_search_selector.xml",
         "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_ed_public_service_search_selector.xml"
+    },
+    {
+        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ic_no_selector.xml",
+        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\src\\main\\res\\drawable\\rc_ic_no_selector.xml"
     },
     {
         "merged": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_bg_sidebar.xml",
