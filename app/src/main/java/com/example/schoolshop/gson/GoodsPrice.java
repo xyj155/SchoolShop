@@ -13,6 +13,15 @@ public class GoodsPrice {
 
     private double pro_price;
     private int pro_num;
+    private String pro_pic;
+
+    public String getPro_pic() {
+        return pro_pic;
+    }
+
+    public void setPro_pic(String pro_pic) {
+        this.pro_pic = pro_pic;
+    }
 
     public double getPro_price() {
         return pro_price;
@@ -35,6 +44,7 @@ public class GoodsPrice {
         return "GoodsPrice{" +
                 "pro_price=" + pro_price +
                 ", pro_num=" + pro_num +
+                ", pro_pic='" + pro_pic + '\'' +
                 '}';
     }
 }

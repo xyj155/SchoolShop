@@ -26,9 +26,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseActivity;
 import com.example.schoolshop.contract.GoodDetailContract;
+import com.example.schoolshop.contract.OrderContract;
 import com.example.schoolshop.gson.GoodsDetailGson;
 import com.example.schoolshop.gson.GoodsPrice;
+import com.example.schoolshop.gson.UserOrderGson;
 import com.example.schoolshop.presenter.GoodDetailPresenter;
+import com.example.schoolshop.presenter.OrderPresenter;
 import com.example.schoolshop.util.GlideRoundTransform;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -43,7 +46,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class GoodsDetailActivity extends BaseActivity implements GoodDetailContract.View {
+public class GoodsDetailActivity extends BaseActivity implements GoodDetailContract.View, OrderContract.View {
 
 
     @InjectView(R.id.iv_cover)
@@ -78,6 +81,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     FrameLayout flGoods;
     private GoodsDetailGson goodsDetailGson;
     private GoodDetailPresenter goodDetailPresenter = new GoodDetailPresenter(this);
+    private OrderPresenter orderPresenter = new OrderPresenter(this);
 
     @Override
     public int intiLayout() {
@@ -132,6 +136,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     @Override
     public void setGoodDeail(GoodsDetailGson commentGson) {
         slHead.finishRefresh();
+        GoodsId= String.valueOf(commentGson.getGoods().getId());
         Glide.with(GoodsDetailActivity.this).asBitmap().load(commentGson.getGoods().getGoods_pic()).into(ivCover);
         tvGoodsName.setText(commentGson.getGoods().getGoods_name());
         tvDescribe.setText(commentGson.getGoods().getGoods_describe());
@@ -158,6 +163,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
                 Log.i(TAG, "setPrice: " + price);
                 BottmTvPrice.setText("￥ " + price.get(0).getPro_price() + "");
                 tvNum.setText("库存：" + price.get(0).getPro_num() + "");
+                Glide.with(GoodsDetailActivity.this).asBitmap().load(price.get(0).getPro_pic()).into(ivBottomHead);
             } else {
                 BottmTvPrice.setText("该商品缺货");
                 tvNum.setText("库存：0");
@@ -166,13 +172,16 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         }
     }
 
+    private String GoodsId;
     private TextView BottmTvPrice;
     private TextView tvSelect, tvNum;
+    private ImageView ivBottomHead;
 
     public void showBottomDialog(final boolean isShopCar) {
         View contentView = LayoutInflater.from(this)
                 .inflate(R.layout.buy_goods_bottom_dialog, null);
         ImageView ivCloase = contentView.findViewById(R.id.iv_close);
+        ivBottomHead = contentView.findViewById(R.id.iv_head);
         tvNum = contentView.findViewById(R.id.tv_num);
         RecyclerView ryeKind = (RecyclerView) contentView.findViewById(R.id.ry_kind);
         RecyclerView ryAttribute = (RecyclerView) contentView.findViewById(R.id.ry_attr);
@@ -225,36 +234,36 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
             }
 
             tvPrice.setText("￥ " + goodsDetailGson.getGoods().getGoods_price());
-            TextView tvSubmit = contentView.findViewById(R.id.tv_submit);
-            tvSubmit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (kindSelectBuilder.toString().isEmpty() || colorSelectBuilder.toString().isEmpty() || attributeSelectBuilder.toString().isEmpty()) {
-                        Toast.makeText(GoodsDetailActivity.this, "亲！请选择商品属性", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (isShopCar) {
-
-                        } else {
-                            String kind = kindSelectBuilder.toString().isEmpty() ? "" : "样式：" + kindSelectBuilder.toString();
-                            String color = colorSelectBuilder.toString().isEmpty() ? "" : "颜色：" + colorSelectBuilder.toString();
-                            String attr = attributeSelectBuilder.toString().isEmpty() ? "" : "属性：" + attributeSelectBuilder.toString();
-                            Intent intent = new Intent(GoodsDetailActivity.this, SubmitGoodsOrderActivity.class);
-                            intent.putExtra("attr", kind + "  " + color + "  " + attr);
-                            intent.putExtra("gid", getIntent().getStringExtra("id"));
-                            intent.putExtra("uid", "1");
-                            intent.putExtra("price", BottmTvPrice.getText().toString().replace("￥", ""));
-                            startActivity(intent);
-                        }
-                    }
-
-                }
-            });
-
         }
+        TextView tvSubmit = contentView.findViewById(R.id.tv_submit);
         final BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(contentView);
         dialog.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
+        tvSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (kindSelectBuilder.toString().isEmpty()) {
+                    Toast.makeText(GoodsDetailActivity.this, "亲！请选择商品属性", Toast.LENGTH_SHORT).show();
+                } else if (colorSelectBuilder.toString().isEmpty()) {
+                    Toast.makeText(GoodsDetailActivity.this, "亲！请选择商品属性", Toast.LENGTH_SHORT).show();
+                } else if (attributeSelectBuilder.toString().isEmpty()) {
+                    Toast.makeText(GoodsDetailActivity.this, "亲！请选择商品属性", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (tvNum.getText().toString().equals("库存：0")) {
+                        Toast.makeText(GoodsDetailActivity.this, "该商品暂时缺货，请重新选择！", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (isShopCar) {
+
+                        } else {
+                            Log.i(TAG, "onClick: " + "种类：" + kindSelectBuilder.toString() + "  颜色：" + colorSelectBuilder.toString() + "   属性：" + attributeSelectBuilder.toString());
+                            orderPresenter.submitUserOrder("1", getIntent().getStringExtra("id"), "种类：" + kindSelectBuilder.toString() + "  颜色：" + colorSelectBuilder.toString() + "   属性：" + attributeSelectBuilder.toString(), "1", BottmTvPrice.getText().toString().replace("￥", ""), "0");
+                            dialog.dismiss();
+                        }
+                    }
+                }
+            }
+        });
         ivCloase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,6 +284,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
                 showBottomDialog(true);
                 break;
             case R.id.tv_submit:
+                showBottomDialog(false);
                 break;
         }
     }
@@ -282,6 +292,25 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     private StringBuilder attributeSelectBuilder = new StringBuilder();
     private StringBuilder kindSelectBuilder = new StringBuilder();
     private StringBuilder colorSelectBuilder = new StringBuilder();
+
+    @Override
+    public void submitSuccess(UserOrderGson userOrder) {
+        String kind = kindSelectBuilder.toString().isEmpty() ? "" : "样式：" + kindSelectBuilder.toString();
+        String color = colorSelectBuilder.toString().isEmpty() ? "" : "颜色：" + colorSelectBuilder.toString();
+        String attr = attributeSelectBuilder.toString().isEmpty() ? "" : "属性：" + attributeSelectBuilder.toString();
+        Intent intent = new Intent(GoodsDetailActivity.this, SubmitGoodsOrderActivity.class);
+        intent.putExtra("attr", kind + "  " + color + "  " + attr);
+        intent.putExtra("oid", String .valueOf(userOrder.getId()));
+        intent.putExtra("gid", getIntent().getStringExtra("id"));
+        intent.putExtra("price", BottmTvPrice.getText().toString());
+        intent.putExtra("id", GoodsId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void submitFailed() {
+        Toast.makeText(this, "订单提交失败", Toast.LENGTH_SHORT).show();
+    }
 
     private class KindAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 

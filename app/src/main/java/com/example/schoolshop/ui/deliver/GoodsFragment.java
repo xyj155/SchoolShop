@@ -81,12 +81,14 @@ public class GoodsFragment extends BaseFragment implements DeliverContract.View 
     @Override
     public void loadFailed(String msg) {
         slDeliver.finishRefresh();
+        loadSuccess();
         Toast.makeText(getActivity(), "获取快递列表失败！", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void loadUserPackageListById(List<PostPackageGson> postPackageGsonList) {
         slDeliver.finishRefresh();
+        loadSuccess();
         deliverAdapter.replaceData(postPackageGsonList);
         ryDeliver.setAdapter(deliverAdapter);
     }

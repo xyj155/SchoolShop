@@ -16,8 +16,10 @@ import com.example.schoolshop.gson.PostPackageGson;
 import com.example.schoolshop.gson.RunHelperGson;
 import com.example.schoolshop.gson.SecondHandGson;
 import com.example.schoolshop.gson.ShopGson;
+import com.example.schoolshop.gson.SubmitOrderGson;
 import com.example.schoolshop.gson.UserGson;
 import com.example.schoolshop.gson.UserOrderFormAllListGson;
+import com.example.schoolshop.gson.UserOrderGson;
 import com.example.schoolshop.gson.UserShopCarGson;
 
 import okhttp3.RequestBody;
@@ -153,4 +155,13 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Purse/getHotGoodsList")
     Observable<BaseGson<HotGoodsGson>> getHotGoodsList();
+
+    @GET("/SchoolShop/public/index.php/index/Purse/getOrderInformation")
+    Observable<BaseGson<SubmitOrderGson>> getOrderInformation(@Query("gid") String gid, @Query("uid") String uid);
+
+    @GET("/SchoolShop/public/index.php/index/Order/userPayGoodsOrder")
+    Observable<BaseGson<EmptyGson>> userPayGoodsOrder(@Query("id") String id, @Query("address") String address,@Query("tel")String tel,@Query("count") String count,@Query("money")String money);
+
+    @GET("/SchoolShop/public/index.php/index/Order/submitUserOrder")
+    Observable<BaseGson<UserOrderGson>> submitUserOrder(@Query("uid") String uid, @Query("gid")String gid, @Query("in_id")String in_id, @Query("count") String count, @Query("money") String money, @Query("status")String status);
 }

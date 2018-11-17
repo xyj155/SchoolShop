@@ -83,12 +83,12 @@ public class MySelfFragment extends BaseFragment implements UserSelfPackageContr
 
     @Override
     public void showLoading() {
-        showDialog();
+
     }
 
     @Override
     public void hideLoading() {
-        loadSuccess();
+
     }
 
     @Override

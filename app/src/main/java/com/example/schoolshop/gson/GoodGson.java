@@ -59,6 +59,15 @@ public class GoodGson {
          * name : ["小米5s","小米mix2"]
          */
         private boolean isChoosed;
+private String post_free;
+
+        public String getPost_free() {
+            return post_free;
+        }
+
+        public void setPost_free(String post_free) {
+            this.post_free = post_free;
+        }
 
         public boolean isChoosed() {
             return isChoosed;

@@ -1,6 +1,7 @@
 package com.example.schoolshop.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -90,6 +91,12 @@ public class UserPaymentProcessActivity extends BaseActivity {
         });
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, viewPager);
+        Intent intent = getIntent();
+        if (intent!=null){
+            int index = intent.getIntExtra("index", 8);
+            viewPager.setCurrentItem(index);
+        }
+
         switch (getIntent().getIntExtra("index", 6)) {
             case 0:
                 viewPager.setCurrentItem(0);
