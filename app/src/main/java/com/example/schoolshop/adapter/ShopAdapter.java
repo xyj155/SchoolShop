@@ -1,6 +1,6 @@
 package com.example.schoolshop.adapter;
 
-import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +13,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseGson;
+import com.example.schoolshop.contract.GoodCarContract;
+import com.example.schoolshop.gson.GoodGson;
 import com.example.schoolshop.gson.UserShopCarGson;
+import com.example.schoolshop.presenter.GoodCarPresenter;
+import com.example.schoolshop.ui.ShopDetailActivity;
+import com.example.schoolshop.ui.homefragment.ShopCarFragment;
 import com.example.schoolshop.view.ShopPlusView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -22,17 +27,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
+public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> implements GoodCarContract.View {
 
-    private Context context;//传入上下文
+    private ShopCarFragment context;//传入上下文
     private List<UserShopCarGson.GoodsBean> list = new ArrayList<>();//bean包的集合
     //存放商家的集合
     private Map<Integer, UserShopCarGson> map = new HashMap<>();
 
     //有参构造
 
+    public GoodCarPresenter goodCarPresent = new GoodCarPresenter(this);
 
-    public ShopAdapter(Context context) {
+    public ShopAdapter(ShopCarFragment context) {
         this.context = context;
     }
 
@@ -87,7 +93,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
      */
     @Override
     public ShopAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(context, R.layout.adapter_layout, null);
+        View view = View.inflate(context.getActivity(), R.layout.adapter_layout, null);
         //添加到ViewHolder里
         return new ViewHolder(view);
     }
@@ -105,8 +111,15 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 //            list.get(position).getSellerid() 取到商家的id
 //            map.get（）取到 商家的名称
             Glide.with(context).asBitmap().load(map.get(list.get(position).getGoods_owner()).getShop_cover()).apply(new RequestOptions().error(R.mipmap.head)).into(holder.ivShop);
-
             holder.tv_item_shopcart_shopname.setText(map.get(list.get(position).getGoods_owner()).getShop_name());
+            holder.tv_item_shopcart_shopname.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context.getContext(), ShopDetailActivity.class);
+                    intent.putExtra("id", String .valueOf(map.get(list.get(position).getGoods_owner()).getId()));
+                    context.startActivity(intent);
+                }
+            });
             Log.i(TAG, "onBindViewHolder: " + map.get(list.get(position).getGoods_owner()));
         } else {
             holder.ivShop.setVisibility(View.GONE);
@@ -117,7 +130,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         holder.tv_item_shopcart_cloth_size.setText(list.get(position).getComment().isEmpty() ? "" : list.get(position).getComment());
         holder.item_checkbox.setChecked(list.get(position).isItemSelected());
         holder.item_name.setText(list.get(position).getGoods_name());
-        holder.item_price.setText("￥ "+list.get(position).getGoods_price() + "");
+        holder.item_price.setText("￥ " + list.get(position).getGoods_price() + "");
         Glide.with(context).asBitmap().load(list.get(position).getGoods_pic()).into(holder.item_pic);
         holder.plus_view_id.setEditText(list.get(position).getNum());
         holder.shop_checkbox.setOnClickListener(new View.OnClickListener() {
@@ -156,10 +169,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 //从集合中移除商家信息
-                list.remove(position);
-                setFirst(list);
-                notifyDataSetChanged();//更新数据
-                sum(list);//算总价
+                goodCarPresent.addGoodsCar("1", String.valueOf(list.get(position).getId()), list.get(position).getComment(), "1");
+                layoutPosition = position;
             }
         });
         //加减号
@@ -172,6 +183,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             }
         });
     }
+
+    private int layoutPosition;
 
     @Override
     public int getItemCount() {
@@ -195,7 +208,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                 allCheck = false;
             }
         }
-        listener.setTotal(totalMoney + "", totalNum + "", allCheck);
+        listener.setTotal(totalMoney + "", totalNum + "", map.size(), allCheck);
     }
 
     public void selectAll(boolean cl) {
@@ -205,6 +218,39 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         }
         notifyDataSetChanged();
         sum(list);
+    }
+
+    @Override
+    public void addSuccess() {
+
+    }
+
+    @Override
+    public void delSuccess() {
+        list.remove(layoutPosition);
+        setFirst(list);
+        notifyDataSetChanged();//更新数据
+        sum(list);//算总价
+    }
+
+    @Override
+    public void addFailed() {
+
+    }
+
+    @Override
+    public void loadShopCarList(List<GoodGson.GoodsBean> goodsBeen) {
+
+    }
+
+    @Override
+    public void delShopCarSuccess() {
+
+    }
+
+    @Override
+    public void delShopCarFailed() {
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -240,6 +286,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     //更新接口数据
     public interface UpdateUiListener {
-        public void setTotal(String total, String num, boolean allCheck);
+        public void setTotal(String total, String num, int shopCount, boolean allCheck);
     }
 }

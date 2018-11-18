@@ -116,14 +116,16 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
         mHanlder = new Handler(getMainLooper());
         nf = NumberFormat.getCurrencyInstance();
         nf.setMaximumFractionDigits(2);
-        sheetDialog.findViewById(R.id.tv_clean)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        goodAdapter.notifyDataSetChanged();//清空购物车
-                        update();
-                    }
-                });
+        TextView viewById = sheetDialog.findViewById(R.id.tv_clean);
+        viewById.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goodCarPresent.deleteUserShopCar("1");
+                goodAdapter.notifyDataSetChanged();//清空购物车
+                shopCarAdapter.notifyDataSetChanged();
+                update();
+            }
+        });
 
         shopCarAdapter.bindToRecyclerView(ryShopCar);
 
@@ -139,7 +141,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
     @Override
     protected void initData(Bundle savedInstanceState) {
         homeSortPresenter.getGoodsListByLocation("嘉兴", "热销产品", "1");//请求商品列表数据
-        goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
+//        goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
         slSort.autoRefresh();
         slSort.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -180,13 +182,6 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
         loadSuccess();
     }
 
-
-    private OnFragmentSelectedListener mCallback;
-
-
-    public interface OnFragmentSelectedListener {
-        void onFragmentSelected(String info);
-    }
 
     @Override
     public void loadFailed(String msg) {
@@ -244,7 +239,7 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
     @Override
     public void onResume() {
         super.onResume();
-
+        goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
     }
 
     private FragmentChangeListener myListener;
@@ -320,6 +315,18 @@ public class SortFragment extends BaseFragment implements HomeSortContract.View,
         }
         tvShopcarCount.setText(String.valueOf(count));
         tvMoney.setText(nf.format(cost));
+    }
+
+    @Override
+    public void delShopCarSuccess() {
+        String item = sortAdapter.getItem(layoutPosition);
+        homeSortPresenter.getGoodsListByLocation("嘉兴", item, "1");
+        goodCarPresent.getShopCarGoodsList("1");//获取购物车的商品数量
+    }
+
+    @Override
+    public void delShopCarFailed() {
+
     }
 
 

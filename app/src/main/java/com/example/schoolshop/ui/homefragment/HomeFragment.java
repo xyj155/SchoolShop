@@ -36,6 +36,7 @@ import com.example.schoolshop.ui.RechargeActivity;
 import com.example.schoolshop.ui.RunHelperOrderActivity;
 import com.example.schoolshop.ui.SecondSellerActivity;
 import com.example.schoolshop.ui.ShopListActivity;
+import com.example.schoolshop.ui.WebViewActivity;
 import com.example.schoolshop.util.GlideRoundTransform;
 import com.example.schoolshop.view.addialog.AdConstant;
 import com.example.schoolshop.view.addialog.AdManager;
@@ -84,7 +85,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     TextView tvMessage;
     @InjectView(R.id.banner_home)
     AutoScrollViewPager bannerHome;
-    private BaseViewPagerAdapter<String> mBaseViewPagerAdapter;
+    private BaseViewPagerAdapter<BannerGson> mBaseViewPagerAdapter;
     private HomePresenter homePresenter = new HomePresenter(this);
     private GoodsAdapter adapter;
     private List<GoodGson.GoodsBean> goodsList = new ArrayList<>();
@@ -103,14 +104,14 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         ryHot.setNestedScrollingEnabled(false);
         ryHot.setLayoutManager(new LinearLayoutManager(getContext()));
         ryHot.setAdapter(adapter);
-        mBaseViewPagerAdapter = new BaseViewPagerAdapter<String>(getContext(), listener) {
+        mBaseViewPagerAdapter = new BaseViewPagerAdapter<BannerGson>(getContext(), listener) {
             @Override
-            public void loadImage(ImageView view, int position, String url) {
-                Glide.with(getContext()).asBitmap().load(url).into(view);
+            public void loadImage(ImageView view, int position, BannerGson url) {
+                Glide.with(getContext()).asBitmap().load(url.getImg_url()).into(view);
             }
 
             @Override
-            public void setSubTitle(TextView textView, int position, String s) {
+            public void setSubTitle(TextView textView, int position, BannerGson s) {
 
             }
         };
@@ -175,21 +176,22 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     private static final String TAG = "HomeFragment";
-    private BaseViewPagerAdapter.OnAutoViewPagerItemClickListener listener = new BaseViewPagerAdapter.OnAutoViewPagerItemClickListener<String>() {
+    private BaseViewPagerAdapter.OnAutoViewPagerItemClickListener listener = new BaseViewPagerAdapter.OnAutoViewPagerItemClickListener<BannerGson>() {
 
         @Override
-        public void onItemClick(int position, String url) {
-            Toast.makeText(getContext(),
-                    position + " ========= " + url, Toast.LENGTH_SHORT).show();
+        public void onItemClick(int position, BannerGson url) {
+            Intent intent = new Intent(getContext(), WebViewActivity.class);
+            intent.putExtra("url",url.getWeb_url());
+            startActivity(intent);
         }
     };
 
     @Override
     public void loadHomeData(List<BannerGson> bannerGsons, List<GoodGson.GoodsBean> goodGsons) {
         slHome.finishRefresh();
-        List<String> data = new ArrayList<>();
+        List<BannerGson> data = new ArrayList<>();
         for (int i = 0; i < bannerGsons.size(); i++) {
-            data.add(bannerGsons.get(i).getImg_url());
+            data.add(bannerGsons.get(i));
         }
         Log.i(TAG, "loadHomeData: " + data.size());
         Log.i(TAG, "loadHomeData: " + goodGsons.size());

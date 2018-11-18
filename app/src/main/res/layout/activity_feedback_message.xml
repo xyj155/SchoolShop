@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    tools:context="com.example.schoolshop.ui.FeedbackMessageActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:layout_margin="@dimen/dp_10"
+        android:background="#fff"
+        android:gravity="top"
+        android:id="@+id/et_content"
+        android:hint="请提交你的反馈内容"
+        android:padding="@dimen/dp_10" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/bg_btn_login"
+        android:text="提交"
+        android:textColor="#fff" />
+</LinearLayout>

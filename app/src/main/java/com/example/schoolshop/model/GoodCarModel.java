@@ -22,4 +22,9 @@ public class GoodCarModel implements GoodCarContract.Model {
     public Observable<BaseGson<GoodGson.GoodsBean>> getShopCarGoodsList(String uid) {
         return RetrofitUtil.getInstance().getServerices().getShopCarGoodsList(uid);
     }
+
+    @Override
+    public Observable<BaseGson<EmptyGson>> deleteUserShopCar(String uid) {
+        return RetrofitUtil.getInstance().getServerices().deleteUserShopCar(uid);
+    }
 }

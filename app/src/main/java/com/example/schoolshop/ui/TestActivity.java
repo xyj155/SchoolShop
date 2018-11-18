@@ -50,7 +50,7 @@ public class TestActivity extends AppCompatActivity implements ShopCarContract.V
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         third_recyclerview.setLayoutManager(manager);
         //绑定适配器
-        adapter = new ShopAdapter(TestActivity.this);
+//        adapter = new ShopAdapter(TestActivity.this);
         third_recyclerview.setAdapter(adapter);
 
         third_allselect.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +61,7 @@ public class TestActivity extends AppCompatActivity implements ShopCarContract.V
         });
         adapter.setListener(new ShopAdapter.UpdateUiListener() {
             @Override
-            public void setTotal(String total, String num, boolean allCheck) {
+            public void setTotal(String total, String num, int shopCount, boolean allCheck) {
                 third_allselect.setChecked(allCheck);
                 third_totalnum.setText(num);
                 third_totalprice.setText(total);

@@ -110,6 +110,9 @@ public interface Api {
     @GET("/SchoolShop/public/index.php/index/User/getUserOrdersList")
     Observable<BaseGson<UserOrderFormAllListGson>> getUserOrdersList(@Query("uid") String uid, @Query("status") String status);
 
+    @GET("/SchoolShop/public/index.php/index/User/getUserOrdersList")
+    Observable<BaseGson<Integer>> getUserOrdersCount(@Query("uid") String uid, @Query("status") String status);
+
     @GET("/SchoolShop/public/index.php/index/User/getUserStoreCollection")
     Observable<BaseGson<ShopGson>> getUserStoreCollection(@Query("uid") String uid);
 
@@ -159,9 +162,16 @@ public interface Api {
     @GET("/SchoolShop/public/index.php/index/Purse/getOrderInformation")
     Observable<BaseGson<SubmitOrderGson>> getOrderInformation(@Query("gid") String gid, @Query("uid") String uid);
 
+    @GET("/SchoolShop/public/index.php/index/Goods/deleteUserShopCar")
+    Observable<BaseGson<EmptyGson>> deleteUserShopCar(@Query("uid") String uid);
+
     @GET("/SchoolShop/public/index.php/index/Order/userPayGoodsOrder")
-    Observable<BaseGson<EmptyGson>> userPayGoodsOrder(@Query("id") String id, @Query("address") String address,@Query("tel")String tel,@Query("count") String count,@Query("money")String money);
+    Observable<BaseGson<EmptyGson>> userPayGoodsOrder(@Query("id") String id, @Query("address") String address, @Query("tel") String tel, @Query("count") String count, @Query("money") String money);
 
     @GET("/SchoolShop/public/index.php/index/Order/submitUserOrder")
-    Observable<BaseGson<UserOrderGson>> submitUserOrder(@Query("uid") String uid, @Query("gid")String gid, @Query("in_id")String in_id, @Query("count") String count, @Query("money") String money, @Query("status")String status);
+    Observable<BaseGson<UserOrderGson>> submitUserOrder(@Query("uid") String uid, @Query("gid") String gid, @Query("in_id") String in_id, @Query("count") String count, @Query("money") String money, @Query("status") String status);
+
+    @FormUrlEncoded
+    @POST("/SchoolShop/public/index.php/index/User/Userfeedback")
+    Observable<BaseGson<EmptyGson>> Userfeedback(@Field("uid") String uid, @Field("message") String message);
 }

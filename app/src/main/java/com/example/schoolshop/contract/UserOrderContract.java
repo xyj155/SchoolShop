@@ -15,13 +15,17 @@ import rx.Observable;
 public interface UserOrderContract {
     interface Model {
         Observable<BaseGson<UserOrderFormAllListGson>> getUserOrdersList(String uid, String status);
+        Observable<BaseGson<Integer>> getUserOrdersCount(String uid, String status);
     }
 
     interface View extends BaseView {
         void loadOrderList(List<UserOrderFormAllListGson> userOrderFormAllListGsons);
+
+        void loadUserCount(List<Integer> list);
     }
 
     interface Presenter {
         void getUserOrdersList(String uid, String status);
+
     }
 }

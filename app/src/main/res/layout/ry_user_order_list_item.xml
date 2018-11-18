@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="@dimen/dp_8"
     android:layout_marginBottom="@dimen/dp_3"
-    android:layout_marginTop="@dimen/dp_3"
     android:layout_marginLeft="@dimen/dp_8"
+    android:layout_marginRight="@dimen/dp_8"
+    android:layout_marginTop="@dimen/dp_3"
     android:background="@drawable/bg_white_8"
     android:orientation="vertical">
 
@@ -61,7 +61,7 @@
             android:layout_height="@dimen/dp_87"
             android:layout_margin="@dimen/dp_10" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -76,43 +76,92 @@
                 android:textColor="#000" />
 
             <TextView
-                android:id="@+id/tv_price"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="81dp"
-                android:layout_marginRight="81dp"
-                android:text="￥20.00"
-                android:textColor="#ff0000" />
-
-            <TextView
-                android:id="@+id/tv_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
-                android:text="共三件"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:id="@+id/tv_total"
+                android:id="@+id/tv_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="11dp"
-                android:gravity="right"
-                android:paddingRight="@dimen/dp_7"
-                android:text="共计：￥30.00"
-                android:textSize="16sp" />
-        </RelativeLayout>
+                android:layout_below="@+id/tv_goods_name"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="我的好的啊大sadad阿达阿达阿达啊啊啊啊" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_comment">
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥20.00"
+                    android:textColor="#ff0000"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_alignTop="@+id/tv_num"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="共三件"
+                    android:layout_marginTop="11dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginEnd="11dp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/dp_7"
+                    android:text="共计：￥30.00"
+                    android:textSize="16sp"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_8"
+            android:background="@drawable/bg_btn_dark_30"
+            android:gravity="center"
+            android:id="@+id/tv_delete"
+            android:paddingBottom="@dimen/dp_3"
+            android:paddingLeft="@dimen/dp_9"
+            android:paddingRight="@dimen/dp_9"
+            android:paddingTop="@dimen/dp_3"
+            android:text="取消订单" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn_red_30"
+            android:gravity="center"
+            android:id="@+id/tv_pay"
+            android:paddingBottom="@dimen/dp_3"
+            android:paddingLeft="@dimen/dp_9"
+            android:paddingRight="@dimen/dp_9"
+            android:paddingTop="@dimen/dp_3"
+            android:text="付款"
+            android:textColor="@color/red" />
+    </LinearLayout>
 </LinearLayout>

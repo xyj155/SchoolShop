@@ -25,11 +25,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseActivity;
+import com.example.schoolshop.contract.GoodCarContract;
 import com.example.schoolshop.contract.GoodDetailContract;
 import com.example.schoolshop.contract.OrderContract;
+import com.example.schoolshop.gson.GoodGson;
 import com.example.schoolshop.gson.GoodsDetailGson;
 import com.example.schoolshop.gson.GoodsPrice;
 import com.example.schoolshop.gson.UserOrderGson;
+import com.example.schoolshop.presenter.GoodCarPresenter;
 import com.example.schoolshop.presenter.GoodDetailPresenter;
 import com.example.schoolshop.presenter.OrderPresenter;
 import com.example.schoolshop.util.GlideRoundTransform;
@@ -46,7 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class GoodsDetailActivity extends BaseActivity implements GoodDetailContract.View, OrderContract.View {
+public class GoodsDetailActivity extends BaseActivity implements GoodDetailContract.View, OrderContract.View, GoodCarContract.View {
 
 
     @InjectView(R.id.iv_cover)
@@ -136,7 +139,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     @Override
     public void setGoodDeail(GoodsDetailGson commentGson) {
         slHead.finishRefresh();
-        GoodsId= String.valueOf(commentGson.getGoods().getId());
+        GoodsId = String.valueOf(commentGson.getGoods().getId());
         Glide.with(GoodsDetailActivity.this).asBitmap().load(commentGson.getGoods().getGoods_pic()).into(ivCover);
         tvGoodsName.setText(commentGson.getGoods().getGoods_name());
         tvDescribe.setText(commentGson.getGoods().getGoods_describe());
@@ -254,7 +257,8 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
                         Toast.makeText(GoodsDetailActivity.this, "该商品暂时缺货，请重新选择！", Toast.LENGTH_SHORT).show();
                     } else {
                         if (isShopCar) {
-
+                            dialog.dismiss();
+                            goodCarPresent.addGoodsCar("1", String.valueOf(goodsDetailGson.getGoods().getId()), "种类：" + kindSelectBuilder.toString() + "  颜色：" + colorSelectBuilder.toString() + "   属性：" + attributeSelectBuilder.toString(), "0");
                         } else {
                             Log.i(TAG, "onClick: " + "种类：" + kindSelectBuilder.toString() + "  颜色：" + colorSelectBuilder.toString() + "   属性：" + attributeSelectBuilder.toString());
                             orderPresenter.submitUserOrder("1", getIntent().getStringExtra("id"), "种类：" + kindSelectBuilder.toString() + "  颜色：" + colorSelectBuilder.toString() + "   属性：" + attributeSelectBuilder.toString(), "1", BottmTvPrice.getText().toString().replace("￥", ""), "0");
@@ -289,6 +293,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         }
     }
 
+    public GoodCarPresenter goodCarPresent = new GoodCarPresenter(this);
     private StringBuilder attributeSelectBuilder = new StringBuilder();
     private StringBuilder kindSelectBuilder = new StringBuilder();
     private StringBuilder colorSelectBuilder = new StringBuilder();
@@ -300,7 +305,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         String attr = attributeSelectBuilder.toString().isEmpty() ? "" : "属性：" + attributeSelectBuilder.toString();
         Intent intent = new Intent(GoodsDetailActivity.this, SubmitGoodsOrderActivity.class);
         intent.putExtra("attr", kind + "  " + color + "  " + attr);
-        intent.putExtra("oid", String .valueOf(userOrder.getId()));
+        intent.putExtra("oid", String.valueOf(userOrder.getId()));
         intent.putExtra("gid", getIntent().getStringExtra("id"));
         intent.putExtra("price", BottmTvPrice.getText().toString());
         intent.putExtra("id", GoodsId);
@@ -310,6 +315,36 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     @Override
     public void submitFailed() {
         Toast.makeText(this, "订单提交失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void addSuccess() {
+        Toast.makeText(this, "商品添加成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void delSuccess() {
+
+    }
+
+    @Override
+    public void addFailed() {
+        Toast.makeText(this, "商品添加失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void loadShopCarList(List<GoodGson.GoodsBean> goodsBeen) {
+
+    }
+
+    @Override
+    public void delShopCarSuccess() {
+
+    }
+
+    @Override
+    public void delShopCarFailed() {
+
     }
 
     private class KindAdapter extends BaseQuickAdapter<String, BaseViewHolder> {

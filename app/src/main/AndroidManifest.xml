@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -115,11 +116,12 @@
         <activity android:name=".ui.CouponActivity" />
         <activity android:name=".ui.SecondSellerActivity" />
         <activity android:name=".ui.TestActivity" />
-        <activity android:name=".ui.ExpressUserAddedActivity"></activity>
-        <activity android:name=".ui.PurseGoodsActivity"></activity>
-        <activity android:name=".ui.SubmitGoodsOrderActivity" >
-
-        </activity>
+        <activity android:name=".ui.ExpressUserAddedActivity" />
+        <activity android:name=".ui.PurseGoodsActivity" />
+        <activity android:name=".ui.SubmitGoodsOrderActivity" />
+        <activity android:name=".ui.WebViewActivity" />
+        <activity android:name=".ui.AppAboutActivity" />
+        <activity android:name=".ui.FeedbackMessageActivity"></activity>
     </application>
 
 </manifest>

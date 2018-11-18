@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,10 +21,14 @@ import com.example.schoolshop.base.BaseActivity;
 import com.example.schoolshop.contract.UserOrderContract;
 import com.example.schoolshop.gson.UserOrderFormAllListGson;
 import com.example.schoolshop.presenter.UserOrderPresenter;
+import com.payelves.sdk.EPay;
+import com.payelves.sdk.enums.EPayResult;
+import com.payelves.sdk.listener.PayResultListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -44,7 +49,7 @@ public class UserOrderListActivity extends BaseActivity implements UserOrderCont
     RecyclerView ryOrder;
 
     private UserOrderPresenter orderPresenter = new UserOrderPresenter(this);
-    private OrderAdapter orderAdapter = new OrderAdapter(null,UserOrderListActivity.this);
+    private OrderAdapter orderAdapter = new OrderAdapter(null, UserOrderListActivity.this);
 
     @Override
     public int intiLayout() {
@@ -105,7 +110,12 @@ public class UserOrderListActivity extends BaseActivity implements UserOrderCont
         ryOrder.setAdapter(orderAdapter);
     }
 
-    public static class OrderAdapter extends BaseQuickAdapter<UserOrderFormAllListGson, BaseViewHolder> {
+    @Override
+    public void loadUserCount(List<Integer> list) {
+
+    }
+
+    private  class OrderAdapter extends BaseQuickAdapter<UserOrderFormAllListGson, BaseViewHolder> {
         private Context context;
 
         public OrderAdapter(@Nullable List<UserOrderFormAllListGson> data, Context context) {
@@ -114,11 +124,43 @@ public class UserOrderListActivity extends BaseActivity implements UserOrderCont
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, UserOrderFormAllListGson item) {
-            helper.setText(R.id.tv_shop_name, item.getShop().getShop_name())
-                    .setText(R.id.tv_goods_name, item.getGoods().getGoods_name())
-                    .setText(R.id.tv_num, "数量： " + item.getGoods_count() + "")
-                    .setText(R.id.tv_price, "￥ " + item.getGoods().getGoods_price() + "");
+        protected void convert(BaseViewHolder helper, final UserOrderFormAllListGson item) {
+            final DecimalFormat df = new DecimalFormat("#.00");
+            final double v = Double.valueOf(item.getGoods().get(0).getGoods_price()) * item.getGoods().get(0).getNum() + 15;
+            helper.setText(R.id.tv_shop_name, item.getShop_name())
+                    .setText(R.id.tv_comment, item.getGoods().get(0).getComment() == null ? "" : item.getGoods().get(0).getComment())
+                    .setText(R.id.tv_goods_name, item.getGoods().get(0).getGoods_name())
+                    .setText(R.id.tv_num, "数量： " + item.getGoods().get(0).getNum() + "")
+                    .setText(R.id.tv_price, "￥ " + item.getGoods().get(0).getGoods_price() + "")
+                    .setText(R.id.tv_total, "共计：" + df.format(v))
+                    .setOnClickListener(R.id.tv_delete, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .setOnClickListener(R.id.tv_pay, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            double v1 = Double.valueOf(item.getGoods().get(0).getGoods_price()) * item.getGoods().get(0).getNum() + 15;
+                            EPay.getInstance(context).pay("商品购物", "商品", (Double.valueOf(v1 * 100)).intValue(),
+                                    "", "", "", new PayResultListener() {
+
+                                        @Override
+                                        public void onFinish(Context context, Long payId, String orderId, String payUserId,
+                                                             EPayResult payResult, int payType, Integer amount) {
+                                            EPay.getInstance(context).closePayView();//关闭快捷支付页面
+                                            if (payResult.getCode() == EPayResult.SUCCESS_CODE.getCode()) {
+                                                //支付成功逻辑处理
+                                                Toast.makeText(context, payResult.getMsg(), Toast.LENGTH_LONG).show();
+                                            } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
+                                                //支付失败逻辑处理
+                                                Toast.makeText(context, payResult.getMsg(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                        }
+                    });
             switch (item.getStatus()) {
                 case 0:
                     helper.setText(R.id.tv_status, "订单取消");
@@ -136,8 +178,8 @@ public class UserOrderListActivity extends BaseActivity implements UserOrderCont
                     helper.setText(R.id.tv_status, "已到货");
                     break;
             }
-            Glide.with(context).load(item.getShop().getShop_cover()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.iv_head));
-            Glide.with(context).load(item.getGoods().getGoods_pic()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.imageView3));
+            Glide.with(context).load(item.getShop_cover()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.iv_head));
+            Glide.with(context).load(item.getGoods().get(0).getGoods_pic()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.imageView3));
         }
     }
 }

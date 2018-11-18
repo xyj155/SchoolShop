@@ -79,4 +79,31 @@ public class GoodCarPresenter implements GoodCarContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void deleteUserShopCar(String uid) {
+        goodCarModel.deleteUserShopCar(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseGson<EmptyGson>>() {
+                    @Override
+                    public void onError(String error) {
+                        view.addFailed();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseGson<EmptyGson> emptyGsonBaseGson) {
+                        if (emptyGsonBaseGson.isStatus()) {
+                            view.delShopCarSuccess();
+                        } else {
+                            view.delShopCarFailed();
+                        }
+                    }
+                });
+    }
 }

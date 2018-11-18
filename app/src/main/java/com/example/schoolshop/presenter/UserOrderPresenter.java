@@ -22,32 +22,60 @@ public class UserOrderPresenter implements UserOrderContract.Presenter {
     }
 
     @Override
-    public void getUserOrdersList(String uid,String  status) {
+    public void getUserOrdersList(String uid, String status) {
         view.showLoading();
-        userOrderModel.getUserOrdersList(uid,status)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<BaseGson<UserOrderFormAllListGson>>() {
-                    @Override
-                    public void onError(String error) {
-                        view.loadFailed(error);
-                        view.hideLoading();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseGson<UserOrderFormAllListGson> userOrderFormAllListGsonBaseGson) {
-                        view.hideLoading();
-                        if (userOrderFormAllListGsonBaseGson.isStatus()) {
-                            view.loadOrderList(userOrderFormAllListGsonBaseGson.getList());
-                        } else {
-                            view.loadFailed(userOrderFormAllListGsonBaseGson.getMsg());
+        if (status.equals("5")) {
+            userOrderModel.getUserOrdersCount(uid, status)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseObserver<BaseGson<Integer>>() {
+                        @Override
+                        public void onError(String error) {
+                            view.loadFailed(error);
+                            view.hideLoading();
                         }
-                    }
-                });
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(BaseGson<Integer> userOrderFormAllListGsonBaseGson) {
+                            view.hideLoading();
+                            if (userOrderFormAllListGsonBaseGson.isStatus()) {
+                                view.loadUserCount(userOrderFormAllListGsonBaseGson.getList());
+                            } else {
+                                view.loadFailed(userOrderFormAllListGsonBaseGson.getMsg());
+                            }
+                        }
+                    });
+        } else {
+            userOrderModel.getUserOrdersList(uid, status)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseObserver<BaseGson<UserOrderFormAllListGson>>() {
+                        @Override
+                        public void onError(String error) {
+                            view.loadFailed(error);
+                            view.hideLoading();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(BaseGson<UserOrderFormAllListGson> userOrderFormAllListGsonBaseGson) {
+                            view.hideLoading();
+                            if (userOrderFormAllListGsonBaseGson.isStatus()) {
+                                view.loadOrderList(userOrderFormAllListGsonBaseGson.getList());
+                            } else {
+                                view.loadFailed(userOrderFormAllListGsonBaseGson.getMsg());
+                            }
+                        }
+                    });
+        }
     }
 }

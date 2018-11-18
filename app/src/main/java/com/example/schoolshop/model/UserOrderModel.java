@@ -16,4 +16,9 @@ public class UserOrderModel implements Model {
     public Observable<BaseGson<UserOrderFormAllListGson>> getUserOrdersList(String uid,String status) {
         return RetrofitUtil.getInstance().getServerices().getUserOrdersList(uid,status);
     }
+
+    @Override
+    public Observable<BaseGson<Integer>> getUserOrdersCount(String uid, String status) {
+        return RetrofitUtil.getInstance().getServerices().getUserOrdersCount(uid,status);
+    }
 }

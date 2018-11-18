@@ -283,7 +283,6 @@ public class GoodsAdapter extends BaseAdapter implements StickyListHeadersAdapte
                     KindAdapter sizeAdapter = new KindAdapter(goodsDetailGson.getName(), goodsDetailGson);
                     ryeKind.setAdapter(sizeAdapter);
                     tvKind.setText(goodsDetailGson.getModelattr());
-
                 } else {
                     tvKind.setVisibility(View.GONE);
                 }

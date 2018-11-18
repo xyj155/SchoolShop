@@ -150,9 +150,9 @@ public class SubmitGoodsOrderActivity extends BaseActivity implements UserSubmit
                     Log.i(TAG, "onViewClicked: tvAddres" + tvAddress.getText().toString());
                     Log.i(TAG, "onViewClicked: tvTel.ge" + tvTel.getText().toString());
                     Log.i(TAG, "onViewClicked: tvCount." + tvCount.getText().toString());
-                    Log.i(TAG, "onViewClicked: tvMoney." + tvMoney.getText().toString().replace("￥", ""));
+                    Log.i(TAG, "onViewClicked: tvMoney." + tvMoney.getText().toString().replace("￥", ""));//(new Double(money)).intValue()
 
-                    EPay.getInstance(SubmitGoodsOrderActivity.this).pay(tvGoodsName.getText().toString(), "商品购买", (new Double(money)).intValue(),
+                    EPay.getInstance(SubmitGoodsOrderActivity.this).pay(tvGoodsName.getText().toString(), "商品购买", 1,
                             "", "", "", new PayResultListener() {
                                 @Override
                                 public void onFinish(Context context, Long payId, String orderId, String payUserId,
