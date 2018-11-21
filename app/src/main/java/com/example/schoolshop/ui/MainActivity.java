@@ -1,27 +1,41 @@
 package com.example.schoolshop.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseActivity;
+import com.example.schoolshop.contract.HomeContract;
 import com.example.schoolshop.contract.ShopCarContract;
+import com.example.schoolshop.gson.AdGson;
+import com.example.schoolshop.gson.BannerGson;
+import com.example.schoolshop.gson.GoodGson;
+import com.example.schoolshop.presenter.HomePresenter;
 import com.example.schoolshop.presenter.ShopCarPresenter;
 import com.example.schoolshop.ui.homefragment.HomeFragment;
 import com.example.schoolshop.ui.homefragment.ShopCarFragment;
 import com.example.schoolshop.ui.homefragment.SortFragment;
 import com.example.schoolshop.ui.homefragment.UserFragment;
+import com.example.schoolshop.view.addialog.AdConstant;
+import com.example.schoolshop.view.addialog.AdManager;
+import com.example.schoolshop.view.addialog.bean.AdInfo;
+import com.example.schoolshop.view.addialog.transformer.DepthPageTransformer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseActivity implements SortFragment.FragmentChangeListener, ShopCarContract.View{
+public class MainActivity extends BaseActivity implements SortFragment.FragmentChangeListener, ShopCarContract.View, HomeContract.View {
 
 
     @InjectView(R.id.contentContainer)
@@ -41,7 +55,7 @@ public class MainActivity extends BaseActivity implements SortFragment.FragmentC
     private ShopCarFragment shopcarFragment;
     private SortFragment sortFragment;
     private UserFragment userFragment;
-
+    private HomePresenter homePresenter = new HomePresenter(this);
     public static MainActivity instance;
 
 
@@ -149,6 +163,7 @@ public class MainActivity extends BaseActivity implements SortFragment.FragmentC
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.inject(this);
+        homePresenter.getAdBanner("嘉兴");
     }
 
     private ShopCarPresenter shopCarPresenter=new ShopCarPresenter(this);
@@ -183,4 +198,58 @@ public class MainActivity extends BaseActivity implements SortFragment.FragmentC
 
     }
 
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void loadFailed(String msg) {
+
+    }
+
+    @Override
+    public void loadHomeData(List<BannerGson> bannerGsons, List<GoodGson.GoodsBean> goodGsons) {
+
+    }
+
+    @Override
+    public void loadAD(List<AdGson> gsons) {
+        ArrayList<AdInfo> advList = new ArrayList<>();
+        for (int i = 0; i < gsons.size(); i++) {
+            AdInfo adInfo = new AdInfo();
+            adInfo.setActivityImg(gsons.get(i).getAd_str());
+            advList.add(adInfo);
+        }
+        AdManager adManager = new AdManager(MainActivity.this, advList);
+        adManager.setOverScreen(true)
+                .setPageTransformer(new DepthPageTransformer())
+                .setBackViewColor(Color.parseColor("#AA333333"))
+                .setAnimBackViewTransparent(false)
+                .setWidthPerHeight(0.65f)
+                .setDialogCloseable(true)
+                .setBounciness(15)
+                .setSpeed(5)
+                .setOnImageClickListener(new AdManager.OnImageClickListener() {
+                    @Override
+                    public void onImageClick(View view, AdInfo advInfo) {
+
+                    }
+                }).setOnCloseClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        })
+
+/**
+ * 开始执行弹窗的显示操作，可传值为0-360，0表示从右开始弹出，逆时针方向，也可以传入自定义的方向值
+ */
+                .showAdDialog(AdConstant.ANIM_UP_TO_DOWN);
+    }
 }

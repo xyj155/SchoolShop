@@ -14,10 +14,19 @@ import io.rong.imkit.RongIM;
  */
 
 public class MyApplication extends Application {
+    public static MyApplication instance;
+
+    public static MyApplication getInstance() {
+        if (instance==null){
+            return new MyApplication();
+        }
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
         RongIM.init(this);
+        instance=this;
         EPay.getInstance(getApplicationContext()).init("wAwS4BHkB", "1b0ccf51458c4053ae2931772fbbfb97",
                 "7169149861036033", "baidu");
         Fresco.initialize(this);

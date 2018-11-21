@@ -116,7 +116,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
             }
         };
         bannerHome.setAdapter(mBaseViewPagerAdapter);
-        homePresenter.getAdBanner("嘉兴");
+
 
     }
 
@@ -205,37 +205,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void loadAD(List<AdGson> gsons) {
-        ArrayList<AdInfo> advList = new ArrayList<>();
-        for (int i = 0; i < gsons.size(); i++) {
-            AdInfo adInfo = new AdInfo();
-            adInfo.setActivityImg(gsons.get(i).getAd_str());
-            advList.add(adInfo);
-        }
-        AdManager adManager = new AdManager(getActivity(), advList);
-        adManager.setOverScreen(true)
-                .setPageTransformer(new DepthPageTransformer())
-                .setBackViewColor(Color.parseColor("#AA333333"))
-                .setAnimBackViewTransparent(false)
-                .setWidthPerHeight(0.65f)
-                .setDialogCloseable(true)
-                .setBounciness(15)
-                .setSpeed(5)
-                .setOnImageClickListener(new AdManager.OnImageClickListener() {
-                    @Override
-                    public void onImageClick(View view, AdInfo advInfo) {
 
-                    }
-                }).setOnCloseClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        })
-
-/**
- * 开始执行弹窗的显示操作，可传值为0-360，0表示从右开始弹出，逆时针方向，也可以传入自定义的方向值
- */
-                .showAdDialog(AdConstant.ANIM_UP_TO_DOWN);
     }
 
 
