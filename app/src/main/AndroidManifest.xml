@@ -122,6 +122,7 @@
         <activity android:name=".ui.WebViewActivity" />
         <activity android:name=".ui.AppAboutActivity" />
         <activity android:name=".ui.FeedbackMessageActivity"></activity>
+        <activity android:name=".ui.SubmitGoodsOrderListActivity" />
     </application>
 
 </manifest>

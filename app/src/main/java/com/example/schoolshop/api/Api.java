@@ -17,6 +17,7 @@ import com.example.schoolshop.gson.RunHelperGson;
 import com.example.schoolshop.gson.SecondHandGson;
 import com.example.schoolshop.gson.ShopGson;
 import com.example.schoolshop.gson.SubmitOrderGson;
+import com.example.schoolshop.gson.SubmitOrderListGson;
 import com.example.schoolshop.gson.UserGson;
 import com.example.schoolshop.gson.UserOrderFormAllListGson;
 import com.example.schoolshop.gson.UserOrderGson;
@@ -174,4 +175,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("/SchoolShop/public/index.php/index/User/Userfeedback")
     Observable<BaseGson<EmptyGson>> Userfeedback(@Field("uid") String uid, @Field("message") String message);
+
+
+    @GET("/SchoolShop/public/index.php/index/User/getUserOrdersPayList")
+    Observable<BaseGson<SubmitOrderListGson>> getUserOrdersPayList(@Query("uid") String uid, @Query("shopid") String shopid);
 }

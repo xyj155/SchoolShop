@@ -23,7 +23,7 @@ import com.example.schoolshop.base.BaseFragment;
 import com.example.schoolshop.contract.UserOrderContract;
 import com.example.schoolshop.gson.UserOrderFormAllListGson;
 import com.example.schoolshop.presenter.UserOrderPresenter;
-import com.example.schoolshop.ui.SubmitGoodsOrderActivity;
+import com.example.schoolshop.ui.SubmitGoodsOrderListActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -147,8 +147,10 @@ public class WaitPayingFragment extends BaseFragment implements UserOrderContrac
                     .setOnClickListener(R.id.tv_pay, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent view = new Intent(getContext(), SubmitGoodsOrderActivity.class);
+                            Intent view = new Intent(getContext(), SubmitGoodsOrderListActivity.class);
                             view.putExtra("id", String.valueOf(item.getGoods().get(0).getId()));
+                            view.putExtra("sid", String.valueOf(item.getGoods().get(0).getGoods_owner()));
+
 
                             startActivity(view);
 //                            double v1 = Double.valueOf(item.getGoods().get(0).getGoods_price()) * item.getGoods().get(0).getNum() + 15;
