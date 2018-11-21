@@ -28,16 +28,16 @@
         "source": "D:\\AndroidStudio\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_emoji_grid_item_selector.xml"
     },
     {
-        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_phone_selector.xml",
-        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_phone_selector.xml"
+        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_public_service_enter_selector.xml",
+        "source": "D:\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_public_service_enter_selector.xml"
     },
     {
         "merged": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_cs_group_dialog_cancel_selector.xml",
         "source": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_cs_group_dialog_cancel_selector.xml"
     },
     {
-        "merged": "D:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_public_service_enter_selector.xml",
-        "source": "D:\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_public_service_enter_selector.xml"
+        "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_phone_selector.xml",
+        "source": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_phone_selector.xml"
     },
     {
         "merged": "G:\\XiuDD\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_emotion_toggle_selector.xml",
@@ -48,12 +48,12 @@
         "source": "G:\\SchoolShop-master\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_public_service_unfollow_selector.xml"
     },
     {
-        "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ed_public_service_search_selector.xml",
-        "source": "G:\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ed_public_service_search_selector.xml"
-    },
-    {
         "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_sp_grid_mask.xml",
         "source": "G:\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_sp_grid_mask.xml"
+    },
+    {
+        "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ed_public_service_search_selector.xml",
+        "source": "G:\\SchoolShop\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ed_public_service_search_selector.xml"
     },
     {
         "merged": "G:\\SchoolShop\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_bg_mentionlist_item.xml",
