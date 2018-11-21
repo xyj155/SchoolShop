@@ -92,7 +92,6 @@
                         android:gravity="center|left"
                         android:paddingLeft="@dimen/dp_35"
                         android:text="请选择收货地址"
-                        android:textColor="#000"
                         android:textSize="18sp" />
 
                     <ImageView

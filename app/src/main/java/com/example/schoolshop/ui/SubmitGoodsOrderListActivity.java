@@ -1,5 +1,6 @@
 package com.example.schoolshop.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,9 +18,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseActivity;
+import com.example.schoolshop.contract.GoodsOrderAddContract;
 import com.example.schoolshop.contract.SubmitOrderListContract;
+import com.example.schoolshop.contract.UserSubmitOrderListContract;
 import com.example.schoolshop.gson.SubmitOrderListGson;
+import com.example.schoolshop.presenter.GoodsOrderAddPresenter;
 import com.example.schoolshop.presenter.SubmitOrderListPresenter;
+import com.example.schoolshop.presenter.UserSubmitOrderListPresenter;
+import com.example.schoolshop.view.SelfDialog;
+import com.payelves.sdk.EPay;
+import com.payelves.sdk.enums.EPayResult;
+import com.payelves.sdk.listener.PayResultListener;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -28,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class SubmitGoodsOrderListActivity extends BaseActivity implements SubmitOrderListContract.View {
+public class SubmitGoodsOrderListActivity extends BaseActivity implements SubmitOrderListContract.View, UserSubmitOrderListContract.View {
 
 
     @InjectView(R.id.iv_back)
@@ -72,6 +81,7 @@ public class SubmitGoodsOrderListActivity extends BaseActivity implements Submit
     private SubmitOrderListPresenter userSubmitOrderPresenter = new SubmitOrderListPresenter(this);
     DecimalFormat df = new DecimalFormat("#.00");
     private OrderListAdapter orderListAdapter = new OrderListAdapter(null);
+    private UserSubmitOrderListPresenter userSubmitOrderListPresenter = new UserSubmitOrderListPresenter(this);
 
     @Override
     public int intiLayout() {
@@ -134,30 +144,26 @@ public class SubmitGoodsOrderListActivity extends BaseActivity implements Submit
                 if (tvAddress.getText().toString().isEmpty()) {
                     Toast.makeText(this, "亲，你还没有选择地址哦！", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.i(TAG, "onViewClicked: getInten" + getIntent().getStringExtra("oid"));
-                    Log.i(TAG, "onViewClicked: tvLocati" + tvLocation.getText().toString());
-                    Log.i(TAG, "onViewClicked: tvAddres" + tvAddress.getText().toString());
-                    Log.i(TAG, "onViewClicked: tvTel.ge" + tvTel.getText().toString());
-                    Log.i(TAG, "onViewClicked: tvMoney." + tvMoney.getText().toString().replace("￥", ""));//(new Double(money)).intValue()
-
-//                    EPay.getInstance(SubmitGoodsOrderListActivity.this).pay(tvGoodsName.getText().toString(), "商品购买", 1,
-//                            "", "", "", new PayResultListener() {
-//                                @Override
-//                                public void onFinish(Context context, Long payId, String orderId, String payUserId,
-//                                                     EPayResult payResult, int payType, Integer amount) {
-//                                    EPay.getInstance(context).closePayView();//关闭快捷支付页面
-//                                    if (payResult.getCode() == EPayResult.SUCCESS_CODE.getCode()) {
-////                                        userSubmitOrderPresenter.getUserOrdersPayList("1",getIntent().getStringExtra("oid")
-////                                                , tvLocation.getText().toString() + tvAddress.getText().toString(), tvTel.getText().toString(),
-////                                                tvCount.getText().toString(),
-////                                                tvMoney.getText().toString().replace("￥", "")
-////                                        );
-//                                    } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
-//                                        //支付失败逻辑处理
-//                                        Toast.makeText(SubmitGoodsOrderListActivity.this, payResult.getMsg(), Toast.LENGTH_LONG).show();
-//                                    }
-//                                }
-//                            });
+                    EPay.getInstance(SubmitGoodsOrderListActivity.this).pay("校园V商城订单", "商品购买", 1,
+                            "", "", "", new PayResultListener() {
+                                @Override
+                                public void onFinish(Context context, Long payId, String orderId, String payUserId,
+                                                     EPayResult payResult, int payType, Integer amount) {
+                                    EPay.getInstance(context).closePayView();//关闭快捷支付页面
+                                    if (payResult.getCode() == EPayResult.SUCCESS_CODE.getCode()) {
+//                                        userSubmitOrderPresenter.getUserOrdersPayList("1",getIntent().getStringExtra("oid")
+//                                                , tvLocation.getText().toString() + tvAddress.getText().toString(), tvTel.getText().toString(),
+//                                                tvCount.getText().toString(),
+//                                                tvMoney.getText().toString().replace("￥", "")
+//                                        );
+                                        userSubmitOrderListPresenter.userBuyGoodsListByShopId("1", sid, "用户名" + tvLocation.getText().toString() + "地址" + tvAddress.getText().toString(), tvTel.getText().toString()
+                                                , tvMoney.getText().toString().replace("￥", ""));
+                                    } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
+                                        //支付失败逻辑处理
+                                        Toast.makeText(SubmitGoodsOrderListActivity.this, payResult.getMsg(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                 }
                 break;
         }
@@ -199,7 +205,7 @@ public class SubmitGoodsOrderListActivity extends BaseActivity implements Submit
         Toast.makeText(this, "数据加载错误", Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
+    //    @Override
 //    public void getOrderDetail(final SubmitOrderGson orderGson) {
 //        Log.i(TAG, "getOrderDetail: " + orderGson);
 //        Glide.with(SubmitGoodsOrderListActivity.this).asBitmap().load(orderGson.getGoods().getGoods_pic()).into(ivGoodCover);
@@ -245,27 +251,118 @@ public class SubmitGoodsOrderListActivity extends BaseActivity implements Submit
 //    public void payFailed() {
 //        Toast.makeText(this, "下单失败", Toast.LENGTH_SHORT).show();
 //    }
+    private double money = 12;
 
     @Override
     public void loadOrderList(SubmitOrderListGson submitOrderListGson) {
         tvShopName.setText(submitOrderListGson.getShop_name());
         Glide.with(SubmitGoodsOrderListActivity.this).asBitmap().load(submitOrderListGson.getShop_cover()).into(ivShopCover);
         orderListAdapter.replaceData(submitOrderListGson.getGoods());
+        for (int i = 0; i < submitOrderListGson.getGoods().size(); i++) {
+            double v = Double.valueOf(submitOrderListGson.getGoods().get(i).getGoods_price()) * submitOrderListGson.getGoods().get(i).getNum();
+            money += v;
+        }
+        tvMoney.setText("￥ " + df.format(money) + "");
+        sid = String.valueOf(submitOrderListGson.getId());
+
     }
 
-    private class OrderListAdapter extends BaseQuickAdapter<SubmitOrderListGson.GoodsBean, BaseViewHolder> {
+    @Override
+    public void submitSuccess() {
+        Toast.makeText(this, "下单成功", Toast.LENGTH_SHORT).show();
+        final SelfDialog selfDialog = new SelfDialog(SubmitGoodsOrderListActivity.this);
+        selfDialog.setTitle("提示");
+        selfDialog.setYesOnclickListener("我知道了", new SelfDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                finish();
+            }
+        });
+        selfDialog.setMessage("亲！你的商品下单成功！");
+        selfDialog.setNoOnclickListener("取消", new SelfDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                selfDialog.dismiss();
+                finish();
+            }
+        });
+        selfDialog.show();
+    }
+
+    @Override
+    public void submitFailed() {
+        Toast.makeText(this, "下单失败，请联系店家", Toast.LENGTH_SHORT).show();
+    }
+
+    private String sid;
+
+    private class OrderListAdapter extends BaseQuickAdapter<SubmitOrderListGson.GoodsBean, BaseViewHolder> implements GoodsOrderAddContract.View {
+        GoodsOrderAddPresenter goodsOrderAddPresenter = new GoodsOrderAddPresenter(this);
 
         public OrderListAdapter(@Nullable List<SubmitOrderListGson.GoodsBean> data) {
             super(R.layout.ry_goods_order_list_item, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, SubmitOrderListGson.GoodsBean item) {
+        protected void convert(final BaseViewHolder helper, final SubmitOrderListGson.GoodsBean item) {
+            final int[] num = {item.getNum()};
             helper.setText(R.id.tv_goods_name, item.getGoods_name())
-                    .setText(R.id.tv_attr, item.getComment())
+                    .setText(R.id.tv_attr, item.getComment().isEmpty() ? "标准套餐" : item.getComment())
                     .setText(R.id.tv_price, item.getGoods_price())
-                    .setText(R.id.tv_num, item.getNum()+"");
+                    .setText(R.id.tv_num, num[0] + "")
+                    .setOnClickListener(R.id.tv_add, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            num[0]++;
+                            helper.setText(R.id.tv_num, num[0] + "");
+                            money += Double.valueOf(item.getGoods_price());
+                            tvMoney.setText("￥ " + df.format(money) + "");
+                            goodsOrderAddPresenter.addShopCarGoodsNum("0", "1", String.valueOf(item.getGid()), item.getComment(), item.getGoods_owner(), "1", "1");
+                        }
+                    })
+                    .setOnClickListener(R.id.tv_reduce, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (num[0] > 1) {
+                                num[0]--;
+                                helper.setText(R.id.tv_num, num[0] + "");
+                                money -= Double.valueOf(item.getGoods_price());
+                                tvMoney.setText("￥ " + df.format(money) + "");
+                                goodsOrderAddPresenter.addShopCarGoodsNum("1", "1", String.valueOf(item.getGid()), item.getComment(), item.getGoods_owner(), "1", "1");
+                            } else {
+                                Toast.makeText(SubmitGoodsOrderListActivity.this, "该商品不能再减了哦！", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
             Glide.with(SubmitGoodsOrderListActivity.this).asBitmap().load(item.getGoods_pic()).into((ImageView) helper.getView(R.id.iv_good_cover));
+
+
+        }
+
+        @Override
+        public void showLoading() {
+            showDialog();
+        }
+
+        @Override
+        public void hideLoading() {
+            dialogClose();
+        }
+
+        @Override
+        public void loadFailed(String msg) {
+            Toast.makeText(SubmitGoodsOrderListActivity.this, msg, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void addSuccess() {
+
+        }
+
+        @Override
+        public void addFailed() {
+            Toast.makeText(SubmitGoodsOrderListActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
         }
     }
 }

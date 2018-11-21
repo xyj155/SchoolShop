@@ -23,6 +23,7 @@ import com.example.schoolshop.base.BaseFragment;
 import com.example.schoolshop.contract.UserOrderContract;
 import com.example.schoolshop.gson.UserOrderFormAllListGson;
 import com.example.schoolshop.presenter.UserOrderPresenter;
+import com.example.schoolshop.ui.ShopDetailActivity;
 import com.example.schoolshop.ui.SubmitGoodsOrderListActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -55,7 +56,7 @@ public class WaitPayingFragment extends BaseFragment implements UserOrderContrac
     protected void init(View view) {
         ButterKnife.inject(this, view);
         orderAdapter = new OrderAdapter(null, getContext());
-        orderPresenter.getUserOrdersList("1", "1");
+
         slOrder.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
@@ -64,6 +65,12 @@ public class WaitPayingFragment extends BaseFragment implements UserOrderContrac
         });
         ryOrder.setLayoutManager(new LinearLayoutManager(getContext()));
         orderAdapter.bindToRecyclerView(ryOrder);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        orderPresenter.getUserOrdersList("1", "1");
     }
 
     @Override
@@ -131,6 +138,14 @@ public class WaitPayingFragment extends BaseFragment implements UserOrderContrac
         protected void convert(BaseViewHolder helper, final UserOrderFormAllListGson item) {
             GoodsItemAdater goodsItemAdater = new GoodsItemAdater(item.getGoods());
             RecyclerView view = helper.getView(R.id.ry_goods_item);
+            helper.setOnClickListener(R.id.rl_shop, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent view = new Intent(getContext(), ShopDetailActivity.class);
+                    view.putExtra("id", String.valueOf(item.getId()));
+                    startActivity(view);
+                }
+            });
             view.setLayoutManager(new LinearLayoutManager(getContext()));
             final DecimalFormat df = new DecimalFormat("#.00");
             view.setAdapter(goodsItemAdater);
@@ -150,42 +165,30 @@ public class WaitPayingFragment extends BaseFragment implements UserOrderContrac
                             Intent view = new Intent(getContext(), SubmitGoodsOrderListActivity.class);
                             view.putExtra("id", String.valueOf(item.getGoods().get(0).getId()));
                             view.putExtra("sid", String.valueOf(item.getGoods().get(0).getGoods_owner()));
-
-
                             startActivity(view);
-//                            double v1 = Double.valueOf(item.getGoods().get(0).getGoods_price()) * item.getGoods().get(0).getNum() + 15;
-//                            EPay.getInstance(context).pay("商品购物", "商品", (Double.valueOf(v1 * 100)).intValue(),
-//                                    "", "", "", new PayResultListener() {
-//
-//                                        @Override
-//                                        public void onFinish(Context context, Long payId, String orderId, String payUserId,
-//                                                             EPayResult payResult, int payType, Integer amount) {
-//                                            EPay.getInstance(context).closePayView();//关闭快捷支付页面
-//                                            if (payResult.getCode() == EPayResult.SUCCESS_CODE.getCode()) {
-//                                                //支付成功逻辑处理
-//                                                Toast.makeText(context, payResult.getMsg(), Toast.LENGTH_LONG).show();
-//                                            } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
-//                                                //支付失败逻辑处理
-//                                                Toast.makeText(context, payResult.getMsg(), Toast.LENGTH_LONG).show();
-//                                            }
-//                                        }
-//                                    });
+
                         }
                     });
-            switch (item.getStatus()) {
-                case 0:
-                    helper.setText(R.id.tv_status, "订单取消");
-                    break;
+            Log.i(TAG, "convert: " + item.getGoods().get(0).getStatus());
+            View view1 = helper.getView(R.id.tv_delete);
+            View view2 = helper.getView(R.id.tv_pay);
+            switch (item.getGoods().get(0).getStatus()) {
                 case 1:
                     helper.setText(R.id.tv_status, "待付款");
                     break;
                 case 2:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "等待卖家发货");
                     break;
                 case 3:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "运输中");
                     break;
                 case 4:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "已到货");
                     break;
             }

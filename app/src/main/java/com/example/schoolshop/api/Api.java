@@ -111,6 +111,11 @@ public interface Api {
     @GET("/SchoolShop/public/index.php/index/User/getUserOrdersList")
     Observable<BaseGson<UserOrderFormAllListGson>> getUserOrdersList(@Query("uid") String uid, @Query("status") String status);
 
+
+    @GET("/SchoolShop/public/index.php/index/User/userBuyGoodsListByShopId")
+    Observable<BaseGson<EmptyGson>> userBuyGoodsListByShopId(@Query("uid") String uid, @Query("sid") String sid, @Query("address") String address, @Query("tel") String tel, @Query("money") String money);
+
+
     @GET("/SchoolShop/public/index.php/index/User/getUserOrdersList")
     Observable<BaseGson<Integer>> getUserOrdersCount(@Query("uid") String uid, @Query("status") String status);
 
@@ -143,6 +148,9 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Goods/submitUserShopCar")
     Observable<BaseGson<UserShopCarGson>> submitUserShopCar(@Query("uid") String uid);
+
+    @GET("/SchoolShop/public/index.php/index/Order/addShopCarGoodsNum")
+    Observable<BaseGson<EmptyGson>> addShopCarGoodsNum(@Query("isdelete") String isdelete, @Query("uid") String uid, @Query("gid") String gid, @Query("comment") String comment, @Query("sid") String sid, @Query("isbuy") String isbuy, @Query("status") String status);
 
     @FormUrlEncoded
     @POST("/SchoolShop/public/index.php/index/Deliver/addUserSelfPackage")

@@ -100,6 +100,8 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
             public void onRefresh(RefreshLayout refreshLayout) {
                 presenter.submitUserShopCar("1");
                 thirdAllselect.setChecked(false);
+                thirdTotalnum.setText("0");
+                thirdTotalprice.setText("￥ 0.00");
             }
         });
         //线性布局

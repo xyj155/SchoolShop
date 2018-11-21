@@ -84,7 +84,7 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
 
     @Override
     public void loadFailed(String msg) {
-        if (slOrder!=null){
+        if (slOrder != null) {
             slOrder.finishRefresh();
         }
         Toast.makeText(getContext(), "订单拉取错误", Toast.LENGTH_SHORT).show();
@@ -93,7 +93,7 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
 
     @Override
     public void loadOrderList(List<UserOrderFormAllListGson> userOrderFormAllListGsons) {
-        if (slOrder!=null){
+        if (slOrder != null) {
             slOrder.finishRefresh();
         }
         orderAdapter.replaceData(userOrderFormAllListGsons);
@@ -118,6 +118,7 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
     private class OrderAdapter extends BaseQuickAdapter<UserOrderFormAllListGson, BaseViewHolder> {
         private Context context;
 
@@ -128,6 +129,7 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
 
         @Override
         protected void convert(BaseViewHolder helper, final UserOrderFormAllListGson item) {
+
             GoodsItemAdater goodsItemAdater = new GoodsItemAdater(item.getGoods());
             RecyclerView view = helper.getView(R.id.ry_goods_item);
             view.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -165,28 +167,35 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
                                     });
                         }
                     });
-            switch (item.getStatus()) {
-                case 0:
-                    helper.setText(R.id.tv_status, "订单取消");
-                    break;
+            View view1 = helper.getView(R.id.tv_delete);
+            View view2 = helper.getView(R.id.tv_pay);
+            View view3 = helper.getView(R.id.tv_evaluate);
+            switch (item.getGoods().get(0).getStatus()) {
                 case 1:
                     helper.setText(R.id.tv_status, "待付款");
                     break;
                 case 2:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "等待卖家发货");
                     break;
                 case 3:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "运输中");
                     break;
                 case 4:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "已到货");
+                    view3.setVisibility(View.VISIBLE);
                     break;
             }
             Glide.with(context).load(item.getShop_cover()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.iv_head));
             double price = 0;
             for (int i = 0; i < item.getGoods().size(); i++) {
                 price += Double.valueOf(item.getGoods().get(i).getGoods_price()) * item.getGoods().get(i).getNum();
-                Log.i(TAG, "convert: "+item.getGoods().get(i).getGoods_price());
+                Log.i(TAG, "convert: " + item.getGoods().get(i).getGoods_price());
             }
             final double v = price + 15;
             helper.setText(R.id.tv_price, "共计：￥" + df.format(v));

@@ -247,7 +247,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
                 break;
             case R.id.iv_scan:
                 startActivity(new Intent(getContext(), CaptureActivity.class));
-
+                break;
             case R.id.iv_seller:
                 startActivity(new Intent(getContext(), ShopListActivity.class));
                 break;

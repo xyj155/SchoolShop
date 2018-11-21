@@ -176,6 +176,16 @@ public class UserOrderFormAllListGson {
         private String original_price;
         private String post_free;
         private int num;
+        private int status;
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
         private String comment;
 
         public int getId() {

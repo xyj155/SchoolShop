@@ -165,20 +165,25 @@ public class ReceivedFragment extends BaseFragment implements UserOrderContract.
                                     });
                         }
                     });
-            switch (item.getStatus()) {
-                case 0:
-                    helper.setText(R.id.tv_status, "订单取消");
-                    break;
+            View view1 = helper.getView(R.id.tv_delete);
+            View view2 = helper.getView(R.id.tv_pay);
+            switch (item.getGoods().get(0).getStatus()) {
                 case 1:
                     helper.setText(R.id.tv_status, "待付款");
                     break;
                 case 2:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "等待卖家发货");
                     break;
                 case 3:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "运输中");
                     break;
                 case 4:
+                    view1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
                     helper.setText(R.id.tv_status, "已到货");
                     break;
             }
