@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +118,7 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-    private  class OrderAdapter extends BaseQuickAdapter<UserOrderFormAllListGson, BaseViewHolder> {
+    private class OrderAdapter extends BaseQuickAdapter<UserOrderFormAllListGson, BaseViewHolder> {
         private Context context;
 
         public OrderAdapter(@Nullable List<UserOrderFormAllListGson> data, Context context) {
@@ -127,14 +128,15 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
 
         @Override
         protected void convert(BaseViewHolder helper, final UserOrderFormAllListGson item) {
+            GoodsItemAdater goodsItemAdater = new GoodsItemAdater(item.getGoods());
+            RecyclerView view = helper.getView(R.id.ry_goods_item);
+            view.setLayoutManager(new LinearLayoutManager(getContext()));
             final DecimalFormat df = new DecimalFormat("#.00");
-            final double v = Double.valueOf(item.getGoods().get(0).getGoods_price()) * item.getGoods().get(0).getNum() + 15;
+            view.setAdapter(goodsItemAdater);
+//            final double v = Double.valueOf(item.getGoods_price()) * item.getNum() + 15;
+//            helper.setText(R.id.tv_total, "共计：" + df.format(v))
             helper.setText(R.id.tv_shop_name, item.getShop_name())
-                    .setText(R.id.tv_comment, item.getGoods().get(0).getComment() == null ? "" : item.getGoods().get(0).getComment())
-                    .setText(R.id.tv_goods_name, item.getGoods().get(0).getGoods_name())
-                    .setText(R.id.tv_num, "数量： " + item.getGoods().get(0).getNum() + "")
-                    .setText(R.id.tv_price, "￥ " + item.getGoods().get(0).getGoods_price() + "")
-                    .setText(R.id.tv_total, "共计：" + df.format(v))
+                    .setText(R.id.tv_shop_name, item.getShop_name())
                     .setOnClickListener(R.id.tv_delete, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -181,7 +183,30 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
                     break;
             }
             Glide.with(context).load(item.getShop_cover()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.iv_head));
-            Glide.with(context).load(item.getGoods().get(0).getGoods_pic()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.imageView3));
+            double price = 0;
+            for (int i = 0; i < item.getGoods().size(); i++) {
+                price += Double.valueOf(item.getGoods().get(i).getGoods_price()) * item.getGoods().get(i).getNum();
+                Log.i(TAG, "convert: "+item.getGoods().get(i).getGoods_price());
+            }
+            final double v = price + 15;
+            helper.setText(R.id.tv_price, "共计：￥" + df.format(v));
+        }
+    }
+
+    private class GoodsItemAdater extends BaseQuickAdapter<UserOrderFormAllListGson.GoodsBean, BaseViewHolder> {
+
+        public GoodsItemAdater(@Nullable List<UserOrderFormAllListGson.GoodsBean> data) {
+            super(R.layout.ry_goods_handing_item, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, UserOrderFormAllListGson.GoodsBean item) {
+            helper.setText(R.id.tv_comment, item.getComment() == null ? "" : item.getComment())
+                    .setText(R.id.tv_goods_name, item.getGoods_name())
+                    .setText(R.id.tv_num, "数量： " + item.getNum() + "")
+                    .setText(R.id.tv_price, "￥ " + item.getGoods_price() + "");
+            Glide.with(getContext()).load(item.getGoods_pic()).apply(new RequestOptions().transform(new RoundedCorners(7))).into((ImageView) helper.getView(R.id.imageView3));
+
         }
     }
 }
