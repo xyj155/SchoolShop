@@ -33,6 +33,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> im
     private List<UserShopCarGson.GoodsBean> list = new ArrayList<>();//bean包的集合
     //存放商家的集合
     private Map<Integer, UserShopCarGson> map = new HashMap<>();
+    private Map<Integer, Boolean> postFreeMap = new HashMap<>();
 
     //有参构造
 
@@ -101,32 +102,29 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(final ShopAdapter.ViewHolder holder, final int position) {
         // 显示商品图片
-        //方法一：通过得到key的值，然后获取value;
+//        方法一：通过得到key的值，然后获取value;
         if (list.get(position).getIsFirst() == 1) {
             //显示商家  VISIBLE显示商品
             holder.shop_checkbox.setVisibility(View.VISIBLE);//显示商家
             holder.tv_item_shopcart_shopname.setVisibility(View.VISIBLE);//显示商家
-            holder.shop_checkbox.setChecked(list.get(position).isShopSelected());
-//            显示商家的名称
-//            list.get(position).getSellerid() 取到商家的id
-//            map.get（）取到 商家的名称
+
             Glide.with(context).asBitmap().load(map.get(list.get(position).getGoods_owner()).getShop_cover()).apply(new RequestOptions().error(R.mipmap.head)).into(holder.ivShop);
             holder.tv_item_shopcart_shopname.setText(map.get(list.get(position).getGoods_owner()).getShop_name());
             holder.tv_item_shopcart_shopname.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context.getContext(), ShopDetailActivity.class);
-                    intent.putExtra("id", String .valueOf(map.get(list.get(position).getGoods_owner()).getId()));
+                    intent.putExtra("id", String.valueOf(map.get(list.get(position).getGoods_owner()).getId()));
                     context.startActivity(intent);
                 }
             });
-            Log.i(TAG, "onBindViewHolder: " + map.get(list.get(position).getGoods_owner()));
         } else {
             holder.ivShop.setVisibility(View.GONE);
             holder.shop_checkbox.setVisibility(View.GONE);//隐藏商家
             holder.tv_item_shopcart_shopname.setVisibility(View.GONE);//隐藏商家
             holder.view.setVisibility(View.GONE);
         }
+        holder.shop_checkbox.setChecked(list.get(position).isShopSelected());
         holder.tv_item_shopcart_cloth_size.setText(list.get(position).getComment().isEmpty() ? "" : list.get(position).getComment());
         holder.item_checkbox.setChecked(list.get(position).isItemSelected());
         holder.item_name.setText(list.get(position).getGoods_name());
@@ -137,10 +135,16 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> im
             @Override
             public void onClick(View view) {
                 list.get(position).setShopSelected(holder.shop_checkbox.isChecked());
+                Log.i(TAG, "onClick: " + list.size());
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(position).getId() == list.get(i).getId()) {
+                    if (list.get(position).getGoods_owner() == list.get(i).getGoods_owner()) {
                         list.get(i).setItemSelected(holder.shop_checkbox.isChecked());
                     }
+                }
+                if (holder.shop_checkbox.isChecked()) {
+                    postFreeMap.put(list.get(position).getGoods_owner(), true);
+                } else {
+                    postFreeMap.remove(list.get(position).getGoods_owner());
                 }
                 notifyDataSetChanged();//更新数据源
                 sum(list);//计算总价
@@ -150,16 +154,25 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> im
             @Override
             public void onClick(View view) {
                 list.get(position).setItemSelected(holder.item_checkbox.isChecked());
+                if (!list.get(position).isItemSelected()) {
+                    context.checkMap.remove(list.get(position).getId());
+                } else {
+                    Log.i(TAG, "onClick: checkI=" + list.get(position).getId());
+                    context.checkMap.put(list.get(position).getId(), true);
+                }
                 for (int i = 0; i < list.size(); i++) {
-                    for (int j = 0; j < list.size(); j++) {
-                        if (list.get(i).getId() == list.get(j).getId() && !list.get(j).isItemSelected()) {
-                            list.get(i).setShopSelected(false);
-                            break;
-                        } else {
+                    if (list.get(position).getGoods_owner() == list.get(i).getGoods_owner()) {
+                        if (context.checkMap.size() > 0) {
                             list.get(i).setShopSelected(true);
+                            postFreeMap.put(list.get(position).getGoods_owner(), true);
+                        } else {
+                            list.get(i).setShopSelected(false);
+                            postFreeMap.remove(list.get(position).getGoods_owner());
                         }
                     }
+
                 }
+                Log.i(TAG, "onClick:sss " + context.checkMap.size());
                 notifyDataSetChanged();//更新数据源
                 sum(list);//计算总价
             }
@@ -208,7 +221,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> im
                 allCheck = false;
             }
         }
-        listener.setTotal(totalMoney + "", totalNum + "", map.size(), allCheck);
+        Log.i(TAG, "sum: " + postFreeMap.size());
+        listener.setTotal(totalMoney + "", totalNum + "", map.size(), postFreeMap.size(), allCheck);
     }
 
     public void selectAll(boolean cl) {
@@ -286,6 +300,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> im
 
     //更新接口数据
     public interface UpdateUiListener {
-        public void setTotal(String total, String num, int shopCount, boolean allCheck);
+        public void setTotal(String total, String num, int shopCount, int checkShopCounr, boolean allCheck);
     }
 }

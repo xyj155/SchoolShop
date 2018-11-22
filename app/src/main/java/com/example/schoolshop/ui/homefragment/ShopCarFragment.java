@@ -32,7 +32,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -63,6 +65,7 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
     UserShopCarPresenter presenter = new UserShopCarPresenter(this);
     private ShopAdapter adapter;
     private SelfDialog selfDialog;
+    public Map<Integer, Boolean> checkMap = new HashMap<Integer, Boolean>();
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -119,13 +122,15 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
         });
         adapter.setListener(new ShopAdapter.UpdateUiListener() {
             @Override
-            public void setTotal(String total, String num, int shopCount, boolean allCheck) {
-                if (num!=null){
+            public void setTotal(String total, String num, int shopCount, int checkShopCounr, boolean allCheck) {
+                if (num != null) {
                     thirdAllselect.setChecked(allCheck);
                     thirdTotalnum.setText("共计： " + num);
-                    double v = Double.valueOf(total) + 15 * shopCount;
+                    double v = Double.valueOf(total) + 15 * checkShopCounr;
                     String price = df.format(v);
-                    thirdTotalprice.setText("￥ " + price);
+                    shopNum = checkShopCounr;
+                    String s = price.equals(".00") ? "0.00" : price;
+                    thirdTotalprice.setText("￥ " + s);
                     StrTotal = total;
                     StrNum = num;
                     StrShopCount = shopCount;
@@ -134,6 +139,7 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
         });
     }
 
+    private int shopNum;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -224,15 +230,15 @@ public class ShopCarFragment extends BaseFragment implements UserShopCarContract
 
     @OnClick(R.id.third_submit)
     public void onViewClicked() {
-        if (StrNum == null && StrTotal == null) {
+        if (StrNum == null && shopNum == 0) {
             Toast.makeText(getActivity(), "请勾选商品", Toast.LENGTH_SHORT).show();
         } else {
             selfDialog = new SelfDialog(getActivity());
             selfDialog.setTitle("提示");
-            final double v = Double.valueOf(StrTotal) + 15 * StrShopCount;
+            final double v = Double.valueOf(StrTotal) + 15 * shopNum;
             String Totalprice = df.format(v);
             Log.i(TAG, "onViewClicked: " + StrTotal);
-            selfDialog.setMessage("亲！你商品消费 ￥" + StrTotal + "元 ，共" + StrNum + "件商品，邮费 3*15:" + 15 * StrShopCount + "元，总消费" + Totalprice + "元！是否继续支付？");
+            selfDialog.setMessage("亲！你商品消费 ￥" + StrTotal + "元 ，共" + StrNum + "件商品，邮费 " + shopNum + "*15:" + 15 * shopNum + "元，总消费" + Totalprice + "元！是否继续支付？");
             selfDialog.setYesOnclickListener("确定", new SelfDialog.onYesOnclickListener() {
                 @Override
                 public void onYesClick() {//

@@ -61,7 +61,7 @@ public class TestActivity extends AppCompatActivity implements ShopCarContract.V
         });
         adapter.setListener(new ShopAdapter.UpdateUiListener() {
             @Override
-            public void setTotal(String total, String num, int shopCount, boolean allCheck) {
+            public void setTotal(String total, String num, int shopCount,int shopCheckNum, boolean allCheck) {
                 third_allselect.setChecked(allCheck);
                 third_totalnum.setText(num);
                 third_totalprice.setText(total);

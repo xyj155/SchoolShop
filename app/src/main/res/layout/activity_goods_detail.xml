@@ -195,7 +195,15 @@
                         android:layout_alignParentEnd="true" />
                 </RelativeLayout>
             </RelativeLayout>
-
+            <com.flipboard.bottomsheet.BottomSheetLayout
+                android:id="@+id/bottomSheetLayout"
+                android:layout_marginBottom="@dimen/dp_45"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </com.flipboard.bottomsheet.BottomSheetLayout>
             <FrameLayout
                 android:layout_gravity="bottom"
                 android:layout_width="wrap_content"

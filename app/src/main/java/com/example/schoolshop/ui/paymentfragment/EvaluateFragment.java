@@ -130,7 +130,7 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
         @Override
         protected void convert(BaseViewHolder helper, final UserOrderFormAllListGson item) {
 
-            GoodsItemAdater goodsItemAdater = new GoodsItemAdater(item.getGoods());
+            GoodsItemAdapter goodsItemAdater = new GoodsItemAdapter(item.getGoods());
             RecyclerView view = helper.getView(R.id.ry_goods_item);
             view.setLayoutManager(new LinearLayoutManager(getContext()));
             final DecimalFormat df = new DecimalFormat("#.00");
@@ -202,9 +202,9 @@ public class EvaluateFragment extends BaseFragment implements UserOrderContract.
         }
     }
 
-    private class GoodsItemAdater extends BaseQuickAdapter<UserOrderFormAllListGson.GoodsBean, BaseViewHolder> {
+    private class GoodsItemAdapter extends BaseQuickAdapter<UserOrderFormAllListGson.GoodsBean, BaseViewHolder> {
 
-        public GoodsItemAdater(@Nullable List<UserOrderFormAllListGson.GoodsBean> data) {
+        public GoodsItemAdapter(@Nullable List<UserOrderFormAllListGson.GoodsBean> data) {
             super(R.layout.ry_goods_handing_item, data);
         }
 

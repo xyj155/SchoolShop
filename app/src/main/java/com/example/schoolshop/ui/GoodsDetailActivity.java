@@ -36,10 +36,12 @@ import com.example.schoolshop.presenter.GoodCarPresenter;
 import com.example.schoolshop.presenter.GoodDetailPresenter;
 import com.example.schoolshop.presenter.OrderPresenter;
 import com.example.schoolshop.util.GlideRoundTransform;
+import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -82,9 +84,14 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     TextView tvShopcarCount;
     @InjectView(R.id.fl_goods)
     FrameLayout flGoods;
+    @InjectView(R.id.bottomSheetLayout)
+    BottomSheetLayout bottomSheetLayout;
     private GoodsDetailGson goodsDetailGson;
     private GoodDetailPresenter goodDetailPresenter = new GoodDetailPresenter(this);
     private OrderPresenter orderPresenter = new OrderPresenter(this);
+    public GoodCarPresenter getGoodCarPresent = new GoodCarPresenter(this);
+    private View sheetDialog;
+    private RecyclerView ryShopCar;
 
     @Override
     public int intiLayout() {
@@ -99,14 +106,32 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
 
     @Override
     public void initData() {
+        nf = NumberFormat.getCurrencyInstance();
+        nf.setMaximumFractionDigits(2);
         Log.i(TAG, "initData: " + getIntent().getStringExtra("id"));
         goodDetailPresenter.getGoodsDetail(getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
+        getGoodCarPresent.getShopCarGoodsList("1");
         slHead.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 goodDetailPresenter.getGoodsDetail(getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
             }
         });
+
+        sheetDialog = LayoutInflater.from(GoodsDetailActivity.this).inflate(R.layout.recycler_view, null, false);
+        ryShopCar = sheetDialog.findViewById(R.id.ry_shopcar);
+        ryShopCar.setLayoutManager(new LinearLayoutManager(GoodsDetailActivity.this));
+        ryShopCar.setAdapter(shopCarAdapter);
+        TextView viewById = sheetDialog.findViewById(R.id.tv_clean);
+        viewById.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goodCarPresent.deleteUserShopCar("1");
+                shopCarAdapter.notifyDataSetChanged();
+            }
+        });
+
+        shopCarAdapter.bindToRecyclerView(ryShopCar);
     }
 
     @Override
@@ -280,10 +305,21 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         dialog.show();
     }
 
+    //显示购物车列表
+    private void showCart() {
+        if (bottomSheetLayout.isSheetShowing()) {
+            bottomSheetLayout.dismissSheet();
+        } else {
+            bottomSheetLayout.showWithSheetView(sheetDialog);
+        }
+    }
 
-    @OnClick({R.id.tv_choose, R.id.tv_submit})
+    @OnClick({R.id.tv_choose, R.id.tv_submit, R.id.iv_shopcar})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_shopcar:
+                showCart();//显示购物车
+                break;
             case R.id.tv_choose:
                 showBottomDialog(true);
                 break;
@@ -293,10 +329,48 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         }
     }
 
+    private ShopCarAdapter shopCarAdapter = new ShopCarAdapter(null);
     public GoodCarPresenter goodCarPresent = new GoodCarPresenter(this);
     private StringBuilder attributeSelectBuilder = new StringBuilder();
     private StringBuilder kindSelectBuilder = new StringBuilder();
     private StringBuilder colorSelectBuilder = new StringBuilder();
+
+    public class ShopCarAdapter extends BaseQuickAdapter<GoodGson.GoodsBean, BaseViewHolder> {
+        private NumberFormat nf;
+
+        public ShopCarAdapter(List<GoodGson.GoodsBean> dataList) {
+            super(R.layout.pop_shopcar_list, dataList);
+            nf = NumberFormat.getCurrencyInstance();
+            nf.setMaximumFractionDigits(2);
+        }
+
+
+        @Override
+        protected void convert(final BaseViewHolder helper, final GoodGson.GoodsBean item) {
+            helper.setText(R.id.tv_name, item.getGoods_name())
+                    .setText(R.id.tv_price, nf.format(item.getGoods_price()) + " * " + item.getNum())
+                    .setText(R.id.tv_count, String.valueOf(item.getNum()))
+                    .setOnClickListener(R.id.iv_add, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            goodCarPresent.addGoodsCar("1", String.valueOf(item.getId()), "", "0");
+                            notifyDataSetChanged();
+
+                        }
+                    })
+                    .setOnClickListener(R.id.iv_reduce, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            goodCarPresent.addGoodsCar("1", String.valueOf(item.getId()), "", "1");
+                            TextView view = (TextView) helper.getView(R.id.tv_count);
+                            if (Integer.valueOf(view.getText().toString()) < 2) {
+                                remove(helper.getPosition());
+                            }
+                            notifyDataSetChanged();
+                        }
+                    });
+        }
+    }
 
     @Override
     public void submitSuccess(UserOrderGson userOrder) {
@@ -320,11 +394,12 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     @Override
     public void addSuccess() {
         Toast.makeText(this, "商品添加成功", Toast.LENGTH_SHORT).show();
+        getGoodCarPresent.getShopCarGoodsList("1");
     }
 
     @Override
     public void delSuccess() {
-
+        getGoodCarPresent.getShopCarGoodsList("1");
     }
 
     @Override
@@ -332,9 +407,28 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         Toast.makeText(this, "商品添加失败", Toast.LENGTH_SHORT).show();
     }
 
+    private NumberFormat nf;
+
     @Override
     public void loadShopCarList(List<GoodGson.GoodsBean> goodsBeen) {
-
+        Log.i(TAG, "loadShopCarList: running" + goodsBeen.size());
+        int count = 0;
+        double cost = 0;
+        shopCarAdapter.replaceData(goodsBeen);
+        ryShopCar.setAdapter(shopCarAdapter);
+        for (int i = 0; i < goodsBeen.size(); i++) {
+            GoodGson.GoodsBean item = goodsBeen.get(i);
+            cost += item.getNum() * item.getGoods_price();
+            count += item.getNum();
+        }
+        goodsBeen.clear();
+        if (count < 1) {
+            tvShopcarCount.setVisibility(View.GONE);
+        } else {
+            tvShopcarCount.setVisibility(View.VISIBLE);
+        }
+        tvShopcarCount.setText(String.valueOf(count));
+        tvMoney.setText(nf.format(cost));
     }
 
     @Override
