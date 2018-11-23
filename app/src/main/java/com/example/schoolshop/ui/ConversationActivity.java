@@ -2,6 +2,7 @@ package com.example.schoolshop.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,7 +43,15 @@ public class ConversationActivity extends BaseActivity implements RunHelperContr
 
     @Override
     public void initView() {
-        initToolBar().setToolbarBackIco().setToolbarSubtitle( "和" + getIntent().getData().getQueryParameter("title")+ "对话中..");
+        ButterKnife.inject(this);
+        String title = getIntent().getData().getQueryParameter("title");
+        if (title.contains("--店")){
+            tvSubmit.setVisibility(View.GONE);
+            initToolBar().setToolbarBackIco().setToolbarSubtitle( "和" + getIntent().getData().getQueryParameter("title").replace("--店","")+ "对话中..");
+        }else {
+            initToolBar().setToolbarBackIco().setToolbarSubtitle( "和" + getIntent().getData().getQueryParameter("title")+ "对话中..");
+        }
+
     }
 
     @Override
@@ -59,7 +68,7 @@ public class ConversationActivity extends BaseActivity implements RunHelperContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
-        ButterKnife.inject(this);
+
     }
 
     @OnClick(R.id.tv_submit)

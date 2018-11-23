@@ -22,7 +22,7 @@
         android:paddingLeft="@dimen/dp_5"
         android:paddingRight="@dimen/dp_5"
         android:paddingTop="@dimen/dp_5"
-        android:text="好东西"
+        android:text=""
         android:textColor="#000"
         android:textSize="13sp" />
 </LinearLayout>

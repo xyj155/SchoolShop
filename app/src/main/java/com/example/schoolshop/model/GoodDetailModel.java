@@ -14,8 +14,8 @@ import rx.Observable;
 
 public class GoodDetailModel implements GoodDetailContract.Model {
     @Override
-    public Observable<BaseGson<GoodsDetailGson>> getGoodsDetail(String goodId,String kind) {
-        return RetrofitUtil.getInstance().getServerices().getGoodsDetail(goodId,kind);
+    public Observable<BaseGson<GoodsDetailGson>> getGoodsDetail(String uid,String goodId,String kind) {
+        return RetrofitUtil.getInstance().getServerices().getGoodsDetail(uid,goodId,kind);
     }
 
     @Override

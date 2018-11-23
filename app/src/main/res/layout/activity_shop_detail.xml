@@ -87,6 +87,17 @@
                                     app:starSelectedRes="@mipmap/demon" />
                             </LinearLayout>
 
+                            <RadioButton
+                                android:id="@+id/rb_like"
+                                android:padding="@dimen/dp_6"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/tv_go"
+                                android:background="@drawable/collection_checked"
+                                android:button="@null" />
                             <ImageView
                                 android:id="@+id/tv_go"
                                 android:layout_width="wrap_content"

@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="stickyListHeadersListViewStyle">@style/Widget.MyApp.ListView</item>
     </style>
+    <style name="White" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="stickyListHeadersListViewStyle">@style/Widget.MyApp.ListView</item>
+    </style>
+
     <style name="loading_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

@@ -25,9 +25,9 @@ public class GoodDetailPresenter implements GoodDetailContract.Presenter {
     }
 
     @Override
-    public void getGoodsDetail(String goodId,String kind) {
+    public void getGoodsDetail(String uid,String goodId,String kind) {
         view.showLoading();
-        model.getGoodsDetail(goodId,kind)
+        model.getGoodsDetail(uid,goodId,kind)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<BaseGson<GoodsDetailGson>>() {
@@ -46,7 +46,7 @@ public class GoodDetailPresenter implements GoodDetailContract.Presenter {
                     public void onNext(BaseGson<GoodsDetailGson> commentGsonBaseGson) {
                         view.hideLoading();
                         if (commentGsonBaseGson.isStatus()) {
-                            view.setGoodDeail(commentGsonBaseGson.getData());
+                            view.setGoodDetail(commentGsonBaseGson.getData());
                         } else {
                             view.loadFailed(commentGsonBaseGson.getMsg());
                         }

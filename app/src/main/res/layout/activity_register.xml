@@ -126,13 +126,13 @@
         android:background="#fafafa" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:layout_marginTop="@dimen/dp_25"
         android:layout_width="match_parent"
+        android:textColor="#fff"
+        android:id="@+id/btn_login"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginRight="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_25"
         android:background="@drawable/bg_btn_login"
-        android:text="立即注册"
-        android:textColor="#fff" />
+        android:text="立即注册" />
 </LinearLayout>

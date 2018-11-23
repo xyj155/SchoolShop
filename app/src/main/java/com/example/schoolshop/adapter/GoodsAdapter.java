@@ -124,7 +124,7 @@ public class GoodsAdapter extends BaseAdapter implements StickyListHeadersAdapte
     }
 
     @Override
-    public void setGoodDeail(GoodsDetailGson commentGson) {
+    public void setGoodDetail(GoodsDetailGson commentGson) {
 
     }
 
@@ -251,7 +251,7 @@ public class GoodsAdapter extends BaseAdapter implements StickyListHeadersAdapte
 
     public void showBottomDialog(final GoodGson.GoodsBean goodsDetailGson, final ImageView tvMinus, final TextView tvCount) {
         goodDetailPresenter = new GoodDetailPresenter(this);
-        goodDetailPresenter.getGoodsDetail(String.valueOf(goodsDetailGson.getId()), goodsDetailGson.getKind());
+        goodDetailPresenter.getGoodsDetail("1",String.valueOf(goodsDetailGson.getId()), goodsDetailGson.getKind());
         View contentView = LayoutInflater.from(mContext.getContext())
                 .inflate(R.layout.buy_goods_bottom_dialog, null);
         ImageView ivCloase = contentView.findViewById(R.id.iv_close);

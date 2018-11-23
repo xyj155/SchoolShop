@@ -15,18 +15,18 @@ import rx.Observable;
 
 public interface GoodDetailContract {
     interface Model {
-        Observable<BaseGson<GoodsDetailGson>> getGoodsDetail(String goodId, String kind);
+        Observable<BaseGson<GoodsDetailGson>> getGoodsDetail(String uid,String goodId, String kind);
 
         Observable<BaseGson<GoodsPrice>> getGoodsPrice(String gid, String color, String model, String size);
     }
 
     interface View extends BaseView {
-        void setGoodDeail(GoodsDetailGson commentGson);
+        void setGoodDetail(GoodsDetailGson commentGson);
         void setPrice(List<GoodsPrice> price);
     }
 
     interface Presenter {
-        void getGoodsDetail(String goodId, String kind);
+        void getGoodsDetail(String uid,String goodId, String kind);
 
         void getGoodsPrice(String gid, String color, String model, String size);
     }

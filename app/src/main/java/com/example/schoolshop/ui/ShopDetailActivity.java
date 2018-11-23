@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +20,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.schoolshop.R;
 import com.example.schoolshop.base.BaseActivity;
 import com.example.schoolshop.contract.ShopContract;
+import com.example.schoolshop.contract.UserAddCollectionContract;
 import com.example.schoolshop.gson.ShopGson;
 import com.example.schoolshop.presenter.ShopPresenter;
+import com.example.schoolshop.presenter.UserAddCollectionPresenter;
 import com.example.schoolshop.util.GlideRoundTransform;
 import com.example.schoolshop.view.CircleImageView;
 import com.example.schoolshop.view.RatingBar;
@@ -33,7 +36,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ShopDetailActivity extends BaseActivity implements ShopContract.View {
+public class ShopDetailActivity extends BaseActivity implements ShopContract.View, UserAddCollectionContract.View {
 
     @InjectView(R.id.iv_head)
     CircleImageView ivHead;
@@ -57,9 +60,11 @@ public class ShopDetailActivity extends BaseActivity implements ShopContract.Vie
     CoordinatorLayout scrollview;
     @InjectView(R.id.sl_shop)
     SmartRefreshLayout slShop;
+    @InjectView(R.id.rb_like)
+    RadioButton rbLike;
     private GoodsAdapter goodsAdapter = new GoodsAdapter(null);
     private ShopPresenter shopPresenter = new ShopPresenter(this);
-
+    private UserAddCollectionPresenter userAddCollectionPresenter = new UserAddCollectionPresenter(this);
     @Override
     public int intiLayout() {
         return R.layout.activity_shop_detail;
@@ -82,7 +87,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopContract.Vie
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 String id = getIntent().getStringExtra("id");
-                shopPresenter.getSellerDetailById(id);
+                shopPresenter.getSellerDetailById("1",id);
             }
         });
     }
@@ -121,7 +126,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopContract.Vie
     }
 
     @Override
-    public void loadShopDetail(ShopGson shopGsonList) {
+    public void loadShopDetail(final ShopGson shopGsonList) {
         slShop.finishRefresh();
         tvUsername.setText(shopGsonList.getShop_name());
         rkSeek.setSelectedNumber(Integer.valueOf(shopGsonList.getReputation()));
@@ -129,6 +134,36 @@ public class ShopDetailActivity extends BaseActivity implements ShopContract.Vie
         Glide.with(ShopDetailActivity.this).load(shopGsonList.getShop_cover()).into(ivHead);
         goodsAdapter.replaceData(shopGsonList.getGoods());
         ryList.setAdapter(goodsAdapter);
+        rbLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shopGsonList.isCollection()) {
+                    userAddCollectionPresenter.UserAddCollection("1", String.valueOf(shopGsonList.getId()),"1","1");
+                }else {
+                    userAddCollectionPresenter.UserAddCollection("1", String.valueOf(shopGsonList.getId()),"1","0");
+
+                }
+            }
+        });
+        if (shopGsonList.isCollection()){
+            rbLike.setChecked(true);
+        }else {
+            rbLike.setChecked(false);
+        }
+    }
+
+
+
+    @Override
+    public void addCollectionSuccess() {
+        String id = getIntent().getStringExtra("id");
+        shopPresenter.getSellerDetailById("1",id);
+    }
+
+    @Override
+    public void addCollectionFailed(String error) {
+        String id = getIntent().getStringExtra("id");
+        shopPresenter.getSellerDetailById("1",id);
     }
 
     private class GoodsAdapter extends BaseQuickAdapter<ShopGson.GoodsBean, BaseViewHolder> {
@@ -140,16 +175,16 @@ public class ShopDetailActivity extends BaseActivity implements ShopContract.Vie
         @Override
         protected void convert(BaseViewHolder helper, final ShopGson.GoodsBean item) {
             helper.setText(R.id.tv_name, item.getGoods_name())
-                    .setText(R.id.tv_price,"￥ "+ item.getGoods_price())
-            .setOnClickListener(R.id.ll_goods, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(ShopDetailActivity.this, GoodsDetailActivity.class);
-                    intent.putExtra("id", String.valueOf(item.getId()));
-                    intent.putExtra("kind", String.valueOf(item.getGoods_kind()));
-                    mContext.startActivity(intent);
-                }
-            });
+                    .setText(R.id.tv_price, "￥ " + item.getGoods_price())
+                    .setOnClickListener(R.id.ll_goods, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ShopDetailActivity.this, GoodsDetailActivity.class);
+                            intent.putExtra("id", String.valueOf(item.getId()));
+                            intent.putExtra("kind", String.valueOf(item.getGoods_kind()));
+                            mContext.startActivity(intent);
+                        }
+                    });
             Glide.with(ShopDetailActivity.this).load(item.getGoods_pic()).apply(new RequestOptions().transform(new GlideRoundTransform(ShopDetailActivity.this, 7))).into((ImageView) helper.getView(R.id.iv_cover));
         }
     }

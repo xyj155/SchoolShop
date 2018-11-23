@@ -52,7 +52,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     @Override
     public void initView() {
-        initToolBar().setToolbarBackIco().setTitle("注册");
+        initToolBar().setToolbarBackIco().setToolBarTitle("注册");
     }
 
     public static boolean isChinaPhoneLegal(String str)
@@ -65,7 +65,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     @Override
     public void initData() {
-        ButterKnife.inject(this);notSetStatusBarColor();
+        ButterKnife.inject(this);
         etTelphone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -124,7 +124,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
         SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
         editor.putString("username", userGson.getUsername());
-        editor.putString("id", String .valueOf(userGson.getId()));
+        editor.putString("id", String.valueOf(userGson.getId()));
         editor.apply();
     }
 
@@ -155,7 +155,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                     if (!tvSecondPassword.getText().toString().equals(etPassword.getText().toString())) {
                         Toast.makeText(this, "密码输入不一致，请重新输入", Toast.LENGTH_SHORT).show();
                     } else if (tvSchool.getText().toString().isEmpty()) {
-                        Toast.makeText(this, "校园不可输入为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "校园名称不可输入为空", Toast.LENGTH_SHORT).show();
                     } else if (!isChinaPhoneLegal(etTelphone.getText().toString())) {
                         Toast.makeText(this, "手机号码输入不正确", Toast.LENGTH_SHORT).show();
                     } else {

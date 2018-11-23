@@ -77,13 +77,13 @@ public interface Api {
     Observable<BaseGson<GoodGson.GoodsBean>> getActiveList(@Query("location") String location);
 
     @GET("/SchoolShop/public/index.php/index/Goods/getGoodsDetail")
-    Observable<BaseGson<GoodsDetailGson>> getGoodsDetail(@Query("good_id") String goodId, @Query("kind") String kind);
+    Observable<BaseGson<GoodsDetailGson>> getGoodsDetail(@Query("uid") String uid,@Query("good_id") String goodId, @Query("kind") String kind);
 
     @GET("/SchoolShop/public/index.php/index/Seller/getSellerList")
     Observable<BaseGson<ShopGson>> getSellerList(@Query("location") String location);
 
     @GET("/SchoolShop/public/index.php/index/Store/getSellerDetailById")
-    Observable<BaseGson<ShopGson>> getSellerDetailById(@Query("id") String id);
+    Observable<BaseGson<ShopGson>> getSellerDetailById(@Query("uid") String uid,@Query("id") String id);
 
     @GET("/SchoolShop/public/index.php/index/Deliver/getUserPackageListById")
     Observable<BaseGson<PostPackageGson>> getUserPackageListById(@Query("uid") String uid);
@@ -173,6 +173,11 @@ public interface Api {
 
     @GET("/SchoolShop/public/index.php/index/Goods/deleteUserShopCar")
     Observable<BaseGson<EmptyGson>> deleteUserShopCar(@Query("uid") String uid);
+
+
+
+    @GET("/SchoolShop/public/index.php/index/User/UserAddCollection")
+    Observable<BaseGson<EmptyGson>> UserAddCollection(@Query("uid") String uid,@Query("gid") String gid,@Query("isshop") String isshop,@Query("isdelete") String isdelete);
 
     @GET("/SchoolShop/public/index.php/index/Order/userPayGoodsOrder")
     Observable<BaseGson<EmptyGson>> userPayGoodsOrder(@Query("id") String id, @Query("address") String address, @Query("tel") String tel, @Query("count") String count, @Query("money") String money);

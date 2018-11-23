@@ -32,6 +32,16 @@ public class ShopGson {
      */
 
     private int id;
+    private boolean collection;
+
+    public boolean isCollection() {
+        return collection;
+    }
+
+    public void setCollection(boolean collection) {
+        this.collection = collection;
+    }
+
     private String shop_name;
     private String belongs;
     private String schoolname;

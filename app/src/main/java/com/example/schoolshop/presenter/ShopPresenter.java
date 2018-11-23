@@ -52,9 +52,9 @@ public class ShopPresenter implements ShopContract.Presenter {
     }
 
     @Override
-    public void getSellerDetailById(String id) {
+    public void getSellerDetailById(String uid,String id) {
         view.showLoading();
-        shopModel.getSellerDetailById(id)
+        shopModel.getSellerDetailById(uid,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<BaseGson<ShopGson>>() {

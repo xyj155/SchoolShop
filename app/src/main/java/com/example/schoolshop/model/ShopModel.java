@@ -18,7 +18,7 @@ public class ShopModel implements ShopContract.Model {
     }
 
     @Override
-    public Observable<BaseGson<ShopGson>> getSellerDetailById(String id) {
-        return RetrofitUtil.getInstance().getServerices().getSellerDetailById(id);
+    public Observable<BaseGson<ShopGson>> getSellerDetailById(String uid,String id) {
+        return RetrofitUtil.getInstance().getServerices().getSellerDetailById(uid,id);
     }
 }

@@ -35,6 +35,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     TextView tvRegister;
     @InjectView(R.id.tv_forget)
     TextView tvForget;
+    @InjectView(R.id.iv_close)
+    ImageView ivClose;
 
     private LoginPresenter loginPresenter = new LoginPresenter(this);
 
@@ -55,23 +57,32 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     protected int setStatusBarColor() {
-        return getColor(R.color.white);
+        return 0xffffffff;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
+        notSetStatusBarColor();
 
     }
 
-    @OnClick({R.id.btn_login, R.id.tv_register, R.id.tv_forget})
+    @OnClick({R.id.btn_login, R.id.tv_register, R.id.tv_forget, R.id.iv_close})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_close:
+                finish();
+                break;
             case R.id.btn_login:
-                loginPresenter.userLogin(etUsername.getText().toString(), etPassword.getText().toString());
+                if (etPassword.getText().toString().isEmpty() && etUsername.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "输入不可为空", Toast.LENGTH_SHORT).show();
+                } else {
+                    loginPresenter.userLogin(etUsername.getText().toString(), etPassword.getText().toString());
+                }
                 break;
             case R.id.tv_register:
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                 break;
             case R.id.tv_forget:
                 break;

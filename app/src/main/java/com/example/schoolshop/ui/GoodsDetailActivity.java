@@ -28,6 +28,7 @@ import com.example.schoolshop.base.BaseActivity;
 import com.example.schoolshop.contract.GoodCarContract;
 import com.example.schoolshop.contract.GoodDetailContract;
 import com.example.schoolshop.contract.OrderContract;
+import com.example.schoolshop.contract.UserAddCollectionContract;
 import com.example.schoolshop.gson.GoodGson;
 import com.example.schoolshop.gson.GoodsDetailGson;
 import com.example.schoolshop.gson.GoodsPrice;
@@ -35,7 +36,12 @@ import com.example.schoolshop.gson.UserOrderGson;
 import com.example.schoolshop.presenter.GoodCarPresenter;
 import com.example.schoolshop.presenter.GoodDetailPresenter;
 import com.example.schoolshop.presenter.OrderPresenter;
+import com.example.schoolshop.presenter.UserAddCollectionPresenter;
 import com.example.schoolshop.util.GlideRoundTransform;
+import com.example.schoolshop.view.CircleImageView;
+import com.example.schoolshop.view.RatingBar;
+import com.example.schoolshop.view.banner.AutoScrollViewPager;
+import com.example.schoolshop.view.banner.BaseViewPagerAdapter;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -50,18 +56,16 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
-public class GoodsDetailActivity extends BaseActivity implements GoodDetailContract.View, OrderContract.View, GoodCarContract.View {
+import static com.example.schoolshop.R.id.rk_seek;
+
+public class GoodsDetailActivity extends BaseActivity implements GoodDetailContract.View, OrderContract.View, GoodCarContract.View, UserAddCollectionContract.View {
 
 
-    @InjectView(R.id.iv_cover)
-    ImageView ivCover;
-    @InjectView(R.id.tv_goods_name)
-    TextView tvGoodsName;
-    @InjectView(R.id.ry_tags)
-    RecyclerView ryTags;
-    @InjectView(R.id.tv_price)
-    TextView tvPrice;
+    //    @InjectView(R.id.iv_cover)
+//    ImageView ivCover;
     @InjectView(R.id.tv_describe)
     TextView tvDescribe;
     @InjectView(R.id.ry_comment)
@@ -86,12 +90,36 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     FrameLayout flGoods;
     @InjectView(R.id.bottomSheetLayout)
     BottomSheetLayout bottomSheetLayout;
+    @InjectView(R.id.banner_home)
+    AutoScrollViewPager bannerHome;
+    @InjectView(R.id.tv_goods_name)
+    TextView tvGoodsName;
+    @InjectView(R.id.iv_chat)
+    TextView ivChat;
+    @InjectView(R.id.ry_tags)
+    RecyclerView ryTags;
+    @InjectView(R.id.tv_address)
+    TextView tvAddress;
+    @InjectView(R.id.tv_price)
+    TextView tvPrice;
+    @InjectView(R.id.civ_head)
+    CircleImageView civHead;
+    @InjectView(R.id.tv_name)
+    TextView tvName;
+    @InjectView(rk_seek)
+    RatingBar rkSeek;
+    @InjectView(R.id.tv_go_shop)
+    TextView tvGoShop;
+    @InjectView(R.id.rb_like)
+    RadioButton rbLike;
     private GoodsDetailGson goodsDetailGson;
     private GoodDetailPresenter goodDetailPresenter = new GoodDetailPresenter(this);
     private OrderPresenter orderPresenter = new OrderPresenter(this);
     public GoodCarPresenter getGoodCarPresent = new GoodCarPresenter(this);
     private View sheetDialog;
     private RecyclerView ryShopCar;
+    private BaseViewPagerAdapter<String> mBaseViewPagerAdapter;
+    private UserAddCollectionPresenter userAddCollectionPresenter = new UserAddCollectionPresenter(this);
 
     @Override
     public int intiLayout() {
@@ -109,12 +137,12 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         nf = NumberFormat.getCurrencyInstance();
         nf.setMaximumFractionDigits(2);
         Log.i(TAG, "initData: " + getIntent().getStringExtra("id"));
-        goodDetailPresenter.getGoodsDetail(getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
+        goodDetailPresenter.getGoodsDetail("1", getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
         getGoodCarPresent.getShopCarGoodsList("1");
         slHead.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                goodDetailPresenter.getGoodsDetail(getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
+                goodDetailPresenter.getGoodsDetail("1", getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
             }
         });
 
@@ -132,6 +160,28 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         });
 
         shopCarAdapter.bindToRecyclerView(ryShopCar);
+
+
+        mBaseViewPagerAdapter = new BaseViewPagerAdapter<String>(GoodsDetailActivity.this, listener) {
+            @Override
+            public void loadImage(ImageView view, int position, String url) {
+                Glide.with(GoodsDetailActivity.this).asBitmap().load(url).into(view);
+            }
+
+            @Override
+            public void setSubTitle(TextView textView, int position, String s) {
+
+            }
+        };
+        bannerHome.setAdapter(mBaseViewPagerAdapter);
+        rbLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rbLike.isChecked()) {
+
+                }
+            }
+        });
     }
 
     @Override
@@ -161,11 +211,64 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         Toast.makeText(this, "获取商品信息出错", Toast.LENGTH_SHORT).show();
     }
 
+    private BaseViewPagerAdapter.OnAutoViewPagerItemClickListener listener = new BaseViewPagerAdapter.OnAutoViewPagerItemClickListener<String>() {
+
+        @Override
+        public void onItemClick(int position, String url) {
+//            Intent intent = new Intent(GoodsDetailActivity.this, WebViewActivity.class);
+//            intent.putExtra("url", url.getWeb_url());
+//            startActivity(intent);
+        }
+    };
+
     @Override
-    public void setGoodDeail(GoodsDetailGson commentGson) {
+    public void setGoodDetail(final GoodsDetailGson commentGson) {
+        if (commentGson.isCollection()) {
+            rbLike.setChecked(true);
+        } else {
+            rbLike.setChecked(false);
+        }
+        rbLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick: "+rbLike.isChecked());
+                if (commentGson.isCollection()) {
+                    Log.i(TAG, "onClick: 11111");
+                    userAddCollectionPresenter.UserAddCollection("1", String.valueOf(commentGson.getGoods().getId()), "0", "1");
+                } else {
+                    Log.i(TAG, "onClick: 222");
+                    userAddCollectionPresenter.UserAddCollection("1", String.valueOf(commentGson.getGoods().getId()), "0", "0");
+                }
+            }
+        });
+
+        mBaseViewPagerAdapter.add(commentGson.getGoods().getPicture());
+        ivChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RongIM.connect(getSharedPreferences("user", MODE_PRIVATE).getString("token", ""), new RongIMClient.ConnectCallback() {
+                    @Override
+                    public void onTokenIncorrect() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        dialogClose();
+                        RongIM.getInstance().startPrivateChat(GoodsDetailActivity.this, commentGson.getShop().getWx_id(), commentGson.getShop().getShop_name() + "--店");
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        dialogClose();
+                        Log.i(TAG, "onError: " + errorCode);
+                    }
+                });
+            }
+        });
         slHead.finishRefresh();
         GoodsId = String.valueOf(commentGson.getGoods().getId());
-        Glide.with(GoodsDetailActivity.this).asBitmap().load(commentGson.getGoods().getGoods_pic()).into(ivCover);
+//        Glide.with(GoodsDetailActivity.this).asBitmap().load(commentGson.getGoods().getGoods_pic()).into(ivCover);
         tvGoodsName.setText(commentGson.getGoods().getGoods_name());
         tvDescribe.setText(commentGson.getGoods().getGoods_describe());
         tvPrice.setText("￥" + commentGson.getGoods().getGoods_price());
@@ -181,6 +284,20 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
         ryComment.setLayoutManager(new LinearLayoutManager(GoodsDetailActivity.this));
         ryComment.setAdapter(comment);
         goodsDetailGson = commentGson;
+
+        tvAddress.setText("发货地：" + commentGson.getShop().getCity());
+        tvName.setText(commentGson.getShop().getShop_name());
+        Glide.with(GoodsDetailActivity.this).asBitmap().load(commentGson.getShop().getShop_cover()).into(civHead);
+        rkSeek.setSelectedNumber(Integer.parseInt(commentGson.getShop().getReputation()));
+        rkSeek.setStartTotalNumber(5);
+        tvGoShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GoodsDetailActivity.this, ShopDetailActivity.class);
+                intent.putExtra("id", String.valueOf(commentGson.getShop().getId()));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -334,6 +451,16 @@ public class GoodsDetailActivity extends BaseActivity implements GoodDetailContr
     private StringBuilder attributeSelectBuilder = new StringBuilder();
     private StringBuilder kindSelectBuilder = new StringBuilder();
     private StringBuilder colorSelectBuilder = new StringBuilder();
+
+    @Override
+    public void addCollectionSuccess() {
+        goodDetailPresenter.getGoodsDetail("1", getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
+    }
+
+    @Override
+    public void addCollectionFailed(String ERROR) {
+        goodDetailPresenter.getGoodsDetail("1", getIntent().getStringExtra("id"), getIntent().getStringExtra("kind"));
+    }
 
     public class ShopCarAdapter extends BaseQuickAdapter<GoodGson.GoodsBean, BaseViewHolder> {
         private NumberFormat nf;

@@ -16,7 +16,7 @@ public interface ShopContract {
     interface Model {
         Observable<BaseGson<ShopGson>> getSellerList(String location);
 
-        Observable<BaseGson<ShopGson>> getSellerDetailById(String id);
+        Observable<BaseGson<ShopGson>> getSellerDetailById(String uid,String id);
     }
 
     interface View extends BaseView {
@@ -27,6 +27,6 @@ public interface ShopContract {
     interface Presenter {
         void getSellerList(String location);
 
-        void getSellerDetailById(String id);
+        void getSellerDetailById(String uid,String id);
     }
 }

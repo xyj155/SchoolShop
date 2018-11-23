@@ -21,6 +21,16 @@ public class GoodsDetailGson {
     private List<String> size;
     private List<String> name;
     private String colorattr;
+    private boolean collection;
+
+    public boolean isCollection() {
+        return collection;
+    }
+
+    public void setCollection(boolean collection) {
+        this.collection = collection;
+    }
+
     private String sizeattr;
 
     public String getColorattr() {
@@ -119,6 +129,15 @@ public class GoodsDetailGson {
         private String goods_kind;
         private String is_purse;
         private Object original_price;
+        private List<String> picture;
+
+        public List<String> getPicture() {
+            return picture;
+        }
+
+        public void setPicture(List<String> picture) {
+            this.picture = picture;
+        }
 
         public int getId() {
             return id;
@@ -278,6 +297,132 @@ public class GoodsDetailGson {
         public void setComment(String comment) {
             this.comment = comment;
         }
+    }
+    private ShopBean shop;
+
+    public ShopBean getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopBean shop) {
+        this.shop = shop;
+    }
+
+    public static class ShopBean {
+        /**
+         * id : 1
+         * shop_name : 海澜之家
+         * belongs : 徐易杰
+         * schoolname : 嘉兴学院
+         * city : 嘉兴
+         * updatetime : 2018-11-06 10:16:36
+         * wx_id : x1789780841
+         * location : 浙江省嘉兴学院梁林校区
+         * shop_cover : https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542075380&di=8a84bd92041179f9281202f5930cf2e0&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.uimaker.com%2Fuploads%2Fuserup%2F0%2F150243b48-O33.jpg
+         * reputation : 3
+         * banner : https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542012724&di=3392b9f91cc8fe9e3eebf5ab1f377ee0&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01e25259a8c8f7a8012028a99fb154.jpg%402o.jpg
+         */
+
+        private int id;
+        private String shop_name;
+        private String belongs;
+        private String schoolname;
+        private String city;
+        private String updatetime;
+        private String wx_id;
+        private String location;
+        private String shop_cover;
+        private String reputation;
+        private String banner;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getShop_name() {
+            return shop_name;
+        }
+
+        public void setShop_name(String shop_name) {
+            this.shop_name = shop_name;
+        }
+
+        public String getBelongs() {
+            return belongs;
+        }
+
+        public void setBelongs(String belongs) {
+            this.belongs = belongs;
+        }
+
+        public String getSchoolname() {
+            return schoolname;
+        }
+
+        public void setSchoolname(String schoolname) {
+            this.schoolname = schoolname;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getUpdatetime() {
+            return updatetime;
+        }
+
+        public void setUpdatetime(String updatetime) {
+            this.updatetime = updatetime;
+        }
+
+        public String getWx_id() {
+            return wx_id;
+        }
+
+        public void setWx_id(String wx_id) {
+            this.wx_id = wx_id;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public String getShop_cover() {
+            return shop_cover;
+        }
+
+        public void setShop_cover(String shop_cover) {
+            this.shop_cover = shop_cover;
+        }
+
+        public String getReputation() {
+            return reputation;
+        }
+
+        public void setReputation(String reputation) {
+            this.reputation = reputation;
+        }
+
+        public String getBanner() {
+            return banner;
+        }
+
+        public void setBanner(String banner) {
+            this.banner = banner;
+        }
+
     }
 }
 
